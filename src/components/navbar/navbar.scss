@@ -1,0 +1,105 @@
+.navbar-wrapper {
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+
+    .app-name {
+        font-size: 30px;
+        cursor: pointer;
+
+        h1 {
+            color: #001529;
+            font-weight: 700;
+        }
+    }
+
+    .nav-additional {
+        display: flex;
+
+        .btn-new-message {
+            button {
+                padding: 10px 24px;
+                background-color: #fe7558;
+                color: #fff;
+                border: none;
+                outline: none;
+                border-radius: 6px;
+                cursor: pointer;
+
+                &:focus {
+                    box-shadow: none !important;
+                }
+
+                &:hover {
+                    background-color: #fd866e;
+                }
+            }
+        }
+
+        .nav-noti {
+            font-size: 24px;
+            margin: 0 40px;
+            padding: 0 20px;
+            cursor: pointer;
+            border-radius: 6px;
+            color: #918f8f;
+
+            &:hover {
+                background-color: rgb(233, 230, 230);
+            }
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+
+            .nav-user-dropdown {
+                .nav-user-info {
+                    cursor: pointer;
+                    
+                    img {
+                        margin-right: 6px;
+                        border-radius: 50%;
+                        overflow: hidden;
+                        width: 36px;
+                        height: 36px;
+                    }
+                    
+                    .btn-user-dropdown {
+                        background-color: unset;
+                        color: #918f8f;
+                        border: none;
+                        font-size: 18px;
+                        
+                        &:focus {
+                            box-shadow: unset;
+                        }
+    
+                        &:after {
+                            content: "";
+                            margin-left: 0.8rem;
+                        }
+                    }
+                }
+
+
+                .nav-user-additional {
+                    margin-top: 10px;
+                    background-color: #f0f2f5;
+
+                    button {
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: #001529;
+                            color: #fff;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}

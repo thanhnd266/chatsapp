@@ -1,0 +1,28 @@
+.search-wrapper {
+    margin: 10px 50px;
+
+    .search-btn {
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 6px 16px;
+        background-color: #fff;
+        color: #918f8f;
+        border-bottom-left-radius: 6px;
+        border-top-left-radius: 6px;
+
+        &:focus {
+            box-shadow: unset;    
+        }
+    }
+
+
+    #search-input {
+        border: none;
+        outline: none;
+        padding: 6px 0;
+        border-bottom-right-radius: 6px;
+        border-top-right-radius: 6px;
+        min-width: 220px;
+    }   
+}

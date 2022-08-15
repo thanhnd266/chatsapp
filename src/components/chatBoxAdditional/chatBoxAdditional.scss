@@ -1,0 +1,143 @@
+.chatbox-additionalInfo {
+    color: #001529;
+    .receiver-mainInfo {
+        text-align: center;
+        margin: 50px 0 0 0;
+
+        .receiver-img {
+            img {
+                width: 160px;
+                height: 160px;
+                border-radius: 100%;
+                border: 5px solid #001529;
+            }
+        }
+
+        .receiver-username {
+            h2 {
+                color: #001529;
+                margin: 10px 0 0 0;
+                font-size: 26px;
+                font-weight: 700;
+            }
+        }
+
+        .receiver-status {
+            span {
+                font-size: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 500;
+
+                i {
+                    font-size: 10px;
+                    margin-right: 2px;
+                    color: rgb(118, 235, 8);
+                }
+            }
+        }
+    }
+
+    .receiver-otherInfo {
+        font-size: 16px;
+        margin-top: 30px;
+
+        .receiver-email, .receiver-phone, .receiver-profile {
+            display: flex;
+            align-items: center;
+            padding: 10px 10px 10px 22px;
+            cursor: pointer;
+            margin: 0 10px;
+            border-radius: 4px;
+
+            &:hover {
+                background-color: #001529;
+                color: #fff;
+            }
+
+            .receiver-info-icon {
+                font-size: 18px;
+            }
+
+            .receiver-info-text {
+                margin-left: 12px;
+            }
+        }
+    }
+
+    .system-pane {
+        margin-top: 20px;
+        
+        .accordion-wrapper {
+            margin: 0 16px;
+            
+            .accordion-item {
+                .accordion-custom-btn {
+                    border-radius: 4px;
+                }
+
+                .accordion-body {
+                    margin: 0 10px;
+                    font-size: 15px;
+                    color: #001529;
+                    cursor: pointer;
+
+                    .search-chat {
+                        span {
+                            margin-left: 10px;
+                        }
+                    }
+
+                    .mediafile-items {
+                        .media-conversation, .files-conversation, .links-conversation {
+                            display: flex;
+                            align-items: center;
+                            padding: 4px 0;
+                            border-radius: 4px;
+
+                            span {
+                                margin-left: 10px;
+                            }
+
+                            .custom-icon {
+                                width: 24px;
+                                height: 24px;
+                                text-align: center;
+                            }
+                        }
+
+                        .files-conversation {
+                            margin: 4px 0;
+                        }
+                    }
+
+                    .support-items {
+
+                        .mute-noti, .block-friend, .report-system {
+                            display: flex;
+                            align-items: center;
+                            padding: 4px 0;
+                            border-radius: 4px;
+
+                            span {
+                                margin-left: 10px;
+                            }
+
+                            .custom-icon {
+                                width: 24px;
+                                height: 24px;
+                                text-align: center;
+                            }
+                        }
+                        
+                        .block-friend {
+                            margin: 4px 0;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}
