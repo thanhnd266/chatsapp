@@ -38,46 +38,46 @@ const ChatBoxAdditional = () => {
           </div>
 
           <div className="system-pane">
-            <div class="accordion accordion-wrapper accordion-flush" id="accordionFlushExample">
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingOne">
-                  <button class="accordion-custom-btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+            <div className="accordion accordion-wrapper accordion-flush" id="accordionFlushExample">
+              <div className="accordion-item">
+                <h2 className="accordion-header" id="flush-headingOne">
+                  <button className="accordion-custom-btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                     Customize chat
                   </button>
                 </h2>
-                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                  <div class="accordion-body">
+                <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                  <div className="accordion-body">
                     <div className="search-chat">
-                      <i class="fa-solid fa-magnifying-glass"></i>
+                      <i className="fa-solid fa-magnifying-glass"></i>
                       <span>Search in conversation</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingTwo">
-                  <button class="accordion-custom-btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+              <div className="accordion-item">
+                <h2 className="accordion-header" id="flush-headingTwo">
+                  <button className="accordion-custom-btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
                     Media, files and links
                   </button>
                 </h2>
-                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                  <div class="accordion-body">
+                <div id="flush-collapseTwo" className="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                  <div className="accordion-body">
                     <div className="mediafile-items">
                       <div className="media-conversation">
                         <div className="custom-icon">
-                          <i class="fa-solid fa-images"></i>
+                          <i className="fa-solid fa-images"></i>
                         </div>
                         <span>Media</span>
                       </div>
                       <div className="files-conversation">
                         <div className="custom-icon">
-                          <i class="fa-solid fa-file-lines"></i> 
+                          <i className="fa-solid fa-file-lines"></i> 
                         </div>
                         <span>Files</span>
                       </div>
                       <div className="links-conversation">
                         <div className="custom-icon">
-                          <i class="fa-solid fa-link"></i>
+                          <i className="fa-solid fa-link"></i>
                         </div>
                         <span>Links</span>
                       </div>
@@ -85,30 +85,30 @@ const ChatBoxAdditional = () => {
                   </div>
                 </div>
               </div>
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingThree">
-                  <button class="accordion-custom-btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+              <div className="accordion-item">
+                <h2 className="accordion-header" id="flush-headingThree">
+                  <button className="accordion-custom-btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
                     Privacy & support
                   </button>
                 </h2>
-                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                  <div class="accordion-body">
-                    <div class="support-items">
+                <div id="flush-collapseThree" className="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                  <div className="accordion-body">
+                    <div className="support-items">
                       <div className="mute-noti">
                         <div className="custom-icon">
-                          <i class="fa-solid fa-bell"></i> 
+                          <i className="fa-solid fa-bell"></i> 
                         </div>
                         <span>Mute notifications</span>
                       </div>
                       <div className="block-friend">
                         <div className="custom-icon">
-                          <i class="fa-solid fa-user-lock"></i>
+                          <i className="fa-solid fa-user-lock"></i>
                         </div>
                         <span>Block</span>
                       </div>
                       <div className="report-system">
                         <div className="custom-icon">
-                          <i class="fa-solid fa-triangle-exclamation"></i> 
+                          <i className="fa-solid fa-triangle-exclamation"></i> 
                         </div>
                         <span>Report</span>
                       </div>

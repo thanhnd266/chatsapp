@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate, Outlet } from 'react-router-dom';
 
 //components
 import Navbar from "../../components/navbar/Navbar";
@@ -15,15 +15,36 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
-import { Outlet } from "react-router-dom";
-const { Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
+
+// const redirect = () => {
+//   const userInfo = JSON.parse(localStorage.getItem('userData'));
+//   return <Navigate to "/login" /> 
+// }
 
 
 const Home = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [currentTab, setCurrentTab] = useState('/');
+  const [userInfo, setUserInfo] = useState({});
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    setUserInfo(userData);
+    if(!userData || !userData.access_token) {
+      navigate('/login');
+    }
+    
+  }, [navigate])
+
+  useEffect(() => {
+    if(window.location.pathname) {
+      setCurrentTab(window.location.pathname);
+    }
+
+  }, [currentTab])
 
   function getItem(label, key, icon, children) {
     return { key, icon, children, label };
@@ -53,7 +74,7 @@ const Home = () => {
           collapsible
           collapsed={collapsed}
           onCollapse={(value) => setCollapsed(value)}
-        >-
+        >
           <div onClick={() => setCollapsed(!collapsed)} className="menuTab-btn">
             <span>
               <i className="fa-solid fa-bars"></i>
@@ -72,6 +93,7 @@ const Home = () => {
         </Sider>
         <Layout className="site-layout">
           <Navbar
+            userInfo={userInfo}
             style={{
               padding: 0,
             }}
