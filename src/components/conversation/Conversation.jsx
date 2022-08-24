@@ -1,18 +1,40 @@
 import "./conversation.scss";
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
-const Conversation = ({ isActived }) => {
+const Conversation = ({ conversation, currentUser, isActived }) => {
+
+  const [receiverUser, setReceiverUser] = useState();
+  
+  useEffect(() => {
+
+    const receiverUserId = conversation.members.find((memberId) => memberId !== currentUser._id);
+
+    const getUser = async () => {
+      try {
+        const res = await axios.get(`/user/${receiverUserId}`);
+        setReceiverUser(res.data);
+      } catch(err) {
+        console.log(err);
+      }
+    }
+
+    getUser();
+  }, [conversation, currentUser]);
+
+
   return (
     <div className="conversation">
       <div className="conversation-item">
         <div className="item-image">
           <img
-            src="https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien.jpg"
+            src={receiverUser && receiverUser.profilePicture}
             alt="avatar"
           />
         </div>
         <div className="item-additionalInfo">
           <div className="item-username">
-            <h3>Jonas Smidthmann</h3>
+            <h3>{receiverUser && receiverUser.username}</h3>
           </div>
           <div className="item-news">
             <div className="latest-massage">

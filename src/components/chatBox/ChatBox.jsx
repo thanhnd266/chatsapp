@@ -1,17 +1,36 @@
 import { useState, useRef, useEffect } from 'react';
 import { SendOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 //components
 import Message from '../message/Message';
 import './chatBox.scss';
 
-const ChatBox = () => {
+const ChatBox = ({ currentUser, currentChat, messages }) => {
     const [openEmoji, setOpenEmoji] = useState(false);
     const emojiEl = useRef();
     const iconEl = useRef();
     const bundleEmoji = useRef();
     const inputEl = useRef();
     const scrollRef = useRef();
+    const [receiverUser, setReceiverUser] = useState();
+
+  useEffect(() => {
+    if(currentChat) {
+      const receiverUserId = currentChat.members.find((memberId) => memberId !== currentUser._id);
+
+      const getUser = async () => {
+        try {
+          const res = await axios.get(`/user/${receiverUserId}`);
+          setReceiverUser(res.data);
+        } catch(err) {
+          console.log(err);
+        }
+      }
+
+      getUser();
+    }
+  }, [currentChat, currentUser]);
 
     useEffect(() => {
         window.onclick = (e) => {
@@ -52,14 +71,16 @@ const ChatBox = () => {
         }
       }
 
+    console.log(messages);
+
     return (
         <div className="chatBox">
         <div className="chatBoxWrapper">
           <div className="chatBoxNavbar">
             <div className="receiver-info">
-              <img src="https://i2-prod.irishmirror.ie//article16196990.ece/ALTERNATES/s1200c/0_I190524_165813_2368442oTextTRMRMMGLPICT000183636161o.jpg" alt="avatar" />
+              <img src={receiverUser && receiverUser.profilePicture} alt="avatar" />
               <div>
-                <div className="receiver-info-name">Jonas Smidthmann</div>
+                <div className="receiver-info-name">{ receiverUser && receiverUser.username }</div>
                 <div className="receiver-info-status">
                   Online
                 </div>
@@ -80,20 +101,9 @@ const ChatBox = () => {
             </div>
           </div>
           <div ref={scrollRef} className="chatBoxTop">
-            <Message />
-            <Message />
-            <Message />
-            <Message />
-            <Message text="LO Lo bro 😜😜"/>
-            <Message text="LO Lo bro 😜😜"/>
-            <Message text="LO Lo bro 😜😜"/>
-            <Message text="LO Lo bro 😜😜"/>
-            <Message text="LO Lo bro 😜😜"/>
-            <Message text="LO Lo bro 😜😜"/>
-            <Message text="LO Lo bro 😜😜"/>
-            <Message text="LO Lo bro 😜😜"/>
-            <Message text="LO Lo bro 😜😜"/>
-            <Message text="LO Lo bro 😜😜"/>
+            {messages && messages.map((mess, index) => (
+              <Message receiverUser={receiverUser} key={index} message={mess}/>
+            ))}
           </div>
           <div className="chatBoxBottom">
             <div className="ultilities">

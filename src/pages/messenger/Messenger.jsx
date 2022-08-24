@@ -9,45 +9,67 @@ import ChatBoxAdditional from '../../components/chatBoxAdditional/ChatBoxAdditio
 
 const Messenger = () => {
   const [conversations, setConversations] = useState([]);
-  const [userInfo, setUserInfo] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
+  const [currentChat, setCurrentChat] = useState(null);
+  const [messages, setMessages] = useState(null);
+
   const navigate = useNavigate();
 
   const isActived = true;
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem('userData'));
-    setUserInfo(userData);
+    setCurrentUser(userData);
     if(!userData || !userData.access_token) {
       navigate('/login');
     }
-    
   }, [navigate])
-
-  console.log(userInfo._id);
 
   useEffect(() => {
     const getConversations = async () => {
       try {
-        const response = await axios.get(`conversation/get-list/${userInfo._id}`);
-        console.log(response);
+        const response = await axios.get(`conversation/get-list/${currentUser._id}`);
+        setConversations(response.data);
       } catch(err) {
         console.log(err);
       }
     }
     getConversations();
-  }, [])
+  }, [currentUser])
+
+  useEffect(() => {
+    const getMessage = async () => {
+      if(currentChat) {
+        try {
+          const res = await axios.get(`/message/get/${currentChat._id}`);
+          setMessages(res.data);
+        } catch(err) {
+          console.log(err);
+        }
+      }
+    }
+    getMessage();
+
+  }, [currentChat])
 
   return (
     <div className="messenger-wrapper">
       <div className="conversations-container">
-        <Conversation />
-        <Conversation isActived={isActived} />
+        {conversations && conversations.map((conv, index) => (
+          <div key={index} onClick={() => setCurrentChat(conv)}>
+            <Conversation conversation={conv} currentUser={currentUser} isActived={isActived} />
+          </div>
+        ))}
       </div>
 
       <div className="messages-container">
-        <ChatBox />
+        <ChatBox
+          currentUser={currentUser} 
+          currentChat={currentChat}
+          messages={messages}
+        />
       </div>
-
+      
       <div className="additionalInfo-container">
         <ChatBoxAdditional />
       </div>
