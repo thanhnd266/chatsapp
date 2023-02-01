@@ -1,4 +1,3 @@
-import "./messenger.scss";
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +19,7 @@ const Messenger = () => {
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem('userData'));
     setCurrentUser(userData);
-    if(!userData || !userData.access_token) {
+    if(!userData) {
       navigate('/login');
     }
   }, [navigate])
@@ -29,7 +28,11 @@ const Messenger = () => {
     const getConversations = async () => {
       try {
         const response = await axios.get(`conversation/get-list/${currentUser._id}`);
-        setConversations(response.data);
+        if(response.data && response.data.length > 0) {
+          setConversations(response.data);
+          setCurrentChat(response.data[0]);
+        }
+
       } catch(err) {
         console.log(err);
       }

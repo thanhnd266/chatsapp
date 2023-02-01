@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 //styles
-import "antd/dist/antd.min.css";
+import 'antd/dist/antd.min.css';
 import "./styles/app.scss";
 //components
 import Home from "./pages/home/Home.jsx";
@@ -13,9 +13,6 @@ import Team from "./pages/team/Team.jsx";
 import Files from "./pages/files/Files.jsx";
 
 const App = () => {
-
-  
-
   return (
     <div className="App">
       <Router>

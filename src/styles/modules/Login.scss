@@ -1,5 +1,5 @@
 .login-page {
-    background-image: url('https://preview.colorlib.com/theme/bootstrap/login-form-20/images/xbg.jpg.pagespeed.ic.tiVxeakBSd.webp');
+    background-image: url('../../../public/images/bg_login.jpg');
     height: 100vh;
 
     .login-wrapper {
@@ -37,7 +37,7 @@
                     max-width: 350px;
                     margin: 0 auto;
 
-                    .login-username, .login-password {
+                    .login-email, .login-password {
                         display: flex;
                         justify-content: center;
 

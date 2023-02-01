@@ -6,7 +6,6 @@ import Navbar from "../../components/navbar/Navbar";
 import Search from "../../components/search/Search";
 
 //styles
-import "./home.scss";
 import {
   MessageOutlined,
   FileAddOutlined,
@@ -16,11 +15,6 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 const { Content, Sider } = Layout;
-
-// const redirect = () => {
-//   const userInfo = JSON.parse(localStorage.getItem('userData'));
-//   return <Navigate to "/login" /> 
-// }
 
 
 const Home = () => {
@@ -32,8 +26,9 @@ const Home = () => {
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem('userData'));
+
     setUserInfo(userData);
-    if(!userData || !userData.access_token) {
+    if(!userData) {
       navigate('/login');
     }
     

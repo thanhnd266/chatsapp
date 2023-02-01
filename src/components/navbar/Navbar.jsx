@@ -1,5 +1,5 @@
-import './navbar.scss';
 import { useNavigate } from 'react-router-dom';
+import axiosClient from '../../config/axios';
 
 const Navbar = ({ userInfo }) => {
     const navigate = useNavigate();
@@ -9,6 +9,17 @@ const Navbar = ({ userInfo }) => {
         navigate('/login');
     }
 
+    const handleGetListUser = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axiosClient.get('/user/get-list');
+
+            console.log(response)
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
     return (
         <div className="navbar-wrapper">
             <div className="app-name">
@@ -16,7 +27,7 @@ const Navbar = ({ userInfo }) => {
             </div>
             <div className="nav-additional">
                 <div className="btn-new-message">
-                    <button>+New Message</button>
+                    <button onClick={e => handleGetListUser(e)}>+New Message</button>
                 </div>
                 <div className="nav-noti">
                     <i className="fa-regular fa-bell"></i>

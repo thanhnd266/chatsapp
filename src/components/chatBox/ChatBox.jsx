@@ -4,7 +4,6 @@ import axios from 'axios';
 
 //components
 import Message from '../message/Message';
-import './chatBox.scss';
 
 const ChatBox = ({ currentUser, currentChat, messages }) => {
     const [openEmoji, setOpenEmoji] = useState(false);
@@ -14,11 +13,13 @@ const ChatBox = ({ currentUser, currentChat, messages }) => {
     const inputEl = useRef();
     const scrollRef = useRef();
     const [receiverUser, setReceiverUser] = useState();
+    const [firstReceiverUser, setFirstReceiverUser] = useState();
 
   useEffect(() => {
     if(currentChat) {
       const receiverUserId = currentChat.members.find((memberId) => memberId !== currentUser._id);
-
+      const firstReceiverUserId = currentChat.members.find((memberId) => memberId !== currentUser._id);
+      
       const getUser = async () => {
         try {
           const res = await axios.get(`/user/${receiverUserId}`);
@@ -71,8 +72,6 @@ const ChatBox = ({ currentUser, currentChat, messages }) => {
         }
       }
 
-    console.log(messages);
-
     return (
         <div className="chatBox">
         <div className="chatBoxWrapper">
@@ -101,9 +100,11 @@ const ChatBox = ({ currentUser, currentChat, messages }) => {
             </div>
           </div>
           <div ref={scrollRef} className="chatBoxTop">
-            {messages && messages.map((mess, index) => (
-              <Message receiverUser={receiverUser} key={index} message={mess}/>
-            ))}
+            {messages && messages.map((mess, index) => {
+              return ((
+                <Message receiverUser={receiverUser} own={mess.senderId === currentUser._id} key={index} message={mess}/>
+              ))
+            })}
           </div>
           <div className="chatBoxBottom">
             <div className="ultilities">

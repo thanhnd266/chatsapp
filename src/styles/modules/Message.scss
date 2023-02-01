@@ -7,11 +7,12 @@
         display: inline-flex;
 
         .messageImg {
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             object-fit: cover;
             margin-right: 10px;
+            border: 1px solid #333;
         }
 
         .messageText {
@@ -30,14 +31,23 @@
         margin-top: 10px;
         color: #918fa9;
     }
-    
-    .message.own {
-        align-items: flex-end;
-    }
-    
-    .message.own .messageText {
-        background-color: #1877f2;
-        color: #fff;
+}
+
+.own {
+    align-items: flex-end;
+
+    .messageTop {
+        flex-direction: row-reverse;
+
+        .messageImg {
+            margin: 0 0 0 10px;
+        }
+
+        .messageText {
+            background-color: #1877f2;
+            color: #fff;
+        }
+
     }
 }
 

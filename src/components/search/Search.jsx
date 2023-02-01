@@ -1,4 +1,3 @@
-import './search.scss';
 
 const Search = () => {
 

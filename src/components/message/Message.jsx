@@ -1,9 +1,8 @@
-import './message.scss';
 
-const Message = ({receiverUser, message}) => {
+const Message = ({ receiverUser, message, own}) => {
 
     return (
-        <div className='message'>
+        <div className={own ? 'message own' : 'message'}>
             <div className="messageTop">
                 <img 
                     className="messageImg"

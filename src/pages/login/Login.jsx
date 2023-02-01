@@ -1,12 +1,12 @@
-import './login.scss';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { SyncOutlined } from "@ant-design/icons";
+import axiosClient from '../../config/axios';
+import Cookies from 'js-cookie';
 
 const Login = () => {
 
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -15,22 +15,21 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/login/api/signin', JSON.stringify({
-                    username,
+            const response = await axiosClient.post('/auth/api/signin', JSON.stringify({
+                    email,
                     password,
                 }),
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                }
             )
 
-            if(response.data.status_code === 200) {
-                // setLoginSuccess(true);
+            if(response.status_code === 200) {
                 setIsLoading(true);
+
                 const {  password, ...other } = response.data.data;
                 localStorage.setItem("userData", JSON.stringify(other));
+
+                Cookies.set('access_token', response.data.access_token);
+                Cookies.set('refresh_token', response.data.refresh_token);
+
                 setTimeout(() => {
                     setIsLoading(false);
                     navigate('/messenger');
@@ -54,19 +53,19 @@ const Login = () => {
                         <h2 className="login-title">Login</h2>
                         <h3 className="login-question">Have an account?</h3>
                         <form className="login-form" onSubmit={handleLogin}>
-                            <div className="login-username">
+                            <div className="login-email">
                                 <input 
                                     readOnly 
-                                    id="username" 
+                                    id="email" 
                                     className="form-control"
-                                    type="text"
-                                    placeholder="Username"
+                                    type="email"
+                                    placeholder="Email"
                                     required
                                     onFocus={e => e.target.removeAttribute('readonly')}
-                                    value={username}
+                                    value={email}
                                     onChange={(e) => {
                                         setErrorMessage(false);
-                                        setUsername(e.target.value)
+                                        setEmail(e.target.value)
                                     }}
                                 />
                             </div>

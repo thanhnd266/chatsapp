@@ -1,4 +1,3 @@
-import './chatBoxAdditional.scss';
 
 const ChatBoxAdditional = () => {
 
