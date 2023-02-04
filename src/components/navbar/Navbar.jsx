@@ -9,12 +9,9 @@ const Navbar = ({ userInfo }) => {
         navigate('/login');
     }
 
-    const handleGetListUser = async (e) => {
-        e.preventDefault();
+    const handleGetListUser = async () => {
         try {
-            const response = await axiosClient.get('/user/get-list');
-
-            console.log(response)
+            await axiosClient.get('/user/get-list');
         } catch(err) {
             console.log(err);
         }

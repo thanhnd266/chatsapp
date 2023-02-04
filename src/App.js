@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 //styles
+import './assets/font-awesome/css/all.min.css';
 import 'antd/dist/antd.min.css';
 import "./styles/app.scss";
 //components

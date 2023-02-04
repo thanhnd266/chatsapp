@@ -1,20 +1,50 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 //components
 import Conversation from "../../components/conversation/Conversation";
 import ChatBox from '../../components/chatBox/ChatBox';
 import ChatBoxAdditional from '../../components/chatBoxAdditional/ChatBoxAdditional';
+//socket
+import { io } from 'socket.io-client';
+import axiosClient from '../../config/axios';
 
 const Messenger = () => {
+  const [loading, setLoading] = useState(false);
   const [conversations, setConversations] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState(null);
-
+  const [arrivalMessage, setArrivalMessage] = useState(null);
   const navigate = useNavigate();
-
   const isActived = true;
+  const socket = useRef();
+  const user = JSON.parse(localStorage.getItem('userData'));
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+    socket.current.on("getMessage", data => {
+      setArrivalMessage({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: Date.now(),
+      })
+    })
+
+  }, [])
+
+  useEffect(() => {
+    arrivalMessage && currentChat?.members.includes(arrivalMessage.sender) &&
+      setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage, currentChat])
+
+  useEffect(() => {
+    socket.current.emit("addUser", user._id);
+
+    socket.current.on("getUsers", (users) => {
+      console.log(users)
+    })
+  }, [])
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem('userData'));
@@ -42,9 +72,12 @@ const Messenger = () => {
 
   useEffect(() => {
     const getMessage = async () => {
+      setLoading(true);
+
       if(currentChat) {
         try {
           const res = await axios.get(`/message/get/${currentChat._id}`);
+          setLoading(false);
           setMessages(res.data);
         } catch(err) {
           console.log(err);
@@ -67,9 +100,12 @@ const Messenger = () => {
 
       <div className="messages-container">
         <ChatBox
+          loading={loading}
           currentUser={currentUser} 
           currentChat={currentChat}
           messages={messages}
+          setMessages={setMessages}
+          socket={socket}
         />
       </div>
       
