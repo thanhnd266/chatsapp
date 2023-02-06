@@ -7,7 +7,7 @@
         position: relative;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
         padding: 20px 0;
         box-shadow: 2px 2px 4px #888888;
         cursor: pointer;
@@ -23,6 +23,7 @@
         }
 
         .item-additionalInfo {
+            flex: 1;
 
             .item-username {
                 h3 {

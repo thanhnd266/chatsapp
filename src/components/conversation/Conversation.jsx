@@ -6,7 +6,6 @@ const Conversation = ({ conversation, currentUser, isActived }) => {
   const [receiverUser, setReceiverUser] = useState();
   
   useEffect(() => {
-
     const receiverUserId = conversation.members.find((memberId) => memberId !== currentUser._id);
 
     const getUser = async () => {
@@ -37,10 +36,10 @@ const Conversation = ({ conversation, currentUser, isActived }) => {
           </div>
           <div className="item-news">
             <div className="latest-massage">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam
-              sed itaque optio dolorem rerum voluptatum minus.
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur sequi excepturi optio, dolorem illum ad rem. Consectetur deserunt, minus reiciendis vero ipsa molestiae earum laborum voluptate omnis ad, reprehenderit ipsam similique hic.
+              {/* {messages && messages[messages.length - 1].text} */}
             </div>
-            <span className="time-message">15m</span>
+            <div className="time-message">15m</div>
           </div>
           <div className="item-time-active">
             <span>Active 1h ago</span>

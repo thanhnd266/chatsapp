@@ -5,8 +5,9 @@ import axios from 'axios';
 //components
 import Message from '../message/Message';
 import axiosClient from '../../config/axios';
+import Loading from '../loading/Loading';
 
-const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, socket }) => {
+const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, socket, currentOnliner }) => {
   const [openEmoji, setOpenEmoji] = useState(false);
   const emojiEl = useRef();
   const iconEl = useRef();
@@ -50,7 +51,7 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
   
     useEffect(() => {
       scrollRef.current?.scrollIntoView({behavior: "smooth"});
-    }, [])
+    }, [messages])
     
     
     //Handler function
@@ -74,26 +75,31 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
     const handleSubmitMessage = async (e) => {
       e.preventDefault();
 
-      try {
-        const payload = {
-          conversationId: currentChat._id,
-          senderId: currentUser._id,
-          text: inputEl.current.innerHTML,
-        };
+      const payload = {
+        conversationId: currentChat._id,
+        senderId: currentUser._id,
+        text: inputEl.current.innerHTML,
+      };
 
-        const receiverId = currentChat.members.find(member => member !== currentUser._id);
+      const receiverId = currentChat.members.find(member => member !== currentUser._id);
+      const isOnlineReceiver = currentOnliner.some(onliner => onliner.userId === receiverId);
 
+      if(isOnlineReceiver) {
         socket.current.emit("sendMessage", {
+          conversationId: currentChat._id,
           senderId: currentUser._id,
           receiverId,
           text: inputEl.current.innerHTML,
         })
+      }
 
+      try {
         const res = await axiosClient.post('/message/add', {
           ...payload,
         });
 
         setMessages(res.data);
+        inputEl.current.innerHTML = '';
       } catch(err) {
         console.log(err);
       }
@@ -101,9 +107,7 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
 
     return (
         <div className="chatBox">
-          { loading && <div className="loader">
-              <RollbackOutlined />
-            </div>}
+          { loading && <Loading />}
           { !loading && 
               <div className="chatBoxWrapper">
               <div className="chatBoxNavbar">
@@ -130,11 +134,13 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
                   </div>
                 </div>
               </div>
-              <div ref={scrollRef} className="chatBoxTop">
+              <div className="chatBoxTop">
                 {messages && messages.map((mess, index) => {
-                  return ((
-                    <Message receiverUser={receiverUser} own={mess.senderId === currentUser._id} key={index} message={mess}/>
-                  ))
+                  return (
+                    <div ref={scrollRef} key={index}>
+                      <Message receiverUser={receiverUser} own={mess.senderId === currentUser._id} key={index} message={mess}/>
+                    </div>
+                  )
                 })}
               </div>
               <div className="chatBoxBottom">
@@ -147,6 +153,7 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
                 <div className="chatBoxInput">
                   <div
                     onKeyUp={adjustHeight}
+                    onKeyDown={e => e.keyCode === 13 ? handleSubmitMessage(e) : ''}
                     className="chatMessageInput"
                     contentEditable="true"
                     suppressContentEditableWarning={true}
@@ -154,21 +161,24 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
                     ref={inputEl}
                   >
                   </div>
-                  <div className="emoji">
-                    {
-                      openEmoji 
-                        ? <span onClick={handleOpenEmoji} ref={emojiEl}><i ref={iconEl} className="fa-solid fa-face-smile"></i></span> 
-                        : <span onClick={handleOpenEmoji} ref={emojiEl}><i ref={iconEl} className="fa-regular fa-face-smile"></i></span>
-                    }
+                    <div className="emoji">
+                      {
+                        openEmoji 
+                          ? <span onClick={handleOpenEmoji} ref={emojiEl}><i ref={iconEl} className="fa-solid fa-face-smile"></i></span> 
+                          : <span onClick={handleOpenEmoji} ref={emojiEl}><i ref={iconEl} className="fa-regular fa-face-smile"></i></span>
+                      }
 
-                    { openEmoji && 
-                        <div className="bundle-emoji">
-                          <emoji-picker ref={bundleEmoji}></emoji-picker>
-                        </div>
-                    }
-                  </div>
+                      { openEmoji && 
+                          <div className="bundle-emoji">
+                            <emoji-picker ref={bundleEmoji}></emoji-picker>
+                          </div>
+                      }
+                    </div>
                 </div>
-                <button className="chatSubmitButton" onClick={(e) => handleSubmitMessage(e)}>
+                <button 
+                  className="chatSubmitButton" 
+                  onClick={(e) => handleSubmitMessage(e)}
+                >
                   <span><SendOutlined /></span>
                 </button>
               </div>

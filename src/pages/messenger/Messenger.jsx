@@ -14,6 +14,7 @@ const Messenger = () => {
   const [conversations, setConversations] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [currentChat, setCurrentChat] = useState(null);
+  const [currentOnliner, setCurrentOnliner] = useState([]);
   const [messages, setMessages] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const navigate = useNavigate();
@@ -21,10 +22,36 @@ const Messenger = () => {
   const socket = useRef();
   const user = JSON.parse(localStorage.getItem('userData'));
 
+  
   useEffect(() => {
-    socket.current = io("ws://localhost:8900");
+    setCurrentUser(user);
+    if(!user) {
+      navigate('/login');
+    }
+  }, [navigate])
+
+  useEffect(() => {
+    const getConversations = async () => {
+      try {
+        if(Object.keys(currentUser).length > 0) {
+          const response = await axiosClient.get(`conversation/get-list/${currentUser._id}`);
+          if(response.status_code === 200) {
+            setConversations(response.data);
+            setCurrentChat(response.data[0]);
+          }
+        }
+      } catch(err) {
+        console.log(err);
+      }
+    }
+    getConversations();
+  }, [currentUser])
+
+  useEffect(() => {
+    socket.current = io("http://localhost:2626/");
     socket.current.on("getMessage", data => {
       setArrivalMessage({
+        conversationId: data.conversationId,
         sender: data.senderId,
         text: data.text,
         createdAt: Date.now(),
@@ -42,33 +69,9 @@ const Messenger = () => {
     socket.current.emit("addUser", user._id);
 
     socket.current.on("getUsers", (users) => {
-      console.log(users)
+      setCurrentOnliner([...users]);
     })
   }, [])
-
-  useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    setCurrentUser(userData);
-    if(!userData) {
-      navigate('/login');
-    }
-  }, [navigate])
-
-  useEffect(() => {
-    const getConversations = async () => {
-      try {
-        const response = await axios.get(`conversation/get-list/${currentUser._id}`);
-        if(response.data && response.data.length > 0) {
-          setConversations(response.data);
-          setCurrentChat(response.data[0]);
-        }
-
-      } catch(err) {
-        console.log(err);
-      }
-    }
-    getConversations();
-  }, [currentUser])
 
   useEffect(() => {
     const getMessage = async () => {
@@ -92,7 +95,7 @@ const Messenger = () => {
     <div className="messenger-wrapper">
       <div className="conversations-container">
         {conversations && conversations.map((conv, index) => (
-          <div key={index} onClick={() => setCurrentChat(conv)}>
+          <div key={index} onClick={() => setCurrentChat(conv)}> 
             <Conversation conversation={conv} currentUser={currentUser} isActived={isActived} />
           </div>
         ))}
@@ -106,6 +109,7 @@ const Messenger = () => {
           messages={messages}
           setMessages={setMessages}
           socket={socket}
+          currentOnliner={currentOnliner}
         />
       </div>
       
