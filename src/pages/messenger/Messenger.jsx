@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 //components
@@ -8,11 +7,14 @@ import ChatBoxAdditional from '../../components/chatBoxAdditional/ChatBoxAdditio
 //socket
 import { io } from 'socket.io-client';
 import axiosClient from '../../config/axios';
+import { selectMessageIds, useGetMessagesQuery } from '../../redux/reducer/messageSlice';
+import { useSelector } from 'react-redux';
 
 const Messenger = () => {
   const [loading, setLoading] = useState(false);
   const [conversations, setConversations] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
+  const [currentReceiver, setCurrentReceiver] = useState({});
   const [currentChat, setCurrentChat] = useState(null);
   const [currentOnliner, setCurrentOnliner] = useState([]);
   const [messages, setMessages] = useState(null);
@@ -22,7 +24,6 @@ const Messenger = () => {
   const socket = useRef();
   const user = JSON.parse(localStorage.getItem('userData'));
 
-  
   useEffect(() => {
     setCurrentUser(user);
     if(!user) {
@@ -45,7 +46,27 @@ const Messenger = () => {
       }
     }
     getConversations();
-  }, [currentUser])
+  }, [currentUser]);
+
+  useEffect(() => {
+    if(currentChat) {
+      const receiverUserId = currentChat.members.find((memberId) => memberId !== currentUser._id);
+      
+      const getReceiver = async () => {
+        try {
+          const res = await axiosClient.get(`/user/${receiverUserId}`);
+          if(res.status_code === 200) {
+            setCurrentReceiver(res.data);
+          }
+
+        } catch(err) {
+          console.log(err);
+        }
+      }
+
+      getReceiver();
+    }
+  }, [currentChat, currentUser]);
 
   useEffect(() => {
     socket.current = io("http://localhost:2626/");
@@ -73,30 +94,41 @@ const Messenger = () => {
     })
   }, [])
 
+  // useEffect(() => {
+  //   const getMessage = async () => {
+  //     setLoading(true);
+
+  //     if(currentChat) {
+  //       try {
+  //         const res = await axiosClient.get(`/message/get/${currentChat._id}`);
+  //         if(res.status_code === 200) {
+  //           setLoading(false);
+  //           setMessages(res.data);
+  //         }
+  //       } catch(err) {
+  //         console.log(err);
+  //       }
+  //     }
+  //   }
+  //   getMessage();
+
+  // }, [currentChat])
+  const data = useGetMessagesQuery(currentChat?._id);
+
   useEffect(() => {
-    const getMessage = async () => {
-      setLoading(true);
-
-      if(currentChat) {
-        try {
-          const res = await axios.get(`/message/get/${currentChat._id}`);
-          setLoading(false);
-          setMessages(res.data);
-        } catch(err) {
-          console.log(err);
-        }
-      }
-    }
-    getMessage();
-
-  }, [currentChat])
-
+    console.log(data);
+  
+  }, [data])
   return (
     <div className="messenger-wrapper">
       <div className="conversations-container">
         {conversations && conversations.map((conv, index) => (
           <div key={index} onClick={() => setCurrentChat(conv)}> 
-            <Conversation conversation={conv} currentUser={currentUser} isActived={isActived} />
+            <Conversation 
+              conversation={conv}
+              currentUser={currentUser} 
+              isActived={isActived}
+            />
           </div>
         ))}
       </div>
@@ -110,11 +142,15 @@ const Messenger = () => {
           setMessages={setMessages}
           socket={socket}
           currentOnliner={currentOnliner}
+          currentReceiver={currentReceiver}
         />
       </div>
       
       <div className="additionalInfo-container">
-        <ChatBoxAdditional />
+        <ChatBoxAdditional 
+          currentUser={currentUser} 
+          currentChat={currentChat}
+        />
       </div>
     </div>
   );

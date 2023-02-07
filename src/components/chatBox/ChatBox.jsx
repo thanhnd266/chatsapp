@@ -1,37 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
-import { RollbackOutlined, SendOutlined } from '@ant-design/icons';
-import axios from 'axios';
+import { SendOutlined } from '@ant-design/icons';
 
 //components
 import Message from '../message/Message';
 import axiosClient from '../../config/axios';
 import Loading from '../loading/Loading';
 
-const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, socket, currentOnliner }) => {
+const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, socket, currentOnliner, currentReceiver }) => {
   const [openEmoji, setOpenEmoji] = useState(false);
   const emojiEl = useRef();
   const iconEl = useRef();
   const bundleEmoji = useRef();
   const inputEl = useRef();
   const scrollRef = useRef();
-  const [receiverUser, setReceiverUser] = useState();
-
-  useEffect(() => {
-    if(currentChat) {
-      const receiverUserId = currentChat.members.find((memberId) => memberId !== currentUser._id);
-      
-      const getUser = async () => {
-        try {
-          const res = await axios.get(`/user/${receiverUserId}`);
-          setReceiverUser(res.data);
-        } catch(err) {
-          console.log(err);
-        }
-      }
-
-      getUser();
-    }
-  }, [currentChat, currentUser]);
 
     useEffect(() => {
       window.onclick = (e) => {
@@ -112,11 +93,19 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
               <div className="chatBoxWrapper">
               <div className="chatBoxNavbar">
                 <div className="receiver-info">
-                  <img src={receiverUser && receiverUser.profilePicture} alt="avatar" />
+                  <div className="receiver-info__img">
+                    <img src={currentReceiver && currentReceiver.profilePicture} alt="avatar" />
+
+                    <span className="receiver-info-user__status">
+                      <i className="fa-solid fa-circle"></i>
+                    </span>
+                  </div>
                   <div>
-                    <div className="receiver-info-name">{ receiverUser && receiverUser.username }</div>
+                    <div className="receiver-info-name">{ currentReceiver && currentReceiver.username }</div>
                     <div className="receiver-info-status">
-                      Online
+                      <span>
+                        Online
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -138,7 +127,7 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
                 {messages && messages.map((mess, index) => {
                   return (
                     <div ref={scrollRef} key={index}>
-                      <Message receiverUser={receiverUser} own={mess.senderId === currentUser._id} key={index} message={mess}/>
+                      <Message receiverUser={currentReceiver} own={mess.senderId === currentUser._id} key={index} message={mess}/>
                     </div>
                   )
                 })}

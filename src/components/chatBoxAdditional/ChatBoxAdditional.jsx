@@ -1,5 +1,26 @@
+import { useEffect, useState } from "react";
+import axiosClient from "../../config/axios";
 
-const ChatBoxAdditional = () => {
+const ChatBoxAdditional = ({ currentChat, currentUser }) => {
+
+  const [receiverUser, setReceiverUser] = useState();
+
+  useEffect(() => {
+    if(currentChat) {
+      const receiverUserId = currentChat.members.find((memberId) => memberId !== currentUser._id);
+      
+      const getUser = async () => {
+        try {
+          const res = await axiosClient.get(`/user/${receiverUserId}`);
+          setReceiverUser(res.data);
+        } catch(err) {
+          console.log(err);
+        }
+      }
+
+      getUser();
+    }
+  }, [currentChat, currentUser]);
 
     return (
         <div className="chatbox-additionalInfo">

@@ -1,16 +1,18 @@
-import axios from 'axios';
 import { useState, useEffect } from 'react';
+import axiosClient from '../../config/axios';
+import TimeAgo from '../timeAgo/TimeAgo';
 
 const Conversation = ({ conversation, currentUser, isActived }) => {
 
   const [receiverUser, setReceiverUser] = useState();
+  const [messagesConv, setMessagesConv] = useState();
   
   useEffect(() => {
     const receiverUserId = conversation.members.find((memberId) => memberId !== currentUser._id);
 
     const getUser = async () => {
       try {
-        const res = await axios.get(`/user/${receiverUserId}`);
+        const res = await axiosClient.get(`/user/${receiverUserId}`);
         setReceiverUser(res.data);
       } catch(err) {
         console.log(err);
@@ -19,6 +21,21 @@ const Conversation = ({ conversation, currentUser, isActived }) => {
 
     getUser();
   }, [conversation, currentUser]);
+
+  useEffect(() => {
+    const getMessageConv = async () => {
+      try {
+        const res = await axiosClient.get(`/message/get/${conversation._id}`);
+        if(res.status_code === 200) {
+          setMessagesConv(res.data);
+        }
+      } catch(err) {
+        console.log(err);
+      }
+    }
+
+    getMessageConv();
+  }, [conversation]);
 
 
   return (
@@ -29,6 +46,10 @@ const Conversation = ({ conversation, currentUser, isActived }) => {
             src={receiverUser && receiverUser.profilePicture}
             alt="avatar"
           />
+
+          <span className="item-image__status">
+            <i className="fa-solid fa-circle"></i>
+          </span>
         </div>
         <div className="item-additionalInfo">
           <div className="item-username">
@@ -36,14 +57,15 @@ const Conversation = ({ conversation, currentUser, isActived }) => {
           </div>
           <div className="item-news">
             <div className="latest-massage">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur sequi excepturi optio, dolorem illum ad rem. Consectetur deserunt, minus reiciendis vero ipsa molestiae earum laborum voluptate omnis ad, reprehenderit ipsam similique hic.
-              {/* {messages && messages[messages.length - 1].text} */}
+              {messagesConv && messagesConv[messagesConv.length - 1].text}
             </div>
-            <div className="time-message">15m</div>
           </div>
-          <div className="item-time-active">
+          <div className="time-message">
+            <TimeAgo timestamp={messagesConv && messagesConv[messagesConv.length - 1].createdAt} />
+          </div>
+          {/* <div className="item-time-active">
             <span>Active 1h ago</span>
-          </div>
+          </div> */}
         </div>
 
         {isActived && <div className="conversation-active"></div>}

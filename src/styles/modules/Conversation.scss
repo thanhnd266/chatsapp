@@ -14,11 +14,26 @@
 
         .item-image {
             margin: 0 20px;
+            position: relative;
 
             img {
                 border-radius: 50%;
                 width: 60px;
                 height: 60px;
+            }
+
+            .item-image__status {
+                position: absolute;
+                bottom: -4px;
+                right: -4px;
+                
+                i {
+                    border-radius: 100%;
+                    border: 3px solid #fff;
+                    font-size: 12px;
+                    margin-right: 2px;
+                    color: rgb(118, 235, 8);
+                }
             }
         }
 
@@ -45,15 +60,16 @@
                     -webkit-line-clamp: 1;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
+                    margin: 2px 0;
 
                 }
 
-                .time-message {
-                    color: #918f8f;
-                    font-size: 12px;
-                }
             }
-
+            
+            .time-message {
+                color: #918f8f;
+                font-size: 12px;
+            }
             .item-time-active {
                 margin-top: 6px;
                 color: #918f8f;
