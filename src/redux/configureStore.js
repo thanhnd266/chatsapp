@@ -1,11 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { apiSlice } from "./api/apiSlice";
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import messageReducer from './reducer/messageSlice';
 
-export const store = configureStore({
-    reducer: {
-        [apiSlice.reducerPath]: apiSlice.reducer
-    },
-    middleware: getDefaultMiddleware =>
-        getDefaultMiddleware().concat(apiSlice.middleware),
-    devTools: true
+const reducer = combineReducers({
+    listMessage: messageReducer,
 })
+
+const store = configureStore({
+    reducer: reducer
+})
+
+export default store;

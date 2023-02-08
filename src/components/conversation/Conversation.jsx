@@ -57,11 +57,11 @@ const Conversation = ({ conversation, currentUser, isActived }) => {
           </div>
           <div className="item-news">
             <div className="latest-massage">
-              {messagesConv && messagesConv[messagesConv.length - 1].text}
+              {/* {messagesConv && messagesConv[messagesConv.length - 1].text} */}
             </div>
           </div>
           <div className="time-message">
-            <TimeAgo timestamp={messagesConv && messagesConv[messagesConv.length - 1].createdAt} />
+            {/* <TimeAgo timestamp={messagesConv && messagesConv[messagesConv.length - 1].createdAt} /> */}
           </div>
           {/* <div className="item-time-active">
             <span>Active 1h ago</span>

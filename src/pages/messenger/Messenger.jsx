@@ -1,14 +1,14 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 //components
-import Conversation from "../../components/conversation/Conversation";
 import ChatBox from '../../components/chatBox/ChatBox';
 import ChatBoxAdditional from '../../components/chatBoxAdditional/ChatBoxAdditional';
+import Conversation from "../../components/conversation/Conversation";
 //socket
 import { io } from 'socket.io-client';
 import axiosClient from '../../config/axios';
-import { selectMessageIds, useGetMessagesQuery } from '../../redux/reducer/messageSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setMessage } from '../../redux/reducer/messageSlice';
 
 const Messenger = () => {
   const [loading, setLoading] = useState(false);
@@ -23,6 +23,7 @@ const Messenger = () => {
   const isActived = true;
   const socket = useRef();
   const user = JSON.parse(localStorage.getItem('userData'));
+  const dispatch = useDispatch()
 
   useEffect(() => {
     setCurrentUser(user);
@@ -94,31 +95,27 @@ const Messenger = () => {
     })
   }, [])
 
-  // useEffect(() => {
-  //   const getMessage = async () => {
-  //     setLoading(true);
-
-  //     if(currentChat) {
-  //       try {
-  //         const res = await axiosClient.get(`/message/get/${currentChat._id}`);
-  //         if(res.status_code === 200) {
-  //           setLoading(false);
-  //           setMessages(res.data);
-  //         }
-  //       } catch(err) {
-  //         console.log(err);
-  //       }
-  //     }
-  //   }
-  //   getMessage();
-
-  // }, [currentChat])
-  const data = useGetMessagesQuery(currentChat?._id);
-
   useEffect(() => {
-    console.log(data);
-  
-  }, [data])
+    const getMessage = async () => {
+      setLoading(true);
+
+      if(currentChat) {
+        try {
+          const res = await axiosClient.get(`/message/get/${currentChat._id}`);
+          if(res.status_code === 200) {
+            dispatch(setMessage(res.data));
+            setLoading(false);
+            setMessages(res.data);
+          }
+        } catch(err) {
+          console.log(err);
+        }
+      }
+    }
+    getMessage();
+
+  }, [currentChat])
+
   return (
     <div className="messenger-wrapper">
       <div className="conversations-container">
