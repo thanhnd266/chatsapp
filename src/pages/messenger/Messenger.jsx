@@ -8,7 +8,6 @@ import Conversation from "../../components/conversation/Conversation";
 import { io } from 'socket.io-client';
 import axiosClient from '../../config/axios';
 import { useDispatch } from 'react-redux';
-import { setMessage } from '../../redux/reducer/messageSlice';
 
 const Messenger = () => {
   const [loading, setLoading] = useState(false);
@@ -103,7 +102,7 @@ const Messenger = () => {
         try {
           const res = await axiosClient.get(`/message/get/${currentChat._id}`);
           if(res.status_code === 200) {
-            dispatch(setMessage(res.data));
+            // dispatch(setMessage(res.data));
             setLoading(false);
             setMessages(res.data);
           }
@@ -114,7 +113,7 @@ const Messenger = () => {
     }
     getMessage();
 
-  }, [currentChat])
+  }, [currentChat, dispatch])
 
   return (
     <div className="messenger-wrapper">
@@ -123,7 +122,10 @@ const Messenger = () => {
           <div key={index} onClick={() => setCurrentChat(conv)}> 
             <Conversation 
               conversation={conv}
+              setCurrentChat={setCurrentChat}
+              currentMessages={messages}
               currentUser={currentUser} 
+              currentReceiver={currentReceiver}
               isActived={isActived}
             />
           </div>
@@ -145,8 +147,9 @@ const Messenger = () => {
       
       <div className="additionalInfo-container">
         <ChatBoxAdditional 
-          currentUser={currentUser} 
           currentChat={currentChat}
+          currentUser={currentUser} 
+          currentReceiver={currentReceiver}
         />
       </div>
     </div>

@@ -1,42 +1,20 @@
-import { useEffect, useState } from "react";
-import axiosClient from "../../config/axios";
-
-const ChatBoxAdditional = ({ currentChat, currentUser }) => {
-
-  const [receiverUser, setReceiverUser] = useState();
-
-  useEffect(() => {
-    if(currentChat) {
-      const receiverUserId = currentChat.members.find((memberId) => memberId !== currentUser._id);
-      
-      const getUser = async () => {
-        try {
-          const res = await axiosClient.get(`/user/${receiverUserId}`);
-          setReceiverUser(res.data);
-        } catch(err) {
-          console.log(err);
-        }
-      }
-
-      getUser();
-    }
-  }, [currentChat, currentUser]);
+const ChatBoxAdditional = ({ currentReceiver }) => {
 
     return (
         <div className="chatbox-additionalInfo">
           <div className="receiver-mainInfo">
             <div className="receiver-img">
               <img 
-                src="https://i2-prod.irishmirror.ie//article16196990.ece/ALTERNATES/s1200c/0_I190524_165813_2368442oTextTRMRMMGLPICT000183636161o.jpg" 
+                src={currentReceiver && currentReceiver.profilePicture}
                 alt="avatar" 
               />
             </div>
             <div className="receiver-username">
-              <h2>Jonas Smidthmann</h2>
+              <h2>{currentReceiver && currentReceiver.username}</h2>
             </div>
             <div className="receiver-status">
               <span><i className="fa-solid fa-circle"></i>
-                Online
+                {currentReceiver && (currentReceiver.status || 'Online')}
               </span>
             </div>
           </div>
@@ -48,12 +26,12 @@ const ChatBoxAdditional = ({ currentChat, currentUser }) => {
 
             <div className="receiver-email">
               <span className="receiver-info-icon"><i className="fa-solid fa-envelope"></i></span>
-              <span className="receiver-info-text">smidthmann26@gmail.com</span>
+              <span className="receiver-info-text">{currentReceiver && currentReceiver.email}</span>
             </div>
 
             <div className="receiver-phone">
               <span className="receiver-info-icon"><i className="fa-solid fa-phone"></i></span>
-              <span className="receiver-info-text">+84.932.179.22</span>
+              <span className="receiver-info-text">{currentReceiver && (currentReceiver.phone || '+84.932.179.22')}</span>
             </div>
           </div>
 

@@ -5,8 +5,6 @@ import { SendOutlined } from '@ant-design/icons';
 import Message from '../message/Message';
 import axiosClient from '../../config/axios';
 import Loading from '../loading/Loading';
-import { useDispatch } from 'react-redux';
-import { addNewMessage, setMessage } from '../../redux/reducer/messageSlice';
 
 const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, socket, currentOnliner, currentReceiver }) => {
   const [openEmoji, setOpenEmoji] = useState(false);
@@ -15,7 +13,6 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
   const bundleEmoji = useRef();
   const inputEl = useRef();
   const scrollRef = useRef();
-  const dispatch = useDispatch();
 
     useEffect(() => {
       window.onclick = (e) => {
@@ -81,7 +78,7 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
         const res = await axiosClient.post('/message/add', {
           ...payload,
         });
-        dispatch(setMessage(res.data))
+        // dispatch(setMessage(res.data))
         setMessages(res.data);
         inputEl.current.innerHTML = '';
       } catch(err) {
@@ -130,7 +127,13 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
                 {messages && messages.map((mess, index) => {
                   return (
                     <div ref={scrollRef} key={index}>
-                      <Message receiverUser={currentReceiver} own={mess.senderId === currentUser._id} key={index} message={mess}/>
+                      <Message 
+                        currentUser={currentUser} 
+                        receiverUser={currentReceiver} 
+                        own={mess.senderId === currentUser._id} 
+                        key={index} 
+                        message={mess}
+                      />
                     </div>
                   )
                 })}

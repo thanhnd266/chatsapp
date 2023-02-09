@@ -2,41 +2,59 @@ import { useState, useEffect } from 'react';
 import axiosClient from '../../config/axios';
 import TimeAgo from '../timeAgo/TimeAgo';
 
-const Conversation = ({ conversation, currentUser, isActived }) => {
+const Conversation = ({ conversation, currentMessages, currentUser, currentReceiver, isActived }) => {
 
   const [receiverUser, setReceiverUser] = useState();
-  const [messagesConv, setMessagesConv] = useState();
-  
+  const [messagesConv, setMessagesConv] = useState([]);
+
   useEffect(() => {
     const receiverUserId = conversation.members.find((memberId) => memberId !== currentUser._id);
+    
+    if(Object.keys(currentReceiver).length > 0) {
 
-    const getUser = async () => {
-      try {
-        const res = await axiosClient.get(`/user/${receiverUserId}`);
-        setReceiverUser(res.data);
-      } catch(err) {
-        console.log(err);
+      if(receiverUserId === currentReceiver._id) {
+        return setReceiverUser(currentReceiver);
       }
+  
+      const getUser = async () => {
+        try {
+          const res = await axiosClient.get(`/user/${receiverUserId}`);
+          setReceiverUser(res.data);
+        } catch(err) {
+          console.log(err);
+        }
+      }
+  
+      getUser();
     }
 
-    getUser();
-  }, [conversation, currentUser]);
+  }, [conversation, currentUser, currentReceiver]);
 
   useEffect(() => {
-    const getMessageConv = async () => {
-      try {
-        const res = await axiosClient.get(`/message/get/${conversation._id}`);
-        if(res.status_code === 200) {
-          setMessagesConv(res.data);
+    if(currentMessages) {
+
+      if(currentMessages.length > 0) {
+
+        if(currentMessages[0].conversationId === conversation._id) {
+          return setMessagesConv(currentMessages);
         }
-      } catch(err) {
-        console.log(err);
+  
+        const getMessageConv = async () => {
+          try {
+            const res = await axiosClient.get(`/message/get/${conversation._id}`);
+            if(res.status_code === 200) {
+              setMessagesConv(res.data);
+            }
+          } catch(err) {
+            console.log(err);
+          }
+        }
+    
+        getMessageConv();
       }
     }
-
-    getMessageConv();
-  }, [conversation]);
-
+    
+  }, [currentMessages]);
 
   return (
     <div className="conversation">
@@ -57,11 +75,19 @@ const Conversation = ({ conversation, currentUser, isActived }) => {
           </div>
           <div className="item-news">
             <div className="latest-massage">
-              {/* {messagesConv && messagesConv[messagesConv.length - 1].text} */}
+              {/* {messagesConv && !(messagesConv.length > 0) && <span className="un-chat-before">No messages yet...</span>} */}
+
+              {messagesConv
+                  && messagesConv.length > 0
+                  && messagesConv[messagesConv.length - 1].text
+              }
             </div>
           </div>
           <div className="time-message">
-            {/* <TimeAgo timestamp={messagesConv && messagesConv[messagesConv.length - 1].createdAt} /> */}
+            {messagesConv 
+              && messagesConv.length > 0
+              && <TimeAgo timestamp={messagesConv && messagesConv[messagesConv.length - 1].createdAt} />
+            }
           </div>
           {/* <div className="item-time-active">
             <span>Active 1h ago</span>
