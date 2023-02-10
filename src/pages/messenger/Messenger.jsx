@@ -72,10 +72,13 @@ const Messenger = () => {
     socket.current = io("http://localhost:2626/");
     socket.current.on("getMessage", data => {
       setArrivalMessage({
+        _id: data._id,
         conversationId: data.conversationId,
         sender: data.senderId,
         text: data.text,
         createdAt: Date.now(),
+        updatedAt: Date.now(),
+        __v: data.__v,
       })
     })
 
@@ -88,7 +91,6 @@ const Messenger = () => {
 
   useEffect(() => {
     socket.current.emit("addUser", user._id);
-
     socket.current.on("getUsers", (users) => {
       setCurrentOnliner([...users]);
     })
@@ -113,13 +115,19 @@ const Messenger = () => {
     }
     getMessage();
 
-  }, [currentChat, dispatch])
+  }, [currentChat, dispatch]);
+
+  const handleChangeConv = (e, conversation) => {
+    e.preventDefault();
+    setCurrentChat(conversation);
+    setArrivalMessage(null);
+  }
 
   return (
     <div className="messenger-wrapper">
       <div className="conversations-container">
         {conversations && conversations.map((conv, index) => (
-          <div key={index} onClick={() => setCurrentChat(conv)}> 
+          <div key={index} onClick={(e) => handleChangeConv(e, conv)}> 
             <Conversation 
               conversation={conv}
               setCurrentChat={setCurrentChat}

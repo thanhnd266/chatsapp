@@ -65,24 +65,29 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
       const receiverId = currentChat.members.find(member => member !== currentUser._id);
       const isOnlineReceiver = currentOnliner.some(onliner => onliner.userId === receiverId);
 
-      if(isOnlineReceiver) {
-        socket.current.emit("sendMessage", {
-          conversationId: currentChat._id,
-          senderId: currentUser._id,
-          receiverId,
-          text: inputEl.current.innerHTML,
-        })
-      }
-
+      
       try {
+        
         const res = await axiosClient.post('/message/add', {
           ...payload,
         });
-        // dispatch(setMessage(res.data))
-        setMessages(res.data);
+
+        if(res.status_code === 200) {
+          if (isOnlineReceiver) {
+            socket.current.emit("sendMessage", {
+              ...res.data[res.data.length - 1],
+              receiverId,
+            })
+          }
+  
+          setMessages(res.data);
+        }
+
         inputEl.current.innerHTML = '';
-      } catch(err) {
+        
+      } catch (err) {
         console.log(err);
+
       }
     }
 
