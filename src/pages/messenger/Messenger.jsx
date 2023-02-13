@@ -69,7 +69,10 @@ const Messenger = () => {
   }, [currentChat, currentUser]);
 
   useEffect(() => {
-    socket.current = io("https://api-chatsapp.thanhdev.me/");
+    socket.current = io("https://api-chatsapp.thanhdev.me/", {
+      secure:true, 
+      rejectUnauthorized: false
+    });
     socket.current.on("getMessage", data => {
       setArrivalMessage({
         _id: data._id,
