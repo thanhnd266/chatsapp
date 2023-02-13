@@ -69,7 +69,7 @@ const Messenger = () => {
   }, [currentChat, currentUser]);
 
   useEffect(() => {
-    socket.current = io("http://localhost:2626/");
+    socket.current = io("https://api-chatsapp.thanhdev.me/");
     socket.current.on("getMessage", data => {
       setArrivalMessage({
         _id: data._id,
