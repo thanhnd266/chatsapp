@@ -71,7 +71,8 @@ const Messenger = () => {
   useEffect(() => {
     socket.current = io("https://api-chatsapp.thanhdev.me/", {
       secure:true, 
-      rejectUnauthorized: false
+      rejectUnauthorized: false,
+	transports: ['websocket']
     });
     socket.current.on("getMessage", data => {
       setArrivalMessage({
