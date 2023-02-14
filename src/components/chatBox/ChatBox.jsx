@@ -59,8 +59,10 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
       const payload = {
         conversationId: currentChat._id,
         senderId: currentUser._id,
-        text: inputEl.current.innerHTML,
+        text: inputEl.current.innerHTML.replace(/&nbsp;/g," ").trim(),
       };
+
+      if(payload.text === '') return inputEl.current.innerHTML = '';
 
       const receiverId = currentChat.members.find(member => member !== currentUser._id);
       const isOnlineReceiver = currentOnliner.some(onliner => onliner.userId === receiverId);
