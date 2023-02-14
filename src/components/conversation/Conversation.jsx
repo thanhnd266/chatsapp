@@ -56,8 +56,6 @@ const Conversation = ({ conversation, currentMessages, currentUser, currentRecei
     
   }, [currentMessages]);
 
-  console.log(messagesConv);
-
   return (
     <div className="conversation">
       <div className="conversation-item">

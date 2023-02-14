@@ -72,7 +72,7 @@ const Messenger = () => {
     socket.current = io("https://api-chatsapp.thanhdev.me/", {
       secure:true, 
       rejectUnauthorized: false,
-	transports: ['websocket']
+	    transports: ['polling']
     });
     socket.current.on("getMessage", data => {
       setArrivalMessage({
