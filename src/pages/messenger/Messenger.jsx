@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 //components
 import ChatBox from '../../components/chatBox/ChatBox';
@@ -8,6 +8,7 @@ import Conversation from "../../components/conversation/Conversation";
 import { io } from 'socket.io-client';
 import axiosClient from '../../config/axios';
 import { useDispatch } from 'react-redux';
+import { triggerFocus } from 'antd/lib/input/Input';
 
 const Messenger = () => {
   const [loading, setLoading] = useState(false);
@@ -18,6 +19,8 @@ const Messenger = () => {
   const [currentOnliner, setCurrentOnliner] = useState([]);
   const [messages, setMessages] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [waitingMessage, setWaitingMessage] = useState(null);
+
   const navigate = useNavigate();
   const isActived = true;
   const socket = useRef();
@@ -69,13 +72,30 @@ const Messenger = () => {
   }, [currentChat, currentUser]);
 
   useEffect(() => {
-    socket.current = io("https://api-chatsapp.thanhdev.me/", {
+    socket.current = io(process.env.REACT_APP_BASE_URL, {
       secure:true, 
       rejectUnauthorized: false,
 	    transports: ['polling']
     });
+    
+  }, [])
+
+  useEffect(() => {
     socket.current.on("getMessage", data => {
-      setArrivalMessage({
+      if(currentChat && currentChat?._id !== data.conversationId) {
+        return setWaitingMessage({
+          _id: data._id,
+          conversationId: data.conversationId,
+          sender: data.senderId,
+          text: data.text,
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+          __v: data.__v,
+          isUnread: true,
+        })
+      }
+
+      return setArrivalMessage({
         _id: data._id,
         conversationId: data.conversationId,
         sender: data.senderId,
@@ -86,7 +106,7 @@ const Messenger = () => {
       })
     })
 
-  }, [])
+  }, [currentChat])
 
   useEffect(() => {
     arrivalMessage && currentChat?.members.includes(arrivalMessage.sender) &&
@@ -130,18 +150,22 @@ const Messenger = () => {
   return (
     <div className="messenger-wrapper">
       <div className="conversations-container">
-        {conversations && conversations.map((conv, index) => (
-          <div key={index} onClick={(e) => handleChangeConv(e, conv)}> 
-            <Conversation 
-              conversation={conv}
-              setCurrentChat={setCurrentChat}
-              currentMessages={messages}
-              currentUser={currentUser} 
-              currentReceiver={currentReceiver}
-              isActived={isActived}
-            />
-          </div>
-        ))}
+        {conversations && conversations.map((conv, index) => {
+          return (
+            <div key={index} onClick={(e) => handleChangeConv(e, conv)}> 
+              <Conversation 
+                conversation={conv}
+                setCurrentChat={setCurrentChat}
+                currentMessages={messages}
+                waitingMessage={waitingMessage}
+                setWaitingMessage={setWaitingMessage}
+                currentUser={currentUser} 
+                currentReceiver={currentReceiver}
+                isActived={isActived}
+              />
+            </div>
+          )
+        })}
       </div>
 
       <div className="messages-container">

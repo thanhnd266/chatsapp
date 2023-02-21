@@ -1,11 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import axiosClient from '../../config/axios';
+import Cookies from 'js-cookie';
+import { SyncOutlined } from '@ant-design/icons';
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const Register = () => {
 
+    const [isLoading, setIsLoading] = useState(false);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,27 +25,40 @@ const Register = () => {
 
     const handleCreateUser = async (e) => {
         e.preventDefault();
-
+        
         const verifyEmail = EMAIL_REGEX.test(email);
-
+        
         if(!username) return setErrMess('Username is not valid');
         if(!email || !verifyEmail) return setErrMess('Email is not valid');
         if(!password) return setErrMess('Password is not valid');
         if(password !== confirmPassword) return setErrMess('Password is not match');
-
+        
         try {
+            setIsLoading(true);
+            
             const response = await axiosClient.post('/user/create', JSON.stringify({
                 username,
                 email,
                 password,
             }));
 
+            localStorage.setItem("userData", JSON.stringify(response.data));
+
+            Cookies.set('access_token', response.data.access_token);
+            Cookies.set('refresh_token', response.data.refresh_token);
+
             if(response.status_code === 200) {
-                navigate('/login');
+                setTimeout(() => {
+                    setIsLoading(false);
+                    navigate('/');
+                }, 2000)
             }
 
         } catch(err) {
-            setErrMess(err)
+            setTimeout(() => {
+                setIsLoading(false);
+                setErrMess(err)
+            }, 2000)
         }
     }
 
@@ -114,6 +130,10 @@ const Register = () => {
                             
                             {errMess && (
                                 <div className="register-error">{errMess}</div>
+                            )}
+
+                            { isLoading && (
+                                <SyncOutlined spin />
                             )}
 
                             <button 
