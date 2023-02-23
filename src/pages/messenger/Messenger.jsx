@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 //components
 import ChatBox from '../../components/chatBox/ChatBox';
 import ChatBoxAdditional from '../../components/chatBoxAdditional/ChatBoxAdditional';
-import Conversation from "../../components/conversation/Conversation";
 //socket
 import { io } from 'socket.io-client';
 import axiosClient from '../../config/axios';
 import { useDispatch } from 'react-redux';
-import { triggerFocus } from 'antd/lib/input/Input';
+import { setConversation } from '../../redux/reducer/conversationSlice';
+import Conversation from '../../components/Conversation';
 
 const Messenger = () => {
   const [loading, setLoading] = useState(false);
@@ -20,12 +20,14 @@ const Messenger = () => {
   const [messages, setMessages] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [waitingMessage, setWaitingMessage] = useState(null);
+  const [isOpenChatInfo, setIsOpenChatInfo] = useState(true);
+
+  const chatAdditionalRef = useRef();
 
   const navigate = useNavigate();
-  const isActived = true;
   const socket = useRef();
   const user = JSON.parse(localStorage.getItem('userData'));
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setCurrentUser(user);
@@ -40,6 +42,7 @@ const Messenger = () => {
         if(Object.keys(currentUser).length > 0) {
           const response = await axiosClient.get(`conversation/get-list/${currentUser._id}`);
           if(response.status_code === 200) {
+            dispatch(setConversation(response.data))
             setConversations(response.data);
             setCurrentChat(response.data[0]);
           }
@@ -53,11 +56,11 @@ const Messenger = () => {
 
   useEffect(() => {
     if(currentChat) {
-      const receiverUserId = currentChat.members.find((memberId) => memberId !== currentUser._id);
-      
+      const receiverUser = currentChat.members.find((member) => member._id !== currentUser._id);
+
       const getReceiver = async () => {
         try {
-          const res = await axiosClient.get(`/user/${receiverUserId}`);
+          const res = await axiosClient.get(`/user/${receiverUser._id}`);
           if(res.status_code === 200) {
             setCurrentReceiver(res.data);
           }
@@ -109,8 +112,15 @@ const Messenger = () => {
   }, [currentChat])
 
   useEffect(() => {
-    arrivalMessage && currentChat?.members.includes(arrivalMessage.sender) &&
-      setMessages((prev) => [...prev, arrivalMessage]);
+    if(arrivalMessage) {
+      currentChat?.members.forEach(mem => {
+        if(mem._id === arrivalMessage.sender) {
+          setMessages((prev) => [...prev, arrivalMessage])
+          return;
+        }
+      })
+    }
+
   }, [arrivalMessage, currentChat])
 
   useEffect(() => {
@@ -150,22 +160,16 @@ const Messenger = () => {
   return (
     <div className="messenger-wrapper">
       <div className="conversations-container">
-        {conversations && conversations.map((conv, index) => {
-          return (
-            <div key={index} onClick={(e) => handleChangeConv(e, conv)}> 
-              <Conversation 
-                conversation={conv}
-                setCurrentChat={setCurrentChat}
-                currentMessages={messages}
-                waitingMessage={waitingMessage}
-                setWaitingMessage={setWaitingMessage}
-                currentUser={currentUser} 
-                currentReceiver={currentReceiver}
-                isActived={isActived}
-              />
-            </div>
-          )
-        })}
+        <Conversation
+          conversationDB={conversations}
+          currentChat={currentChat}
+          currentMessages={messages}
+          waitingMessage={waitingMessage}
+          setWaitingMessage={setWaitingMessage}
+          currentUser={currentUser} 
+          currentReceiver={currentReceiver}
+          handleChangeConv={handleChangeConv}
+        />
       </div>
 
       <div className="messages-container">
@@ -178,16 +182,20 @@ const Messenger = () => {
           socket={socket}
           currentOnliner={currentOnliner}
           currentReceiver={currentReceiver}
+          setIsOpenChatInfo={setIsOpenChatInfo}
+          chatAdditionalRef={chatAdditionalRef}
         />
       </div>
-      
-      <div className="additionalInfo-container">
-        <ChatBoxAdditional 
-          currentChat={currentChat}
-          currentUser={currentUser} 
-          currentReceiver={currentReceiver}
-        />
-      </div>
+
+      {isOpenChatInfo && (
+        <div className="additionalInfo-container" ref={chatAdditionalRef}>
+          <ChatBoxAdditional
+            currentChat={currentChat}
+            currentUser={currentUser} 
+            currentReceiver={currentReceiver}
+          />
+        </div>
+      )}
     </div>
   );
 };

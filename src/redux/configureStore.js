@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import messageReducer from './reducer/messageSlice';
+import conversationReducer from './reducer/conversationSlice';
 
 const reducer = combineReducers({
-    listMessage: messageReducer,
+    listConversation: conversationReducer,
 })
 
 const store = configureStore({

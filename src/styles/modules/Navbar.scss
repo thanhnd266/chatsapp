@@ -1,9 +1,13 @@
 .navbar-wrapper {
-    height: 100px;
+    height: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 50px;
+
+    @media screen and (max-width: 1280px) {
+        padding: 0 30px;
+    }
 
     .app-name {
         font-size: 30px;
@@ -12,31 +16,12 @@
         h1 {
             color: #001529;
             font-weight: 700;
+            margin: 0;
         }
     }
 
     .nav-additional {
         display: flex;
-
-        .btn-new-message {
-            button {
-                padding: 10px 24px;
-                background-color: #fe7558;
-                color: #fff;
-                border: none;
-                outline: none;
-                border-radius: 6px;
-                cursor: pointer;
-
-                &:focus {
-                    box-shadow: none !important;
-                }
-
-                &:hover {
-                    background-color: #fd866e;
-                }
-            }
-        }
 
         .nav-noti {
             font-size: 24px;
@@ -45,6 +30,10 @@
             cursor: pointer;
             border-radius: 6px;
             color: #918f8f;
+
+            @media screen and (max-width: 992px) {
+                margin: 0 10px;
+            }
 
             &:hover {
                 background-color: rgb(233, 230, 230);

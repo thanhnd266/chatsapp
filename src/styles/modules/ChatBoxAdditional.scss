@@ -1,8 +1,18 @@
 .chatbox-additionalInfo {
     color: #001529;
+    min-width: 240px;
+
+    @media screen and (max-width: 1300px) {
+        max-width: 240px;
+    }
+
+    @media screen and (max-width: 992px) {
+        min-width: 200px;
+    }
+
     .receiver-mainInfo {
         text-align: center;
-        margin: 50px 0 0 0;
+        margin: 20px 0 0 0;
 
         .receiver-img {
             img {
@@ -10,6 +20,12 @@
                 height: 160px;
                 border-radius: 100%;
                 border: 5px solid #001529;
+
+                @media screen and (max-width: 992px) {
+                    width: 100px !important;
+                    height: auto;
+                    border: 2px solid #001529;
+                }
             }
         }
 
@@ -43,10 +59,28 @@
         font-size: 16px;
         margin-top: 30px;
 
+        @media screen and (max-width: 992px) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .receiver-email, .receiver-phone, .receiver-profile {
+                padding: 4px 10px !important;
+
+                .receiver-info-icon {
+                    font-size: 20px !important;
+                }
+
+                .receiver-info-text {
+                    display: none !important;
+                }
+            }
+        }
+
         .receiver-email, .receiver-phone, .receiver-profile {
             display: flex;
             align-items: center;
-            padding: 10px 10px 10px 22px;
+            padding: 10px 22px 10px 22px;
             cursor: pointer;
             margin: 0 10px;
             border-radius: 4px;
@@ -62,6 +96,11 @@
 
             .receiver-info-text {
                 margin-left: 12px;
+                width: 100%;
+                display: inline-block;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
     }
@@ -77,62 +116,44 @@
                     border-radius: 4px;
                 }
 
+                // .accordion-button:not(.collapsed) {
+                //     background-color: transparent;
+                //     color: #fff;
+                //     font-weight: 600;
+                //     background-color: #001529;
+                // }
+
+                // .accordion-button:focus {
+                //     z-index: 3;
+                //     border-color: transparent;
+                //     outline: 0;
+                //     box-shadow: none;
+                // }
+
                 .accordion-body {
                     margin: 0 10px;
                     font-size: 15px;
                     color: #001529;
                     cursor: pointer;
+                    padding: 10px 0;
 
-                    .search-chat {
-                        span {
-                            margin-left: 10px;
-                        }
-                    }
+                    .chat-feature {
+                        padding: 4px 0;
 
-                    .mediafile-items {
-                        .media-conversation, .files-conversation, .links-conversation {
-                            display: flex;
-                            align-items: center;
-                            padding: 4px 0;
-                            border-radius: 4px;
-
-                            span {
-                                margin-left: 10px;
-                            }
-
-                            .custom-icon {
-                                width: 24px;
-                                height: 24px;
-                                text-align: center;
-                            }
+                        .chat-feature__icon {
+                            width: 32px;
+                            height: 32px;
+                            border-radius: 100%;
                         }
 
-                        .files-conversation {
-                            margin: 4px 0;
-                        }
-                    }
+                        &:hover {
+                            background-color: #001529;
+                            color: #fff;
+                            border-radius: 10px;
 
-                    .support-items {
-
-                        .mute-noti, .block-friend, .report-system {
-                            display: flex;
-                            align-items: center;
-                            padding: 4px 0;
-                            border-radius: 4px;
-
-                            span {
-                                margin-left: 10px;
+                            .chat-feature__icon {
+                                background: #3a3b3c1f;
                             }
-
-                            .custom-icon {
-                                width: 24px;
-                                height: 24px;
-                                text-align: center;
-                            }
-                        }
-                        
-                        .block-friend {
-                            margin: 4px 0;
                         }
                     }
                 }

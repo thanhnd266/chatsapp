@@ -3,7 +3,6 @@ import { useNavigate, Outlet } from 'react-router-dom';
 
 //components
 import Navbar from "../../components/navbar/Navbar";
-import Search from "../../components/search/Search";
 
 //styles
 import {
@@ -93,12 +92,7 @@ const Home = () => {
               padding: 0,
             }}
           />
-          <Search />
-          <Content
-            style={{
-              margin: "30px 50px",
-            }}
-          >
+          <Content>
             {currentTab === '/' ? (<h3>Homepage</h3>) : <Outlet />}
           </Content>
           {/* <Footer

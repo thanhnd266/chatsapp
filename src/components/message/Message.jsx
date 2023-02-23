@@ -34,7 +34,7 @@ const Message = ({ currentUser, receiverUser, message, own}) => {
                     />
                     <p className="messageText">
                         <Tooltip placement="left" title={timeMessage}>
-                            <span>{message.text}</span>
+                            <span className="messageText_area">{message.text}</span>
                         </Tooltip>
                     </p>
                     </div>
@@ -48,8 +48,8 @@ const Message = ({ currentUser, receiverUser, message, own}) => {
                         alt="" 
                     />
                     <p className="messageText">
-                        <Tooltip placement="left" title={timeMessage}>
-                            <span>{message && message.text}</span>
+                        <Tooltip placement="right" title={timeMessage}>
+                            <span className="messageText_area">{message && message.text}</span>
                         </Tooltip>
                     </p>
                     </div>

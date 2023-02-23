@@ -1,8 +1,20 @@
+
 .conversation {
     background-color: #fff;
-    margin: 0 8px 8px 2px;
+    margin: 0 8px 8px 0;
     border-radius: 4px;
     position: relative;
+
+    @media screen and (max-width: 992px) {
+        margin: 0;
+
+        .item-image {
+            img {
+                width: 42px !important;
+                height: auto !important;
+            }
+        }
+    }
 
     .item-unread__message {
         position: absolute;
@@ -12,6 +24,10 @@
         border-radius: 100%;
         width: 10px;
         height: 10px;
+    }
+
+    .conversation-item__active {
+        background-color: aliceblue;
     }
 
     .conversation-item {
@@ -51,6 +67,10 @@
         .item-additionalInfo {
             flex: 1;
 
+            @media screen and (max-width: 992px) {
+                display: none;
+            }
+
             .item-username {
                 h3 {
                     margin: 0 0 4px 0;
@@ -67,13 +87,12 @@
                 
                 .latest-massage {
                     flex: 1;
-                    width: 80%;
-                    display: -webkit-box;
-                    -webkit-line-clamp: 1;
-                    -webkit-box-orient: vertical;
+                    width: 160px;
+                    display:inline-block;
+                    white-space: nowrap;
                     overflow: hidden;
+                    text-overflow: ellipsis;
                     margin: 2px 0;
-
                 }
 
             }

@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
-import axiosClient from '../../config/axios';
-import TimeAgo from '../timeAgo/TimeAgo';
+import axiosClient from '../../../config/axios';
+import TimeAgo from '../../timeAgo/TimeAgo';
 
-const Conversation = ({ 
-    conversation, 
+const ConversationItem = ({ 
+    conversation,
+    currentChat,
     currentMessages, 
     waitingMessage, 
     setWaitingMessage,
     currentUser, 
     currentReceiver,
-    isActived 
   }) => {
 
   const [receiverUser, setReceiverUser] = useState();
@@ -20,17 +20,17 @@ const Conversation = ({
   });
 
   useEffect(() => {
-    const receiverUserId = conversation.members.find((memberId) => memberId !== currentUser._id);
+    const receiverUser = conversation.members.find((member) => member._id !== currentUser._id);
     
     if(Object.keys(currentReceiver).length > 0) {
 
-      if(receiverUserId === currentReceiver._id) {
+      if(receiverUser._id === currentReceiver._id) {
         return setReceiverUser(currentReceiver);
       }
   
       const getUser = async () => {
         try {
-          const res = await axiosClient.get(`/user/${receiverUserId}`);
+          const res = await axiosClient.get(`/user/${receiverUser._id}`);
           setReceiverUser(res.data);
         } catch(err) {
           console.log(err);
@@ -69,7 +69,7 @@ const Conversation = ({
           setUnreadMessage({
             status: true,
             conversationId: waitingMessage.conversationId,
-          })
+          });
         }
       }
     
@@ -86,7 +86,12 @@ const Conversation = ({
 
   return (
     <div className="conversation" onClick={() => handleRemoveUnread()}>
-      <div className="conversation-item">
+      <div className={ 
+          currentChat && currentChat._id === conversation._id
+          ? "conversation-item conversation-item__active" 
+          : "conversation-item"
+        }
+      >
         <div className="item-image">
           <img
             src={receiverUser && receiverUser.profilePicture}
@@ -119,7 +124,11 @@ const Conversation = ({
           </div>
         </div>
 
-        {isActived && <div className="conversation-active"></div>}
+        {currentChat 
+          && currentChat._id === conversation._id 
+          && <div className="conversation-active"></div>
+        }
+            
       </div>
 
       {unreadMessage.status && (
@@ -129,4 +138,4 @@ const Conversation = ({
   );
 };
 
-export default Conversation;
+export default ConversationItem;

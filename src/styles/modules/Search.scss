@@ -1,28 +1,83 @@
 .search-wrapper {
-    margin: 10px 50px;
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items:center;
 
-    .search-btn {
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 6px 16px;
-        background-color: #fff;
-        color: #918f8f;
-        border-bottom-left-radius: 6px;
-        border-top-left-radius: 6px;
+    @media screen and (max-width: 992px) {
+        justify-content: center;
+    }
 
-        &:focus {
-            box-shadow: unset;    
+    .search-element {
+        margin-right: 10px;
+        width: 100%;
+        display: flex;
+
+        @media screen and (max-width: 992px) {
+            display: none;
+        }
+
+        .search-btn {
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 6px 16px;
+            background-color: #cfcfcf91;
+            color: #918f8f;
+            border-bottom-left-radius: 10px;
+            border-top-left-radius: 10px;
+    
+            &:focus {
+                box-shadow: unset;    
+            }
+        }
+    
+    
+        .search-input {
+            width: 100%;
+
+            #search-input {
+                border: none;
+                outline: none;
+                padding: 6px 0;
+                width: 100%;
+                border-bottom-right-radius: 10px;
+                border-top-right-radius: 10px;
+                background-color: #cfcfcf91;
+            } 
         }
     }
 
+    .btn-new-message {
+        button {
+            padding: 8px 16px;
+            background-color: #fe7558;
+            color: #fff;
+            border: none;
+            outline: none;
+            border-radius: 100%;
+            cursor: pointer;
+            font-size: 18px;
 
-    #search-input {
-        border: none;
-        outline: none;
-        padding: 6px 0;
-        border-bottom-right-radius: 6px;
-        border-top-right-radius: 6px;
-        min-width: 220px;
-    }   
+            &:focus {
+                box-shadow: none !important;
+            }
+
+            &:hover {
+                background-color: #fd866e;
+            }
+
+            @media screen and (max-width: 992px) {
+
+                .btn-new-message__big {
+                    display: none;
+                }
+
+                .btn-new-message__small {
+                    display: block;
+                }
+            }
+        }
+    }
 }

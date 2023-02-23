@@ -1,3 +1,5 @@
+import { chatAdditionalInfo } from '../../contants/messenger';
+
 const ChatBoxAdditional = ({ currentReceiver }) => {
 
     return (
@@ -37,83 +39,27 @@ const ChatBoxAdditional = ({ currentReceiver }) => {
 
           <div className="system-pane">
             <div className="accordion accordion-wrapper accordion-flush" id="accordionFlushExample">
-              <div className="accordion-item">
-                <h2 className="accordion-header" id="flush-headingOne">
-                  <button className="accordion-custom-btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                    Customize chat
-                  </button>
-                </h2>
-                <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                  <div className="accordion-body">
-                    <div className="search-chat">
-                      <i className="fa-solid fa-magnifying-glass"></i>
-                      <span>Search in conversation</span>
+              {chatAdditionalInfo.map((item, index) => (
+                <div className="accordion-item" key={index}>
+                  <h2 className="accordion-header" id="flush-headingOne">
+                    <button className="accordion-custom-btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={`#${item.id}`} aria-expanded="false" aria-controls={item.id}>
+                      {item.title}
+                    </button>
+                  </h2>
+                  <div id={item.id} className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <div className="accordion-body">
+                      {item && item.accordion.map((childItem, i) => (
+                        <div className="chat-feature d-flex justify-content-start align-items-center mt-2" key={i}>
+                          <div className="chat-feature__icon d-flex justify-content-center align-items-center me-1">
+                            {childItem.icon}
+                          </div>
+                          <span>{childItem.feature}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="accordion-item">
-                <h2 className="accordion-header" id="flush-headingTwo">
-                  <button className="accordion-custom-btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                    Media, files and links
-                  </button>
-                </h2>
-                <div id="flush-collapseTwo" className="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                  <div className="accordion-body">
-                    <div className="mediafile-items">
-                      <div className="media-conversation">
-                        <div className="custom-icon">
-                          <i className="fa-solid fa-images"></i>
-                        </div>
-                        <span>Media</span>
-                      </div>
-                      <div className="files-conversation">
-                        <div className="custom-icon">
-                          <i className="fa-solid fa-file-lines"></i> 
-                        </div>
-                        <span>Files</span>
-                      </div>
-                      <div className="links-conversation">
-                        <div className="custom-icon">
-                          <i className="fa-solid fa-link"></i>
-                        </div>
-                        <span>Links</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="accordion-item">
-                <h2 className="accordion-header" id="flush-headingThree">
-                  <button className="accordion-custom-btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                    Privacy & support
-                  </button>
-                </h2>
-                <div id="flush-collapseThree" className="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                  <div className="accordion-body">
-                    <div className="support-items">
-                      <div className="mute-noti">
-                        <div className="custom-icon">
-                          <i className="fa-solid fa-bell"></i> 
-                        </div>
-                        <span>Mute notifications</span>
-                      </div>
-                      <div className="block-friend">
-                        <div className="custom-icon">
-                          <i className="fa-solid fa-user-lock"></i>
-                        </div>
-                        <span>Block</span>
-                      </div>
-                      <div className="report-system">
-                        <div className="custom-icon">
-                          <i className="fa-solid fa-triangle-exclamation"></i> 
-                        </div>
-                        <span>Report</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

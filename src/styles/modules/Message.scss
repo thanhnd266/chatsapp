@@ -20,8 +20,15 @@
             border-radius: 20px;
             background-color: #ffffffe6;
             color: black;
-            max-width: 300px;
+            max-width: 100%;
             margin: 0;
+            word-wrap: break-word;
+            overflow: hidden;
+
+            .messageText_area {
+                width: 100%;
+                overflow: hidden;
+            }
         }
     }
     
@@ -38,14 +45,23 @@
 
     .messageTop {
         flex-direction: row-reverse;
+        width: 80%;
 
         .messageImg {
             margin: 0 0 0 10px;
         }
 
         .messageText {
+            display: block;
             background-color: #1877f2;
             color: #fff;
+            word-wrap: break-word;
+            overflow: hidden;
+
+            .messageText_area {
+                width: 100%;
+                overflow: hidden;
+            }
         }
 
     }

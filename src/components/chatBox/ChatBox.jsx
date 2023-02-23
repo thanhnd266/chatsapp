@@ -6,7 +6,17 @@ import Message from '../message/Message';
 import axiosClient from '../../config/axios';
 import Loading from '../loading/Loading';
 
-const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, socket, currentOnliner, currentReceiver }) => {
+const ChatBox = ({ 
+    loading, 
+    currentUser, 
+    currentChat, 
+    messages, 
+    setMessages, 
+    socket, 
+    currentOnliner, 
+    currentReceiver, 
+    chatAdditionalRef,
+}) => {
   const [openEmoji, setOpenEmoji] = useState(false);
   const emojiEl = useRef();
   const iconEl = useRef();
@@ -64,9 +74,9 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
 
       if(payload.text === '') return inputEl.current.innerHTML = '';
 
-      const receiverId = currentChat.members.find(member => member !== currentUser._id);
-      const isOnlineReceiver = currentOnliner.some(onliner => onliner.userId === receiverId);
+      const receiver = currentChat.members.find(member => member._id !== currentUser._id);
 
+      const isOnlineReceiver = currentOnliner.some(onliner => onliner.userId === receiver._id);
       
       try {
         
@@ -78,7 +88,7 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
           if (isOnlineReceiver) {
             socket.current.emit("sendMessage", {
               ...res.data[res.data.length - 1],
-              receiverId,
+              receiverId: receiver._id,
             })
           }
   
@@ -90,6 +100,14 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
       } catch (err) {
         console.log(err);
 
+      }
+    }
+
+    const handleToggleChatInfo = () => {
+      if(chatAdditionalRef.current.style.display === "block") {
+        chatAdditionalRef.current.style.display = "none";
+      } else {
+        chatAdditionalRef.current.style.display = "block";
       }
     }
 
@@ -125,7 +143,7 @@ const ChatBox = ({ loading, currentUser, currentChat, messages, setMessages, soc
                     <span><i className="fa-solid fa-video"></i></span>
                   </div>
 
-                  <div className="chat-feature-info">
+                  <div className="chat-feature-info" onClick={() => handleToggleChatInfo()}>
                     <span><i className="fa-solid fa-circle-info"></i></span>
                   </div>
                 </div>
