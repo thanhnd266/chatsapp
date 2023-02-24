@@ -76,7 +76,7 @@ const ChatBox = ({
 
       const receiver = currentChat.members.find(member => member._id !== currentUser._id);
 
-      const isOnlineReceiver = currentOnliner.some(onliner => onliner.userId === receiver._id);
+      const isOnlineReceiver = currentOnliner.some(onliner => onliner._id === receiver._id);
       
       try {
         
@@ -104,7 +104,7 @@ const ChatBox = ({
     }
 
     const handleToggleChatInfo = () => {
-      if(chatAdditionalRef.current.style.display === "block") {
+      if(chatAdditionalRef.current.style.display !== "none") {
         chatAdditionalRef.current.style.display = "none";
       } else {
         chatAdditionalRef.current.style.display = "block";

@@ -5,19 +5,26 @@ import { useSelector } from "react-redux";
 const Conversation = ({
     conversationDB,
     currentChat,
-    currentMessages, 
+    currentMessages,
+    setCurrentChat,
     waitingMessage, 
     setWaitingMessage,
     currentUser, 
     currentReceiver,
-    handleChangeConv
+    handleChangeConv,
+    currentOnliner,
 }) => {
 
   let conversations = useSelector(state => state.listConversation.data);
 
   return (
       <div>
-        <Search conversationDB={conversationDB} />
+        <Search 
+          conversationDB={conversationDB} 
+          currentOnliner={currentOnliner} 
+          currentUser={currentUser}
+          setCurrentChat={setCurrentChat}
+        />
 
         {conversations && conversations.map((conv, index) => {
           return (
@@ -34,6 +41,12 @@ const Conversation = ({
             </div>
           )
         })}
+
+        {conversations && conversations.length === 0 && (
+          <div className="no-conversation">
+            <h2>No Conversation Match</h2>
+          </div>
+        )}
       </div>
   );
 }

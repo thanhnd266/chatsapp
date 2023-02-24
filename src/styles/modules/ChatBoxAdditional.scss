@@ -1,6 +1,7 @@
 .chatbox-additionalInfo {
     color: #001529;
     min-width: 240px;
+    display: block;
 
     @media screen and (max-width: 1300px) {
         max-width: 240px;
@@ -96,7 +97,7 @@
 
             .receiver-info-text {
                 margin-left: 12px;
-                width: 100%;
+                width: 164px;
                 display: inline-block;
                 white-space: nowrap;
                 overflow: hidden;

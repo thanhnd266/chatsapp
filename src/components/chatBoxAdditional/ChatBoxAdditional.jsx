@@ -1,3 +1,4 @@
+import { Tooltip } from 'antd';
 import { chatAdditionalInfo } from '../../contants/messenger';
 
 const ChatBoxAdditional = ({ currentReceiver }) => {
@@ -28,12 +29,20 @@ const ChatBoxAdditional = ({ currentReceiver }) => {
 
             <div className="receiver-email">
               <span className="receiver-info-icon"><i className="fa-solid fa-envelope"></i></span>
-              <span className="receiver-info-text">{currentReceiver && currentReceiver.email}</span>
+              <span className="receiver-info-text">
+                <Tooltip placement="top" title={currentReceiver && currentReceiver.email}>
+                  {currentReceiver && currentReceiver.email}
+                </Tooltip>
+              </span>
             </div>
 
             <div className="receiver-phone">
               <span className="receiver-info-icon"><i className="fa-solid fa-phone"></i></span>
-              <span className="receiver-info-text">{currentReceiver && (currentReceiver.phone || '+84.932.179.22')}</span>
+              <span className="receiver-info-text">
+                <Tooltip placement="bottom" title={currentReceiver && (currentReceiver.phone || '+84.932.179.22')}>
+                  {currentReceiver && (currentReceiver.phone || '+84.932.179.22')}
+                </Tooltip>
+              </span>
             </div>
           </div>
 

@@ -124,7 +124,7 @@ const Messenger = () => {
   }, [arrivalMessage, currentChat])
 
   useEffect(() => {
-    socket.current.emit("addUser", user._id);
+    socket.current.emit("addUser", user);
     socket.current.on("getUsers", (users) => {
       setCurrentOnliner([...users]);
     })
@@ -164,11 +164,13 @@ const Messenger = () => {
           conversationDB={conversations}
           currentChat={currentChat}
           currentMessages={messages}
+          setCurrentChat={setCurrentChat}
           waitingMessage={waitingMessage}
           setWaitingMessage={setWaitingMessage}
           currentUser={currentUser} 
           currentReceiver={currentReceiver}
           handleChangeConv={handleChangeConv}
+          currentOnliner={currentOnliner}
         />
       </div>
 

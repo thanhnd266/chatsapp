@@ -1,7 +1,8 @@
 .messenger-wrapper {
     display: flex;
     justify-content: space-between;
-    height: 90vh;
+    height: 86vh;
+    margin-top: 20px;
 
     .conversations-container {
         overflow-y: scroll;
