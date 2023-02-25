@@ -1,20 +1,86 @@
 import { Modal } from "antd";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import axiosClient from "../../../config/axios";
+import { addNewConversation } from "../../../redux/reducer/conversationSlice";
 
-const ModalCreateChat = ({ onSelectConv, open, setOpen, currentOnliner, currentUser }) => {
-  const [infoUserOnliner, setInfoUserOnliner] = useState([]);
+const ModalCreateChat = ({
+  open, 
+  setOpen, 
+  currentOnliner, 
+  currentUser, 
+  setCurrentChat, 
+  listUser }) => {
+
+  const [listUserChat, setListUserChat] = useState([]);
+
+  const dispatch = useDispatch();
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setOpen(false);
   };
 
   useEffect(() => {
-    setInfoUserOnliner(prev => {
-        const listUserOnline = currentOnliner?.filter(onliner => onliner._id !== currentUser._id)
-        return prev = [...listUserOnline]
-    });
-  }, [currentOnliner, currentUser._id])
+    let arrOnliner = [];
+    let arrOffliner = [];
+
+    listUser?.forEach(user => {
+      if(user._id === currentUser._id) {
+        return;
+      }
+
+      if(currentOnliner.length > 1) {
+        currentOnliner.forEach(onliner => {
+          if(onliner._id === currentUser._id) {
+            return;
+          }
+
+          if(onliner._id === user._id) {
+            return arrOnliner.push({
+              ...user,
+              isOnline: true,
+            })
+          } else {
+            return arrOffliner.push({
+              ...user,
+              isOnline: false,
+            })
+          }
+        })
+      } else {
+        return arrOffliner.push({
+          ...user,
+          isOnline: false,
+        })
+      }
+    })
+
+    setListUserChat([...arrOnliner, ...arrOffliner]);
+  }, [currentOnliner, listUser, currentUser])
+
+  const handleSelectConv = async (e, receiverId) => {
+    e.preventDefault();
+    
+    try {
+      const res = await axiosClient.get(`/conversation/get-one/${receiverId}/${currentUser._id}`);
+      if(res.status_code === 200) {
+        if(res.data) {
+          setOpen(false);
+          setCurrentChat(res.data)
+        } else {
+          const res = await axiosClient.post("/conversation/create", {
+            senderId: currentUser._id,
+            receiverId,
+          })
+          setOpen(false);
+          setCurrentChat(res.data);
+          dispatch(addNewConversation(res.data))
+        }
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  }
 
   return (
     <Modal
@@ -41,30 +107,26 @@ const ModalCreateChat = ({ onSelectConv, open, setOpen, currentOnliner, currentU
         </div>
 
         <div className="modal-list">
-          {infoUserOnliner &&
-            infoUserOnliner.map((onliner, index) => {
+          {listUserChat &&
+            listUserChat.map((user, index) => {
               return (
-                <div className="modal-list__item" key={index} onClick={(e) => onSelectConv(e)}>
+                <div className="modal-list__item" key={index} onClick={(e) => handleSelectConv(e, user._id)}>
                   <div className="modal-list__item__img">
-                    <img src={onliner.profilePicture} alt="avatar" />
+                    <img src={user.profilePicture} alt="avatar" />
 
-                    <span className="item-img__status">
+                    {user.isOnline && (
+                      <span className="item-img__status">
                         <i className="fa-solid fa-circle"></i>
-                    </span>
+                      </span>
+                    )}
                   </div>
 
                   <div className="modal-list__item__info">
-                    <span>{onliner.username}</span>
+                    <span>{user.username}</span>
                   </div>
                 </div>
               );
             })}
-
-            {infoUserOnliner && infoUserOnliner.length === 0 && (
-                <div className="w-100 h-100 d-flex justify-content-center align-items-center">
-                    <span>No users online</span>
-                </div>
-            )}
         </div>
       </div>
     </Modal>

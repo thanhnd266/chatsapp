@@ -1,10 +1,12 @@
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import axiosClient from "../../config/axios";
 import { setConversation } from "../../redux/reducer/conversationSlice";
 import ModalCreateChat from "./ModalCreateChat";
 
 const Search = ({ conversationDB, currentOnliner, currentUser, setCurrentChat }) => {
   const [open, setOpen] = useState(false);
+  const [listUser, setListUser] = useState([]);
 
   const inputRef = useRef();
   const dispatch = useDispatch();
@@ -28,14 +30,18 @@ const Search = ({ conversationDB, currentOnliner, currentUser, setCurrentChat })
     dispatch(setConversation([...newConv]));
   };
 
-  const showModal = () => {
-    setOpen(true);
-  };
+  const showModal = async () => {
+    try {
+      const res = await axiosClient.get("/user/get-list");
+      if(res.status_code === 200) {
+        setListUser(res.data);
+        setOpen(true);
 
-  const handleSelectConv = (e) => {
-    e.preventDefault();
-    
-  }
+      }
+    } catch(err) { 
+      console.log(err);
+    }
+  };
 
   return (
     <div className="search-wrapper">
@@ -49,7 +55,14 @@ const Search = ({ conversationDB, currentOnliner, currentUser, setCurrentChat })
             </span>
           </button>
 
-          <ModalCreateChat onSelectConv={handleSelectConv} open={open} setOpen={setOpen} currentOnliner={currentOnliner} currentUser={currentUser} />
+          {open && <ModalCreateChat
+            open={open} 
+            setOpen={setOpen}
+            currentOnliner={currentOnliner}
+            currentUser={currentUser}
+            setCurrentChat={setCurrentChat}
+            listUser={listUser}
+          />}
         </div>
       </div>
       <div className="search-element">

@@ -57,7 +57,7 @@ const Messenger = () => {
   useEffect(() => {
     if(currentChat) {
       const receiverUser = currentChat.members.find((member) => member._id !== currentUser._id);
-
+      
       const getReceiver = async () => {
         try {
           const res = await axiosClient.get(`/user/${receiverUser._id}`);

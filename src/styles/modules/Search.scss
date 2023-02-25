@@ -189,6 +189,12 @@
                                 color: rgb(118, 235, 8);
                             }
                         }
+
+                        .item-img__status-offline {
+                            i {
+                                color: grey;
+                            }
+                        }
                     }
 
                     .modal-list__item__info {
