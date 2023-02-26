@@ -1,7 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import axiosClient from '../../config/axios';
-import Cookies from 'js-cookie';
 import { SyncOutlined } from '@ant-design/icons';
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -42,15 +41,10 @@ const Register = () => {
                 password,
             }));
 
-            localStorage.setItem("userData", JSON.stringify(response.data));
-
-            Cookies.set('access_token', response.data.access_token);
-            Cookies.set('refresh_token', response.data.refresh_token);
-
             if(response.status_code === 200) {
                 setTimeout(() => {
                     setIsLoading(false);
-                    navigate('/');
+                    navigate('/login');
                 }, 2000)
             }
 

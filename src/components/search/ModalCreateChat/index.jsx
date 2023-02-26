@@ -1,5 +1,5 @@
 import { Modal } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import axiosClient from "../../../config/axios";
 import { addNewConversation } from "../../../redux/reducer/conversationSlice";
@@ -16,6 +16,8 @@ const ModalCreateChat = ({
 
   const dispatch = useDispatch();
 
+  const searchTermRef = useRef();
+
   const handleCancel = () => {
     setOpen(false);
   };
@@ -24,36 +26,47 @@ const ModalCreateChat = ({
     let arrOnliner = [];
     let arrOffliner = [];
 
-    listUser?.forEach(user => {
-      if(user._id === currentUser._id) {
-        return;
+    for(let i = 0; i < listUser.length; i++) {
+      if(listUser[i]._id === currentUser._id) {
+        continue;
       }
 
       if(currentOnliner.length > 1) {
-        currentOnliner.forEach(onliner => {
-          if(onliner._id === currentUser._id) {
-            return;
-          }
 
-          if(onliner._id === user._id) {
-            return arrOnliner.push({
-              ...user,
+        let isUserOnline = false;
+
+        for(let j = 0; j < currentOnliner.length; j++) {
+          if(currentOnliner[j]._id === currentUser._id) {
+            continue;
+          };
+
+          if(currentOnliner[j]._id === listUser[i]._id) {
+            isUserOnline = true;
+            arrOnliner.push({
+              ...listUser[i],
               isOnline: true,
             })
-          } else {
-            return arrOffliner.push({
-              ...user,
-              isOnline: false,
-            })
+            break;
           }
-        })
+        }
+
+        if(isUserOnline === false) {
+          arrOffliner.push({
+            ...listUser[i],
+            isOnline: false,
+          })
+
+          continue;
+        }
+
       } else {
-        return arrOffliner.push({
-          ...user,
+        arrOffliner.push({
+          ...listUser[i],
           isOnline: false,
         })
+        continue;
       }
-    })
+    }
 
     setListUserChat([...arrOnliner, ...arrOffliner]);
   }, [currentOnliner, listUser, currentUser])
@@ -82,6 +95,14 @@ const ModalCreateChat = ({
     }
   }
 
+  const handleSearchUser = (e) => {
+    // listUserChat.forEach(user => {
+    //   if(user.username.includes(e.target.value)) {
+
+    //   }
+    // })
+  }
+
   return (
     <Modal
       title="Create Chatbox"
@@ -98,6 +119,8 @@ const ModalCreateChat = ({
               id="search-input"
               placeholder="Search..."
               type="text"
+              ref={searchTermRef}
+              onChange={(e) => handleSearchUser(e)}
             />
           </div>
 
