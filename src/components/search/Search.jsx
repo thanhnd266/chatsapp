@@ -4,7 +4,7 @@ import axiosClient from "../../config/axios";
 import { setConversation } from "../../redux/reducer/conversationSlice";
 import ModalCreateChat from "./ModalCreateChat";
 
-const Search = ({ conversationDB, currentOnliner, currentUser, setCurrentChat }) => {
+const SearchConv = ({ conversationDB, currentOnliner, currentUser, setCurrentChat }) => {
   const [open, setOpen] = useState(false);
   const [listUser, setListUser] = useState([]);
 
@@ -49,11 +49,13 @@ const Search = ({ conversationDB, currentOnliner, currentUser, setCurrentChat })
         <h3>Chats</h3>
 
         <div className="btn-new-message">
-          <button onClick={showModal}>
-            <span>
-              <i className="fa-solid fa-pen-to-square"></i>
-            </span>
-          </button>
+          <div>
+            <button onClick={showModal}>
+              <span>
+                <i className="fa-solid fa-pen-to-square"></i>
+              </span>
+            </button>
+          </div>
 
           {open && <ModalCreateChat
             open={open} 
@@ -63,6 +65,27 @@ const Search = ({ conversationDB, currentOnliner, currentUser, setCurrentChat })
             setCurrentChat={setCurrentChat}
             listUser={listUser}
           />}
+
+          <div className="list-user__online">
+            {currentOnliner && currentOnliner.map((item, index) => {
+
+              if(item._id === currentUser._id) {
+                return (
+                  <div key={index}></div>
+                );
+              }
+
+              return (
+                <div className="onliner-item" key={index}>
+                  <img src={item.profilePicture} alt="avatar" />
+  
+                  <span className="item-image__status">
+                    <i className="fa-solid fa-circle"></i>
+                  </span>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
       <div className="search-element">
@@ -86,4 +109,4 @@ const Search = ({ conversationDB, currentOnliner, currentUser, setCurrentChat })
   );
 };
 
-export default Search;
+export default SearchConv;

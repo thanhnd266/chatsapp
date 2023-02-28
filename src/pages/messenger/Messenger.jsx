@@ -9,9 +9,11 @@ import axiosClient from '../../config/axios';
 import { useDispatch } from 'react-redux';
 import { setConversation } from '../../redux/reducer/conversationSlice';
 import Conversation from '../../components/Conversation';
+import { Drawer } from 'antd';
 
 const Messenger = () => {
   const [loading, setLoading] = useState(false);
+  const [openChatBox, setOpenChatBox] = useState(false);
   const [conversations, setConversations] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [currentReceiver, setCurrentReceiver] = useState({});
@@ -21,8 +23,6 @@ const Messenger = () => {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [waitingMessage, setWaitingMessage] = useState(null);
   const [isOpenChatInfo, setIsOpenChatInfo] = useState(true);
-
-  const chatAdditionalRef = useRef();
 
   const navigate = useNavigate();
   const socket = useRef();
@@ -155,7 +155,12 @@ const Messenger = () => {
     e.preventDefault();
     setCurrentChat(conversation);
     setArrivalMessage(null);
+    setOpenChatBox(true);
   }
+
+  const onCloseDrawerChatbox = () => {
+    setOpenChatBox(false);
+  };
 
   return (
     <div className="messenger-wrapper">
@@ -174,6 +179,29 @@ const Messenger = () => {
         />
       </div>
 
+      <div className="messages-container__drawer">
+        <Drawer
+          placement="right"
+          open={openChatBox}
+          getContainer={false}
+          closable={false}
+          push={{ distance: 0 }}
+        >
+          <ChatBox
+            loading={loading}
+            currentUser={currentUser} 
+            currentChat={currentChat}
+            messages={messages}
+            setMessages={setMessages}
+            socket={socket}
+            currentOnliner={currentOnliner}
+            currentReceiver={currentReceiver}
+            setIsOpenChatInfo={setIsOpenChatInfo}
+            onCloseDrawerChatbox={onCloseDrawerChatbox}
+          />
+        </Drawer>
+      </div>
+
       <div className="messages-container">
         <ChatBox
           loading={loading}
@@ -185,12 +213,11 @@ const Messenger = () => {
           currentOnliner={currentOnliner}
           currentReceiver={currentReceiver}
           setIsOpenChatInfo={setIsOpenChatInfo}
-          chatAdditionalRef={chatAdditionalRef}
         />
       </div>
 
       {isOpenChatInfo && (
-        <div className="additionalInfo-container" ref={chatAdditionalRef}>
+        <div className="additionalInfo-container">
           <ChatBoxAdditional
             currentChat={currentChat}
             currentUser={currentUser} 

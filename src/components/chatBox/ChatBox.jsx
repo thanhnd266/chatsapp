@@ -5,6 +5,8 @@ import { SendOutlined } from '@ant-design/icons';
 import Message from '../message/Message';
 import axiosClient from '../../config/axios';
 import Loading from '../loading/Loading';
+import { Drawer } from 'antd';
+import ChatBoxAdditionalMobile from '../ChatBoxAdditionalMobile';
 
 const ChatBox = ({ 
     loading, 
@@ -15,8 +17,10 @@ const ChatBox = ({
     socket, 
     currentOnliner, 
     currentReceiver, 
-    chatAdditionalRef,
+    setIsOpenChatInfo,
+    onCloseDrawerChatbox
 }) => {
+  const [openDrawer, setOpenDrawer] = useState(false);
   const [openEmoji, setOpenEmoji] = useState(false);
   const emojiEl = useRef();
   const iconEl = useRef();
@@ -41,7 +45,8 @@ const ChatBox = ({
     }, [openEmoji, inputEl.innerHTML])
   
     useEffect(() => {
-      scrollRef.current?.scrollIntoView({behavior: "smooth"});
+      scrollRef.current.scrollIntoView({behavior: "smooth"});
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }, [messages])
     
     
@@ -103,105 +108,140 @@ const ChatBox = ({
       }
     }
 
-    const handleToggleChatInfo = () => {
-      if(chatAdditionalRef.current.style.display !== "none") {
-        chatAdditionalRef.current.style.display = "none";
-      } else {
-        chatAdditionalRef.current.style.display = "block";
-      }
-    }
+    const showDrawer = () => {
+      setOpenDrawer(true);
+    };
+    const onClose = () => {
+      setOpenDrawer(false);
+    };
 
     return (
         <div className="chatBox">
           { loading && <Loading />}
           { !loading && 
               <div className="chatBoxWrapper">
-              <div className="chatBoxNavbar">
-                <div className="receiver-info">
-                  <div className="receiver-info__img">
-                    <img src={currentReceiver && currentReceiver.profilePicture} alt="avatar" />
+                <div className="chatBoxNavbar">
+                  <div className="receiver-info">
+                    <div className="receiver-info__img">
+                      <img src={currentReceiver && currentReceiver.profilePicture} alt="avatar" />
 
-                    <span className="receiver-info-user__status">
-                      <i className="fa-solid fa-circle"></i>
-                    </span>
-                  </div>
-                  <div>
-                    <div className="receiver-info-name">{ currentReceiver && currentReceiver.username }</div>
-                    <div className="receiver-info-status">
-                      <span>
-                        Online
+                      <span className="receiver-info-user__status">
+                        <i className="fa-solid fa-circle"></i>
                       </span>
                     </div>
-                  </div>
-                </div>
-                <div className="chat-feature">
-                  <div className="chat-feature-call">
-                    <span><i className="fa-solid fa-phone"></i></span>
-                  </div>
-
-                  <div className="chat-feature-video">
-                    <span><i className="fa-solid fa-video"></i></span>
-                  </div>
-
-                  <div className="chat-feature-info" onClick={() => handleToggleChatInfo()}>
-                    <span><i className="fa-solid fa-circle-info"></i></span>
-                  </div>
-                </div>
-              </div>
-              <div className="chatBoxTop">
-                {messages && messages.map((mess, index) => {
-                  return (
-                    <div ref={scrollRef} key={index}>
-                      <Message 
-                        currentUser={currentUser} 
-                        receiverUser={currentReceiver} 
-                        own={mess.senderId === currentUser._id} 
-                        key={index} 
-                        message={mess}
-                      />
+                    <div>
+                      <div className="receiver-info-name">{ currentReceiver && currentReceiver.username }</div>
+                      <div className="receiver-info-status">
+                        <span>
+                          Online
+                        </span>
+                      </div>
                     </div>
-                  )
-                })}
-              </div>
-              <div className="chatBoxBottom">
-                <div className="ultilities">
-                  <span><i className="fa-solid fa-circle-plus"></i></span>
+                  </div>
+
+                  <div className="receiver-info__mobile">
+                    <div className="btn-back-conv" onClick={() => onCloseDrawerChatbox()}>
+                      <span><i className="fa-solid fa-chevron-left"></i></span>
+                    </div>
+                    <div className="receiver-info__img" onClick={showDrawer}>
+                      <img src={currentReceiver && currentReceiver.profilePicture} alt="avatar" />
+
+                      <span className="receiver-info-user__status">
+                        <i className="fa-solid fa-circle"></i>
+                      </span>
+                    </div>
+                    <div>
+                      <div className="receiver-info-name" onClick={showDrawer}>{ currentReceiver && currentReceiver.username }</div>
+                      <div className="receiver-info-status">
+                        <span>
+                          Online
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="chat-feature">
+                    <div className="chat-feature-call">
+                      <span><i className="fa-solid fa-phone"></i></span>
+                    </div>
+
+                    <div className="chat-feature-video">
+                      <span><i className="fa-solid fa-video"></i></span>
+                    </div>
+
+                    <div className="chat-feature-info" onClick={() => setIsOpenChatInfo(prev => !prev)}>
+                      <span><i className="fa-solid fa-circle-info"></i></span>
+                    </div>
+                  </div>
                 </div>
-                <div className="upload-img">
-                  <span><i className="fa-solid fa-image"></i></span>
+                <div ref={scrollRef} className="chatBoxTop">
+                  {messages && messages.map((mess, index) => {
+                    return (
+                      <div className="chatbox-messages" key={index}>
+                        <Message 
+                          currentUser={currentUser} 
+                          receiverUser={currentReceiver} 
+                          own={mess.senderId === currentUser._id} 
+                          key={index} 
+                          message={mess}
+                        />
+                      </div>
+                    )
+                  })}
                 </div>
-                <div className="chatBoxInput">
-                  <div
-                    onKeyUp={adjustHeight}
-                    onKeyDown={e => e.keyCode === 13 ? handleSubmitMessage(e) : ''}
-                    className="chatMessageInput"
-                    contentEditable="true"
-                    suppressContentEditableWarning={true}
-                    data-placeholder="Aa"
-                    ref={inputEl}
+                <div className="chatBoxBottom">
+                  <div className="ultilities">
+                    <span><i className="fa-solid fa-circle-plus"></i></span>
+                  </div>
+                  <div className="upload-img">
+                    <span><i className="fa-solid fa-image"></i></span>
+                  </div>
+                  <div className="chatBoxInput">
+                    <div
+                      onKeyUp={adjustHeight}
+                      onKeyDown={e => e.keyCode === 13 ? handleSubmitMessage(e) : ''}
+                      className="chatMessageInput"
+                      contentEditable="true"
+                      suppressContentEditableWarning={true}
+                      data-placeholder="Aa"
+                      ref={inputEl}
+                    >
+                    </div>
+                      <div className="emoji">
+                        {
+                          openEmoji 
+                            ? <span onClick={handleOpenEmoji} ref={emojiEl}><i ref={iconEl} className="fa-solid fa-face-smile"></i></span> 
+                            : <span onClick={handleOpenEmoji} ref={emojiEl}><i ref={iconEl} className="fa-regular fa-face-smile"></i></span>
+                        }
+
+                        { openEmoji && 
+                            <div className="bundle-emoji">
+                              <emoji-picker ref={bundleEmoji}></emoji-picker>
+                            </div>
+                        }
+                      </div>
+                  </div>
+                  <button 
+                    className="chatSubmitButton" 
+                    onClick={(e) => handleSubmitMessage(e)}
                   >
-                  </div>
-                    <div className="emoji">
-                      {
-                        openEmoji 
-                          ? <span onClick={handleOpenEmoji} ref={emojiEl}><i ref={iconEl} className="fa-solid fa-face-smile"></i></span> 
-                          : <span onClick={handleOpenEmoji} ref={emojiEl}><i ref={iconEl} className="fa-regular fa-face-smile"></i></span>
-                      }
-
-                      { openEmoji && 
-                          <div className="bundle-emoji">
-                            <emoji-picker ref={bundleEmoji}></emoji-picker>
-                          </div>
-                      }
-                    </div>
+                    <span><SendOutlined /></span>
+                  </button>
                 </div>
-                <button 
-                  className="chatSubmitButton" 
-                  onClick={(e) => handleSubmitMessage(e)}
-                >
-                  <span><SendOutlined /></span>
-                </button>
-              </div>
+
+                {openDrawer && (
+                  <div className="chatbox-drawer">
+                    <Drawer
+                      placement="right"
+                      closable={false}
+                      onClose={onClose}
+                      open={openDrawer}
+                      getContainer={false}
+                      push={true}
+                    >
+                      <ChatBoxAdditionalMobile onClose={onClose} currentReceiver={currentReceiver} />
+                    </Drawer>
+                </div>
+                )}
             </div>
           }
       </div>

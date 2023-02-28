@@ -13,7 +13,8 @@ const ModalCreateChat = ({
   listUser }) => {
 
   const [listUserChat, setListUserChat] = useState([]);
-
+  const [listUserSearch, setListUserSearch] = useState([]);
+    
   const dispatch = useDispatch();
 
   const searchTermRef = useRef();
@@ -67,8 +68,15 @@ const ModalCreateChat = ({
         continue;
       }
     }
-
     setListUserChat([...arrOnliner, ...arrOffliner]);
+
+    if(!searchTermRef.current.value) {
+      setListUserSearch([...arrOnliner, ...arrOffliner]);
+    } else {
+      const sortArr = [...arrOnliner, ...arrOffliner].filter(user => user.username.includes(searchTermRef.current.value));
+      setListUserSearch(sortArr);
+    }
+  
   }, [currentOnliner, listUser, currentUser])
 
   const handleSelectConv = async (e, receiverId) => {
@@ -96,11 +104,19 @@ const ModalCreateChat = ({
   }
 
   const handleSearchUser = (e) => {
-    // listUserChat.forEach(user => {
-    //   if(user.username.includes(e.target.value)) {
+    let newArr = [];
 
-    //   }
-    // })
+    if(!e || e.target.value === "") {
+      return setListUserSearch(listUserChat);
+    }
+
+    listUserChat?.forEach(user => {
+      if(user.username.includes(e.target.value)) {
+        newArr.push(user)
+      }
+    })
+
+    setListUserSearch(newArr);
   }
 
   return (
@@ -130,8 +146,8 @@ const ModalCreateChat = ({
         </div>
 
         <div className="modal-list">
-          {listUserChat &&
-            listUserChat.map((user, index) => {
+          {listUserSearch &&
+            listUserSearch.map((user, index) => {
               return (
                 <div className="modal-list__item" key={index} onClick={(e) => handleSelectConv(e, user._id)}>
                   <div className="modal-list__item__img">

@@ -7,7 +7,7 @@ const ChatBoxAdditional = ({ currentReceiver }) => {
         <div className="chatbox-additionalInfo">
           <div className="receiver-mainInfo">
             <div className="receiver-img">
-              <img 
+              <img
                 src={currentReceiver && currentReceiver.profilePicture}
                 alt="avatar" 
               />

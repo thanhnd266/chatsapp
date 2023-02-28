@@ -20,3 +20,15 @@ code {
     margin: 10px 20px !important;
   }
 }
+
+.ant-layout-sider {
+  @media screen and (max-width: 575px) {
+    display: none;
+  }
+}
+
+.ant-drawer-right {
+  .ant-drawer-content-wrapper {
+      width: 290px !important;
+  }
+}

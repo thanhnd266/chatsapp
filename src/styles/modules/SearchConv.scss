@@ -31,6 +31,10 @@
         @media screen and (max-width: 992px) {
             display: none;
         }
+        @media screen and (max-width: 575px) {
+            display: flex;
+            margin-top: 16px;
+        }
 
         .search-btn {
             border: none;
@@ -60,11 +64,21 @@
                 border-bottom-right-radius: 10px;
                 border-top-right-radius: 10px;
                 background-color: #cfcfcf91;
-            } 
+            }
+
+            @media screen and (max-width: 575px) {
+                margin-right: 0;
+            }
         }
     }
 
     .btn-new-message {
+        @media screen and (max-width: 575px) {
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
         button {
             padding: 4px 8px;
             background-color: #dedee0;
@@ -93,6 +107,43 @@
                     display: block;
                 }
             }
+        }
+
+        .list-user__online {
+            display: flex;
+            overflow-x: scroll;
+            margin-left: 4px;
+
+            .onliner-item {
+                margin-left: 16px;
+                position: relative;
+                cursor: pointer;
+
+                img {
+                    width: 50px;
+                    height: 50px;
+                    object-fit: cover;
+                    border-radius: 100%;
+                }
+
+                .item-image__status {
+                    position: absolute;
+                    bottom: -4px;
+                    right: -4px;
+                    
+                    i {
+                        border-radius: 100%;
+                        border: 3px solid #fff;
+                        font-size: 12px;
+                        margin-right: 2px;
+                        color: rgb(118, 235, 8);
+                    }
+                }
+            }
+        }
+
+        .list-user__online::-webkit-scrollbar {
+            display: none;
         }
     }
 }

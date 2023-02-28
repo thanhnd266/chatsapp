@@ -17,11 +17,12 @@
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
 
-      .receiver-info {
+      .receiver-info, .receiver-info__mobile {
         padding-left: 4px;
         display: flex;
         align-items: center;
         color: #fff;
+        cursor: pointer;
         
         .receiver-info__img {
           position: relative;
@@ -47,8 +48,6 @@
           }
         }
 
-
-
         .receiver-info-name {
           font-size: 16px;
           font-weight: 600;
@@ -59,6 +58,39 @@
           color: #fff;
           margin-left: 16px;
           font-size: 12px;
+        }
+      }
+
+      .receiver-info {
+        display: flex;
+
+        @media screen and (max-width: 992px) {
+          display: none;
+        }
+      }
+
+      .receiver-info__mobile {
+        display: none;
+        padding: 0;
+
+        .btn-back-conv {
+          color: #fff;
+          font-size: 18px;
+          padding: 4px 10px;
+          margin-right: 8px;
+          border-radius: 100%;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+
+          &:hover {
+            background-color: #fd7f65;
+          }
+        }
+
+        @media screen and (max-width: 992px) {
+          display: flex;
         }
       }
 
@@ -89,13 +121,22 @@
         .chat-feature-video {
           margin: 0 10px;
         }
+
+        .chat-feature-info {
+          @media screen and (max-width: 992px) {
+            display: none;
+          }
+        }
       }
     }
 
     .chatBoxTop {
       height: 100%;
       overflow-y: scroll;
-      padding-right: 10px;
+
+      .chatbox-messages {
+        display: block;
+      }
     }
 
     .chatBoxBottom {
@@ -192,6 +233,46 @@
           margin-left: 2px;
         }
       }
+    }
+
+    .chatbox-drawer {
+      position: absolute;
+      inset: 0 0 0 0;
+      overflow: hidden;
+      text-align: center;
+      height: 100%;
+      width: 100%;
+      display: none;
+
+      @media screen and (max-width: 992px) {
+        display: block;
+      }
+
+      .chatbox-drawer__container {
+        .ant-drawer {
+          .ant-drawer-mask {
+            border-radius: 10px;
+          }
+          .ant-drawer-content-wrapper {
+            height: 100% !important;
+  
+            @media screen and (max-width: 575px) {
+              width: 100% !important;
+            }
+  
+            .ant-drawer-content {
+              border-radius: 10px;
+              padding: 10px 20px;
+  
+              // .ant-drawer-wrapper-body {
+              //   .ant-drawer-body {
+              //   }
+              // }
+            }
+          }
+        }
+      }
+
     }
   }
 

@@ -1,4 +1,4 @@
-import Search from "../search/Search";
+import SearchConv from "../search/Search";
 import ConversationItem from "./ConversationItem";
 import { useSelector } from "react-redux";
 
@@ -18,8 +18,8 @@ const Conversation = ({
   let conversations = useSelector(state => state.listConversation.data);
 
   return (
-      <div>
-        <Search 
+      <div className="conversation-wrapper">
+        <SearchConv 
           conversationDB={conversationDB} 
           currentOnliner={currentOnliner} 
           currentUser={currentUser}

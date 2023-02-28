@@ -1,7 +1,16 @@
 import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Button, Drawer } from 'antd';
+import MenuMobile from '../MenuMobile';
 
 const Navbar = ({ userInfo }) => {
+    const [open, setOpen] = useState(false);
+
     const navigate = useNavigate();
+
+    const showDrawer = () => {
+        setOpen(true);
+    };
 
     const handleLogout = () => {
         window.localStorage.removeItem('userData');
@@ -21,13 +30,20 @@ const Navbar = ({ userInfo }) => {
                     <div className="nav-user-dropdown dropdown btn-group">
                         <div className="nav-user-info" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {userInfo.profilePicture 
-                                ? <img alt="avatar" src={userInfo.profilePicture} />
-                                : <img alt="none-avatar" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" />
+                                ? <img className="dropdown-toggle" alt="avatar" src={userInfo.profilePicture} />
+                                : <img className="dropdown-toggle" alt="none-avatar" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" />
                             }
                             <button type="button" className="btn-user-dropdown btn btn-secondary dropdown-toggle">
                                 {userInfo.username}
                             </button>
                         </div>
+                        
+                        <button type="button" className="btn-mobi__menu btn btn-secondary" onClick={showDrawer}>
+                            <i className="fa-solid fa-bars"></i>
+                        </button>
+
+                        <MenuMobile open={open} setOpen={setOpen} />
+
                         <div className="nav-user-additional dropdown-menu dropdown-menu-end">
                             <button className="dropdown-item" type="button">Profile</button>
                             <button className="dropdown-item" type="button">Help</button>
