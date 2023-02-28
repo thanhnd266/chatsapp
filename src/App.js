@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 //styles
 import './assets/font-awesome/css/all.min.css';
@@ -12,29 +12,27 @@ import Messenger from "./pages/messenger/Messenger.jsx";
 import User from "./pages/user/User.jsx";
 import Team from "./pages/team/Team.jsx";
 import Files from "./pages/files/Files.jsx";
+import DashLayout from "./components/DashLayout";
+import Layout from "./components/Layout";
 
 const App = () => {
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route path="/messenger" element={<Messenger />} />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          
+          <Route element={<DashLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route index path="messenger" element={<Messenger />} />
             <Route path="/user" element={<User />} />
             <Route path="/team" element={<Team />} />
             <Route path="/files" element={<Files />} />
           </Route>
-        </Routes>
-        
-        <Routes>
-          <Route path="/login" element={<Login />} />
-        </Routes>
 
-        <Routes>
-          <Route path="/register" element={<Register />} />
-        </Routes>
-
-      </Router>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+        </Route>
+      </Routes>
     </div>
   );
 };

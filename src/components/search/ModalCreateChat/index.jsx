@@ -10,7 +10,8 @@ const ModalCreateChat = ({
   currentOnliner, 
   currentUser, 
   setCurrentChat, 
-  listUser }) => {
+  listUser
+}) => {
 
   const [listUserChat, setListUserChat] = useState([]);
   const [listUserSearch, setListUserSearch] = useState([]);
