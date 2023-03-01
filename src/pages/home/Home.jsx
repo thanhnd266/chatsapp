@@ -1,3 +1,4 @@
+import ListProduct from "../../components/Home/ListProduct";
 
 
 
@@ -5,7 +6,7 @@ const Home = () => {
 
   return (
     <div className="homepage">
-      Homepage
+      <ListProduct />
     </div>
   );
 };

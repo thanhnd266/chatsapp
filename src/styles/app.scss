@@ -4,8 +4,11 @@
 
 @import './modules/Navbar.scss';
 @import './modules/Loading.scss';
+
+@import './modules/Home/Home.scss';
+@import './modules/Home/ListProduct.scss';
+
 @import './modules/SearchConv.scss';
-@import './modules/Home.scss';
 @import './modules/Login.scss';
 @import './modules/Register.scss';
 @import './modules/Messenger.scss';
