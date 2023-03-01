@@ -7,6 +7,8 @@ import axiosClient from '../../config/axios';
 import Loading from '../loading/Loading';
 import { Drawer } from 'antd';
 import ChatBoxAdditionalMobile from '../ChatBoxAdditionalMobile';
+import { socket } from '../../config/socket';
+import { useSelector } from 'react-redux';
 
 const ChatBox = ({ 
     loading, 
@@ -14,7 +16,6 @@ const ChatBox = ({
     currentChat, 
     messages, 
     setMessages, 
-    socket, 
     currentOnliner, 
     currentReceiver, 
     setIsOpenChatInfo,
@@ -27,6 +28,8 @@ const ChatBox = ({
   const bundleEmoji = useRef();
   const inputEl = useRef();
   const scrollRef = useRef();
+
+  let conversations = useSelector(state => state.listConversation.data);
 
     useEffect(() => {
       window.onclick = (e) => {
@@ -45,8 +48,10 @@ const ChatBox = ({
     }, [openEmoji, inputEl.innerHTML])
   
     useEffect(() => {
-      scrollRef.current.scrollIntoView({behavior: "smooth"});
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      scrollRef.current?.scrollIntoView({behavior: "smooth"});
+      if(scrollRef.current) {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      }
     }, [messages])
     
     
@@ -82,7 +87,7 @@ const ChatBox = ({
       const receiver = currentChat.members.find(member => member._id !== currentUser._id);
 
       const isOnlineReceiver = currentOnliner.some(onliner => onliner._id === receiver._id);
-      
+
       try {
         
         const res = await axiosClient.post('/message/add', {
@@ -91,7 +96,7 @@ const ChatBox = ({
 
         if(res.status_code === 200) {
           if (isOnlineReceiver) {
-            socket.current.emit("sendMessage", {
+            socket.emit("sendMessage", {
               ...res.data[res.data.length - 1],
               receiverId: receiver._id,
             })
@@ -117,48 +122,104 @@ const ChatBox = ({
 
     return (
         <div className="chatBox">
-          { loading && <Loading />}
+          { loading && conversations.length === 0 && (
+            <div className="chatBox-createConv_wrapper d-flex align-items-center justify-content-center h-100">
+              <div className="text-center">
+                <h4 className="fw-bold">No Conversation</h4>
+              </div>
+            </div>
+          )}
+          { loading && conversations.length > 0 && <Loading />}
           { !loading && 
               <div className="chatBoxWrapper">
                 <div className="chatBoxNavbar">
-                  <div className="receiver-info">
-                    <div className="receiver-info__img">
-                      <img src={currentReceiver && currentReceiver.profilePicture} alt="avatar" />
-
-                      <span className="receiver-info-user__status">
-                        <i className="fa-solid fa-circle"></i>
-                      </span>
-                    </div>
-                    <div>
-                      <div className="receiver-info-name">{ currentReceiver && currentReceiver.username }</div>
-                      <div className="receiver-info-status">
-                        <span>
-                          Online
+                  {currentOnliner.some(onliner => onliner._id === currentReceiver?._id) && (
+                    <div className="receiver-info">
+                      <div className="receiver-info__img">
+                        <img src={currentReceiver.profilePicture} alt="avatar" />
+                        
+                        <span className="receiver-info-user__status">
+                          <i className="fa-solid fa-circle"></i>
                         </span>
                       </div>
-                    </div>
-                  </div>
-
-                  <div className="receiver-info__mobile">
-                    <div className="btn-back-conv" onClick={() => onCloseDrawerChatbox()}>
-                      <span><i className="fa-solid fa-chevron-left"></i></span>
-                    </div>
-                    <div className="receiver-info__img" onClick={showDrawer}>
-                      <img src={currentReceiver && currentReceiver.profilePicture} alt="avatar" />
-
-                      <span className="receiver-info-user__status">
-                        <i className="fa-solid fa-circle"></i>
-                      </span>
-                    </div>
-                    <div>
-                      <div className="receiver-info-name" onClick={showDrawer}>{ currentReceiver && currentReceiver.username }</div>
-                      <div className="receiver-info-status">
-                        <span>
-                          Online
-                        </span>
+                      <div>
+                        <div className="receiver-info-name">{ currentReceiver.username }</div>
+                        <div className="receiver-info-status">
+                          <span>
+                            Online
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
+
+                  {!(currentOnliner.some(onliner => onliner._id === currentReceiver?._id)) && (
+                    <div className="receiver-info">
+                      <div className="receiver-info__img">
+                        <img src={currentReceiver.profilePicture} alt="avatar" />
+                        
+                        <span className="receiver-info-user__status-offline">
+                          <i className="fa-solid fa-circle"></i>
+                        </span>
+                      </div>
+                      <div>
+                        <div className="receiver-info-name">{ currentReceiver.username }</div>
+                        <div className="receiver-info-status">
+                          <span>
+                            Offline
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+
+                  {currentOnliner.some(onliner => onliner._id === currentReceiver?._id) && (
+                    <div className="receiver-info__mobile">
+                      <div className="btn-back-conv" onClick={() => onCloseDrawerChatbox()}>
+                        <span><i className="fa-solid fa-chevron-left"></i></span>
+                      </div>
+                      <div className="receiver-info__img" onClick={showDrawer}>
+                        <img src={currentReceiver && currentReceiver.profilePicture} alt="avatar" />
+
+                        <span className="receiver-info-user__status">
+                          <i className="fa-solid fa-circle"></i>
+                        </span>
+                      </div>
+                      <div>
+                        <div className="receiver-info-name" onClick={showDrawer}>{ currentReceiver && currentReceiver.username }</div>
+                        <div className="receiver-info-status">
+                          <span>
+                            Online
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {!(currentOnliner.some(onliner => onliner._id === currentReceiver?._id)) && (
+                    <div className="receiver-info__mobile">
+                      <div className="btn-back-conv" onClick={() => onCloseDrawerChatbox()}>
+                        <span><i className="fa-solid fa-chevron-left"></i></span>
+                      </div>
+                      <div className="receiver-info__img" onClick={showDrawer}>
+                        <img src={currentReceiver && currentReceiver.profilePicture} alt="avatar" />
+
+                        <span className="receiver-info-user__status-offline">
+                          <i className="fa-solid fa-circle"></i>
+                        </span>
+                      </div>
+                      <div>
+                        <div className="receiver-info-name" onClick={showDrawer}>{ currentReceiver && currentReceiver.username }</div>
+                        <div className="receiver-info-status">
+                          <span>
+                            Offline
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="chat-feature">
                     <div className="chat-feature-call">
                       <span><i className="fa-solid fa-phone"></i></span>

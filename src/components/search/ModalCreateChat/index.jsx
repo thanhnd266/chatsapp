@@ -3,14 +3,15 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import axiosClient from "../../../config/axios";
 import { addNewConversation } from "../../../redux/reducer/conversationSlice";
+import { removeAccents } from "../../../utils/helpers";
 
 const ModalCreateChat = ({
   open, 
   setOpen, 
   currentOnliner, 
-  currentUser, 
-  setCurrentChat, 
-  listUser
+  currentUser,
+  listUser,
+  onSelectConv
 }) => {
 
   const [listUserChat, setListUserChat] = useState([]);
@@ -80,30 +81,6 @@ const ModalCreateChat = ({
   
   }, [currentOnliner, listUser, currentUser])
 
-  const handleSelectConv = async (e, receiverId) => {
-    e.preventDefault();
-    
-    try {
-      const res = await axiosClient.get(`/conversation/get-one/${receiverId}/${currentUser._id}`);
-      if(res.status_code === 200) {
-        if(res.data) {
-          setOpen(false);
-          setCurrentChat(res.data)
-        } else {
-          const res = await axiosClient.post("/conversation/create", {
-            senderId: currentUser._id,
-            receiverId,
-          })
-          setOpen(false);
-          setCurrentChat(res.data);
-          dispatch(addNewConversation(res.data))
-        }
-      }
-    } catch(err) {
-      console.log(err);
-    }
-  }
-
   const handleSearchUser = (e) => {
     let newArr = [];
 
@@ -112,7 +89,10 @@ const ModalCreateChat = ({
     }
 
     listUserChat?.forEach(user => {
-      if(user.username.includes(e.target.value)) {
+      if(
+        removeAccents(user.username.toLowerCase())
+          .includes(removeAccents(e.target.value.toLowerCase()))
+      ) {
         newArr.push(user)
       }
     })
@@ -150,7 +130,7 @@ const ModalCreateChat = ({
           {listUserSearch &&
             listUserSearch.map((user, index) => {
               return (
-                <div className="modal-list__item" key={index} onClick={(e) => handleSelectConv(e, user._id)}>
+                <div className="modal-list__item" key={index} onClick={(e) => onSelectConv(e, user._id, true)}>
                   <div className="modal-list__item__img">
                     <img src={user.profilePicture} alt="avatar" />
 

@@ -1,16 +1,16 @@
 import { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import axiosClient from "../../config/axios";
-import { setConversation } from "../../redux/reducer/conversationSlice";
+import { addNewConversation, setConversation } from "../../redux/reducer/conversationSlice";
+import { removeAccents } from "../../utils/helpers";
 import ModalCreateChat from "./ModalCreateChat";
 
-const SearchConv = ({ conversationDB, currentOnliner, currentUser, setCurrentChat }) => {
+const SearchConv = ({ conversationDB, currentOnliner, currentUser, setCurrentChat, setOpenChatBox }) => {
   const [open, setOpen] = useState(false);
   const [listUser, setListUser] = useState([]);
 
   const inputRef = useRef();
   const dispatch = useDispatch();
-  const conversations = useSelector((state) => state.listConversation.data);
 
   const handleSearchConv = (e) => {
     if (e.target.value === "") {
@@ -19,12 +19,18 @@ const SearchConv = ({ conversationDB, currentOnliner, currentUser, setCurrentCha
 
     let newConv = [];
 
-    conversations?.forEach((conv) => {
-      conv.members.forEach((mem) => {
-        if (mem.username.includes(e.target.value)) {
-          newConv.push(conv);
+    conversationDB?.forEach((conv) => {
+      for(let i = 0; i < conv.members.length; i++) {
+        if (
+            removeAccents(conv.members[i].username.toLowerCase())
+              .includes(removeAccents(e.target.value.toLowerCase()))
+        ) {
+          if(conv.members[i]._id !== currentUser._id) {
+            newConv.push(conv);
+            break;
+          }
         }
-      });
+      }
     });
 
     dispatch(setConversation([...newConv]));
@@ -42,6 +48,32 @@ const SearchConv = ({ conversationDB, currentOnliner, currentUser, setCurrentCha
       console.log(err);
     }
   };
+
+  const handleSelectConv = async (e, receiverId, isModeModal) => {
+    e.preventDefault();
+    
+    try {
+      const res = await axiosClient.get(`/conversation/get-one/${receiverId}/${currentUser._id}`);
+      if(res.status_code === 200) {
+        if(res.data) {
+          isModeModal && setOpen(false);
+          setCurrentChat(res.data)
+          setOpenChatBox(true)
+        } else {
+          const res = await axiosClient.post("/conversation/create", {
+            senderId: currentUser._id,
+            receiverId,
+          })
+          isModeModal && setOpen(false);
+          setCurrentChat(res.data);
+          dispatch(addNewConversation(res.data))
+          setOpenChatBox(true)
+        }
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  }
 
   return (
     <div className="search-wrapper">
@@ -62,13 +94,12 @@ const SearchConv = ({ conversationDB, currentOnliner, currentUser, setCurrentCha
             setOpen={setOpen}
             currentOnliner={currentOnliner}
             currentUser={currentUser}
-            setCurrentChat={setCurrentChat}
             listUser={listUser}
+            onSelectConv={handleSelectConv}
           />}
 
           <div className="list-user__online">
             {currentOnliner && currentOnliner.map((item, index) => {
-
               if(item._id === currentUser._id) {
                 return (
                   <div key={index}></div>
@@ -76,7 +107,7 @@ const SearchConv = ({ conversationDB, currentOnliner, currentUser, setCurrentCha
               }
 
               return (
-                <div className="onliner-item" key={index}>
+                <div className="onliner-item" key={index} onClick={(e) => handleSelectConv(e, item._id)}>
                   <img src={item.profilePicture} alt="avatar" />
   
                   <span className="item-image__status">
@@ -101,7 +132,6 @@ const SearchConv = ({ conversationDB, currentOnliner, currentUser, setCurrentCha
             type="text"
             ref={inputRef}
             onChange={(e) => handleSearchConv(e)}
-            onKeyDown={(e) => (e.keyCode === 13 ? handleSearchConv(e) : "")}
           />
         </div>
       </div>

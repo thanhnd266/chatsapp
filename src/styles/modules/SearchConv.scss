@@ -110,8 +110,9 @@
         }
 
         .list-user__online {
-            display: flex;
+            display: none;
             overflow-x: scroll;
+            overflow-y: hidden;
             margin-left: 4px;
 
             .onliner-item {
@@ -120,8 +121,8 @@
                 cursor: pointer;
 
                 img {
-                    width: 50px;
-                    height: 50px;
+                    width: 46px;
+                    height: 46px;
                     object-fit: cover;
                     border-radius: 100%;
                 }
@@ -139,6 +140,10 @@
                         color: rgb(118, 235, 8);
                     }
                 }
+            }
+
+            @media screen and (max-width: 575px) {
+                display: flex;
             }
         }
 

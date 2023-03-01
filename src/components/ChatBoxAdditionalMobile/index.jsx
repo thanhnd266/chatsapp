@@ -16,7 +16,7 @@ const ChatBoxAdditionalMobile = ({ onClose, currentReceiver }) => {
             <div className="user-info__name mt-2">
                 <h2>{currentReceiver.username}</h2>
             </div>
-            <div className="d-flex justify-content-center align-items-center my-4">
+            <div className="d-flex justify-content-center align-items-center my-2">
                 <div className="user-info__btn">
                     <span className="user-info__icon"><i className="fa-solid fa-address-card"></i></span>
                     <span className="user-info__text">View Profile</span>

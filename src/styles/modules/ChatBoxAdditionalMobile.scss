@@ -1,4 +1,12 @@
 .chatbox-additional-body__wrapper {
+    @media screen and (max-width:575px) {
+        padding: 20px 40px;
+    }
+
+    @media screen and (max-width:480px) {
+        padding: 20px;
+    }
+
     .user-info {
         display: flex;
         flex-direction: column;

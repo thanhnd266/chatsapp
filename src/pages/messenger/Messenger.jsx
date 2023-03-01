@@ -1,31 +1,33 @@
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate, useOutletContext } from 'react-router-dom';
+import axiosClient from '../../config/axios';
+import { setConversation } from '../../redux/reducer/conversationSlice';
 //components
+import { Drawer } from 'antd';
 import ChatBox from '../../components/chatBox/ChatBox';
 import ChatBoxAdditional from '../../components/chatBoxAdditional/ChatBoxAdditional';
-//socket
-import { io } from 'socket.io-client';
-import axiosClient from '../../config/axios';
-import { useDispatch } from 'react-redux';
-import { setConversation } from '../../redux/reducer/conversationSlice';
 import Conversation from '../../components/Conversation';
-import { Drawer } from 'antd';
+//socket
+import { socket } from '../../config/socket';
+
 
 const Messenger = () => {
+
+  const [currentOnliner] = useOutletContext();
+
   const [loading, setLoading] = useState(false);
   const [openChatBox, setOpenChatBox] = useState(false);
   const [conversations, setConversations] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [currentReceiver, setCurrentReceiver] = useState({});
   const [currentChat, setCurrentChat] = useState(null);
-  const [currentOnliner, setCurrentOnliner] = useState([]);
   const [messages, setMessages] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [waitingMessage, setWaitingMessage] = useState(null);
   const [isOpenChatInfo, setIsOpenChatInfo] = useState(true);
 
   const navigate = useNavigate();
-  const socket = useRef();
   const user = JSON.parse(localStorage.getItem('userData'));
   const dispatch = useDispatch();
 
@@ -75,16 +77,7 @@ const Messenger = () => {
   }, [currentChat, currentUser]);
 
   useEffect(() => {
-    socket.current = io(process.env.REACT_APP_BASE_URL, {
-      secure:true, 
-      rejectUnauthorized: false,
-	    transports: ['polling']
-    });
-    
-  }, [])
-
-  useEffect(() => {
-    socket.current.on("getMessage", data => {
+    socket.on("getMessage", data => {
       if(currentChat && currentChat?._id !== data.conversationId) {
         return setWaitingMessage({
           _id: data._id,
@@ -122,13 +115,6 @@ const Messenger = () => {
     }
 
   }, [arrivalMessage, currentChat])
-
-  useEffect(() => {
-    socket.current.emit("addUser", user);
-    socket.current.on("getUsers", (users) => {
-      setCurrentOnliner([...users]);
-    })
-  }, [])
 
   useEffect(() => {
     const getMessage = async () => {
@@ -176,6 +162,7 @@ const Messenger = () => {
           currentReceiver={currentReceiver}
           handleChangeConv={handleChangeConv}
           currentOnliner={currentOnliner}
+          setOpenChatBox={setOpenChatBox}
         />
       </div>
 
@@ -193,7 +180,6 @@ const Messenger = () => {
             currentChat={currentChat}
             messages={messages}
             setMessages={setMessages}
-            socket={socket}
             currentOnliner={currentOnliner}
             currentReceiver={currentReceiver}
             setIsOpenChatInfo={setIsOpenChatInfo}
@@ -209,7 +195,6 @@ const Messenger = () => {
           currentChat={currentChat}
           messages={messages}
           setMessages={setMessages}
-          socket={socket}
           currentOnliner={currentOnliner}
           currentReceiver={currentReceiver}
           setIsOpenChatInfo={setIsOpenChatInfo}
@@ -221,6 +206,7 @@ const Messenger = () => {
           <ChatBoxAdditional
             currentChat={currentChat}
             currentUser={currentUser} 
+            currentOnliner={currentOnliner}
             currentReceiver={currentReceiver}
           />
         </div>

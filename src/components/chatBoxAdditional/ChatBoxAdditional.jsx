@@ -1,10 +1,13 @@
 import { Tooltip } from 'antd';
+import { useSelector } from 'react-redux';
 import { chatAdditionalInfo } from '../../contants/messenger';
 
-const ChatBoxAdditional = ({ currentReceiver }) => {
+const ChatBoxAdditional = ({ currentOnliner, currentReceiver }) => {
+
+    let conversations = useSelector(state => state.listConversation.data);
 
     return (
-        <div className="chatbox-additionalInfo">
+        <div className={conversations.length > 0 ? 'chatbox-additionalInfo' : 'd-none'}>
           <div className="receiver-mainInfo">
             <div className="receiver-img">
               <img
@@ -15,11 +18,22 @@ const ChatBoxAdditional = ({ currentReceiver }) => {
             <div className="receiver-username">
               <h2>{currentReceiver && currentReceiver.username}</h2>
             </div>
-            <div className="receiver-status">
-              <span><i className="fa-solid fa-circle"></i>
-                {currentReceiver && (currentReceiver.status || 'Online')}
-              </span>
-            </div>
+            {currentOnliner.some(onliner => onliner._id === currentReceiver?._id) && (
+              <div className="receiver-status__online">
+                <span>
+                  <i className="fa-solid fa-circle"></i>
+                  Online
+                </span>
+              </div>
+            )}
+            {!(currentOnliner.some(onliner => onliner._id === currentReceiver?._id)) && (
+              <div className="receiver-status__offline">
+                <span>
+                  <i className="fa-solid fa-circle"></i>
+                  Offline
+                </span>
+              </div>
+            )}
           </div>
           <div className="receiver-otherInfo">
             <div className="receiver-profile">
@@ -72,7 +86,6 @@ const ChatBoxAdditional = ({ currentReceiver }) => {
             </div>
           </div>
         </div>
-
     )
 }
 

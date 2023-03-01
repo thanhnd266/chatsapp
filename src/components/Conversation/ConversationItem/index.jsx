@@ -10,6 +10,7 @@ const ConversationItem = ({
     setWaitingMessage,
     currentUser, 
     currentReceiver,
+    currentOnliner
   }) => {
 
   const [receiverUser, setReceiverUser] = useState();
@@ -98,9 +99,17 @@ const ConversationItem = ({
             alt="avatar"
           />
 
-          <span className="item-image__status">
-            <i className="fa-solid fa-circle"></i>
-          </span>
+          {currentOnliner && currentOnliner.map((onliner, index) => {
+            if(onliner._id === receiverUser?._id) {
+              return (
+                <span className="item-image__status" key={index}>
+                  <i className="fa-solid fa-circle"></i>
+                </span>
+              )
+            }
+
+            return null;
+          })}
         </div>
         <div className="item-additionalInfo">
           <div className="item-username">

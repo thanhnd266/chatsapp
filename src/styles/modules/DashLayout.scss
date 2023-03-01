@@ -1,0 +1,54 @@
+.dashlayout-sider {
+    .ant-layout-sider-children {
+
+        .menuTab-btn {
+            color: #ffffffa6;
+            font-size: 24px;
+            vertical-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60px;
+            cursor: pointer;
+        
+            @media screen and (max-width: 575px) {
+                display: none;
+            }
+        
+            .menuTab-title {
+                font-size: 18px;
+                padding-left: 8px;
+            }
+        }
+
+        .ant-menu-dark {
+            padding: 0 8px;
+
+            .ant-menu-item {
+                border-radius: 20px;
+            }
+
+            .ant-menu-item-selected {
+                background-color: #f0f2f5 !important;
+
+                .ant-menu-item-icon {
+                    svg {
+                        fill: #333;
+                    }
+                }
+
+                .ant-menu-title-content {
+                    color: #333 !important;
+                }
+            }
+        }
+
+        .ant-menu-inline-collapsed {
+            .ant-menu-item {
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+}
+

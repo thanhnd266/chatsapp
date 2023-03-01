@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
-import { Button, Drawer } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import MenuMobile from '../MenuMobile';
+import Cookies from 'js-cookie';
 
 const Navbar = ({ userInfo }) => {
     const [open, setOpen] = useState(false);
@@ -14,6 +14,8 @@ const Navbar = ({ userInfo }) => {
 
     const handleLogout = () => {
         window.localStorage.removeItem('userData');
+        Cookies.remove('access_token');
+        Cookies.remove('refresh_token');
         navigate('/login');
     }
 

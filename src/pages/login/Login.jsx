@@ -36,12 +36,12 @@ const Login = () => {
                 }, 2000)
             }
         } catch(err) {
+            console.log(err);
             setIsLoading(true);
             setTimeout(() => {
                 setIsLoading(false);
                 setErrorMessage(err.response.data.message);
             }, 2000)
-            console.log(err);
         }
     }
 
@@ -55,13 +55,11 @@ const Login = () => {
                         <form className="login-form" onSubmit={handleLogin}>
                             <div className="login-email">
                                 <input 
-                                    readOnly 
                                     id="email" 
                                     className="form-control"
                                     type="email"
                                     placeholder="Email"
                                     required
-                                    onFocus={e => e.target.removeAttribute('readonly')}
                                     value={email}
                                     onChange={(e) => {
                                         setErrorMessage(false);
@@ -71,13 +69,11 @@ const Login = () => {
                             </div>
                             <div className="login-password">
                                 <input 
-                                    readOnly
                                     id="password" 
                                     className="form-control"
                                     type="password" 
                                     placeholder="Password" 
                                     required
-                                    onFocus={e => e.target.removeAttribute('readonly')}
                                     value={password}
                                     onChange={(e) => {
                                         setErrorMessage(false);

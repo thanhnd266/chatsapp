@@ -13,6 +13,7 @@ const Conversation = ({
     currentReceiver,
     handleChangeConv,
     currentOnliner,
+    setOpenChatBox
 }) => {
 
   let conversations = useSelector(state => state.listConversation.data);
@@ -24,6 +25,7 @@ const Conversation = ({
           currentOnliner={currentOnliner} 
           currentUser={currentUser}
           setCurrentChat={setCurrentChat}
+          setOpenChatBox={setOpenChatBox}
         />
 
         {conversations && conversations.map((conv, index) => {
@@ -37,6 +39,7 @@ const Conversation = ({
                 setWaitingMessage={setWaitingMessage}
                 currentUser={currentUser} 
                 currentReceiver={currentReceiver}
+                currentOnliner={currentOnliner} 
               />
             </div>
           )

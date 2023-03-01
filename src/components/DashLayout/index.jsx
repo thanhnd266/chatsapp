@@ -13,12 +13,14 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
+import { socket } from "../../config/socket";
 const { Content, Sider } = Layout;
 
 const DashLayout = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [currentTab, setCurrentTab] = useState("/");
   const [userInfo, setUserInfo] = useState({});
+  const [currentOnliner, setCurrentOnliner] = useState([]);
 
   const navigate = useNavigate();
 
@@ -28,8 +30,13 @@ const DashLayout = () => {
     setUserInfo(userData);
     if (!userData) {
       navigate("/login");
+    } else {
+      socket.emit("addUser", userData);
+      socket.on("getUsers", (users) => {
+        setCurrentOnliner([...users]);
+      })
     }
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     if (window.location.pathname) {
@@ -61,6 +68,7 @@ const DashLayout = () => {
       }}
     >
       <Sider
+        className="dashlayout-sider"
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
@@ -89,7 +97,7 @@ const DashLayout = () => {
           }}
         />
         <Content>
-          <Outlet />
+          <Outlet context={[currentOnliner]} />
         </Content>
         {/* <Footer
             style={{
