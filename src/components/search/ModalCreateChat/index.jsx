@@ -1,8 +1,5 @@
 import { Modal } from "antd";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import axiosClient from "../../../config/axios";
-import { addNewConversation } from "../../../redux/reducer/conversationSlice";
 import { removeAccents } from "../../../utils/helpers";
 
 const ModalCreateChat = ({
@@ -17,8 +14,6 @@ const ModalCreateChat = ({
   const [listUserChat, setListUserChat] = useState([]);
   const [listUserSearch, setListUserSearch] = useState([]);
     
-  const dispatch = useDispatch();
-
   const searchTermRef = useRef();
 
   const handleCancel = () => {

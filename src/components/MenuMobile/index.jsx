@@ -1,6 +1,5 @@
-import { FileAddOutlined, HomeOutlined, MessageOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
 import { Drawer } from 'antd';
-import React from 'react';
+import { navbarItems } from 'contants/navbar';
 import { NavLink } from 'react-router-dom';
 
 const MenuMobile = ({ open, setOpen }) => {
@@ -20,36 +19,14 @@ const MenuMobile = ({ open, setOpen }) => {
                 open={open}
             >
                 <ul className="menu-list">
-                    <li className="menu-list__item">
-                        <NavLink to="/" onClick={() => onClose()}>
-                            <span>Home</span>
-                            <HomeOutlined />
-                        </NavLink>
-                    </li>
-                    <li className="menu-list__item">
-                        <NavLink to="/messenger" onClick={() => onClose()}>
-                            <span>Message</span>
-                            <MessageOutlined />
-                        </NavLink>
-                    </li>
-                    <li className="menu-list__item">
-                        <NavLink to="/user" onClick={() => onClose()}>
-                            <span>User</span>
-                            <UserOutlined />
-                        </NavLink>
-                    </li>
-                    <li className="menu-list__item">
-                        <NavLink to="/team" onClick={() => onClose()}>
-                            <span>Team</span>
-                            <TeamOutlined />
-                        </NavLink>
-                    </li>
-                    <li className="menu-list__item">
-                        <NavLink to="/files" onClick={() => onClose()}>
-                            <span>Files</span>
-                            <FileAddOutlined />
-                        </NavLink>
-                    </li>
+                    {navbarItems.map((menu, index) => (
+                        <li className="menu-list__item" key={index}>
+                            <NavLink to={menu.key} onClick={() => onClose()}>
+                                <span>{menu.label}</span>
+                                {menu.icon}
+                            </NavLink>
+                        </li>
+                    ))}
                 </ul>
             </Drawer>
         </div>

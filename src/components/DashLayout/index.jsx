@@ -5,15 +5,9 @@ import { useNavigate, Outlet } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 
 //styles
-import {
-  MessageOutlined,
-  FileAddOutlined,
-  HomeOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { socket } from "../../config/socket";
+import { navbarItems } from "../../contants/navbar";
 const { Content, Sider } = Layout;
 
 const DashLayout = () => {
@@ -43,18 +37,6 @@ const DashLayout = () => {
       setCurrentTab(window.location.pathname);
     }
   }, [currentTab]);
-
-  function getItem(label, key, icon, children) {
-    return { key, icon, children, label };
-  }
-
-  const items = [
-    getItem("Home", "/", <HomeOutlined />),
-    getItem("Message", "/messenger", <MessageOutlined />),
-    getItem("User", "/user", <UserOutlined />),
-    getItem("Team", "/team", <TeamOutlined />),
-    getItem("Files", "/files", <FileAddOutlined />),
-  ];
 
   const handleChangeTab = (e) => {
     setCurrentTab(e.key);
@@ -86,7 +68,7 @@ const DashLayout = () => {
           defaultSelectedKeys={[currentTab]}
           selectedKeys={[currentTab]}
           mode="inline"
-          items={items}
+          items={navbarItems}
         />
       </Sider>
       <Layout className="site-layout">

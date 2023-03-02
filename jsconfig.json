@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./src",
+        "module": "CommonJS",
+		"target": "es2020",
+		"paths": {
+			"rmv/*": ["./components/rmv/*"]
+		}
+    }
+}

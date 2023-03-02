@@ -1,12 +1,15 @@
-import ListProduct from "../../components/Home/ListProduct";
-
+import ListProduct from "components/Home/ListProduct";
+import MainSlider from "components/Home/MainSlider";
+import TabProduct from "components/Home/TabProduct";
 
 
 const Home = () => {
 
   return (
     <div className="homepage">
-      <ListProduct />
+      <MainSlider />
+      <TabProduct />
+      {/* <ListProduct /> */}
     </div>
   );
 };

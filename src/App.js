@@ -10,7 +10,7 @@ import Login from "./pages/login/Login.jsx";
 import Register from "./pages/register/Register.jsx";
 import Messenger from "./pages/messenger/Messenger.jsx";
 import User from "./pages/user/User.jsx";
-import Team from "./pages/team/Team.jsx";
+import Community from "./pages/community/Community.jsx";
 import Files from "./pages/files/Files.jsx";
 import DashLayout from "./components/DashLayout";
 import Layout from "./components/Layout";
@@ -25,7 +25,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route index path="messenger" element={<Messenger />} />
             <Route path="/user" element={<User />} />
-            <Route path="/team" element={<Team />} />
+            <Route path="/community" element={<Community />} />
             <Route path="/files" element={<Files />} />
           </Route>
 
