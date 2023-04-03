@@ -1,0 +1,95 @@
+.profile {
+  background-color: #18191a;
+
+  .profile-wrapper {
+    display: flex;
+    padding: 20px 50px;
+    .profile-left {
+      width: 44vw;
+
+      .ant-card {
+        color: #e4e6eb;
+        border-radius: 6px;
+        margin-bottom: 16px;
+
+        .ant-card-head {
+          color: #e4e6eb;
+          border-bottom: none;
+          padding: 0;
+
+          .ant-card-head-title {
+            font-size: 20px;
+            font-weight: 700;
+            padding: 10px 20px;
+
+            .header-more {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+
+              .view-more {
+                font-size: 14px;
+              }
+            }
+          }
+        }
+
+        .ant-card-body {
+          padding: 0 20px 20px 20px;
+
+          .card-content {
+            padding-bottom: 8px;
+
+            .card-content__icon {
+              display: inline-flex;
+              justify-content: center;
+              align-items: center;
+              width: 24px;
+              height: 24px;
+              font-size: 20px;
+              color: #8c939d;
+            }
+
+            .card-content__desc {
+              font-size: 16px;
+              color: #e4e6eb;
+              margin-left: 10px;
+            }
+          }
+
+          .card-img {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 1fr;
+            .ant-image {
+              height: 100%;
+
+              img {
+                height: 100%;
+                border-radius: 6px;
+                object-fit: cover;
+                object-position: center;
+              }
+            }
+
+            .photo-friend {
+              height: 90%;
+            }
+          }
+        }
+      }
+    }
+
+    .profile-right {
+      width: 100%;
+      margin-left: 20px;
+
+      .wrapper {
+        background-color: #242526;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}

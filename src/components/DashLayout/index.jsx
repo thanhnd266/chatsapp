@@ -28,7 +28,7 @@ const DashLayout = () => {
       socket.emit("addUser", userData);
       socket.on("getUsers", (users) => {
         setCurrentOnliner([...users]);
-      })
+      });
     }
   }, []);
 
@@ -71,7 +71,7 @@ const DashLayout = () => {
           items={navbarItems}
         />
       </Sider>
-      <Layout className="site-layout">
+      <Layout className="site-dashlayout">
         <Navbar
           userInfo={userInfo}
           style={{

@@ -1,21 +1,21 @@
+@import "./config/Global.scss";
 
+@import "./modules/Navbar.scss";
+@import "./modules/Loading.scss";
+@import "./modules/Login.scss";
+@import "./modules/Register.scss";
+@import "./modules/MenuMobile.scss";
+@import "./modules/DashLayout.scss";
 
-@import './config/Global.scss';
+@import "./modules/Home/Home.scss";
+@import "./modules/Community/Community.scss";
 
-@import './modules/Navbar.scss';
-@import './modules/Loading.scss';
+@import "./modules/Messenger/SearchConv.scss";
+@import "./modules/Messenger/Messenger.scss";
+@import "./modules/Messenger/Conversation.scss";
+@import "./modules/Messenger/ChatBox.scss";
+@import "./modules/Messenger/ChatBoxAdditional.scss";
+@import "./modules/Messenger/ChatBoxAdditionalMobile.scss";
+@import "./modules/Messenger/Message.scss";
 
-@import './modules/Home/Home.scss';
-
-@import './modules/SearchConv.scss';
-@import './modules/Login.scss';
-@import './modules/Register.scss';
-@import './modules/Messenger.scss';
-@import './modules/Conversation.scss';
-@import './modules/ChatBox.scss';
-@import './modules/ChatBoxAdditional.scss';
-@import './modules/ChatBoxAdditionalMobile.scss';
-@import './modules/Message.scss';
-@import './modules/MenuMobile.scss';
-@import './modules/DashLayout.scss';
-
+@import "./modules/User/User.scss";

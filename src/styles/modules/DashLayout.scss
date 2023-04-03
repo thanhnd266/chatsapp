@@ -1,54 +1,57 @@
 .dashlayout-sider {
+  .ant-layout-sider {
+    position: sticky;
+    background-color: #333;
+
     .ant-layout-sider-children {
+      .menuTab-btn {
+        color: #ffffffa6;
+        font-size: 24px;
+        vertical-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 60px;
+        cursor: pointer;
 
-        .menuTab-btn {
-            color: #ffffffa6;
-            font-size: 24px;
-            vertical-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 60px;
-            cursor: pointer;
-        
-            @media screen and (max-width: 575px) {
-                display: none;
-            }
-        
-            .menuTab-title {
-                font-size: 18px;
-                padding-left: 8px;
-            }
+        @media screen and (max-width: 575px) {
+          display: none;
         }
 
-        .ant-menu-dark {
-            padding: 0 8px;
+        .menuTab-title {
+          font-size: 18px;
+          padding-left: 8px;
+        }
+      }
 
-            .ant-menu-item {
-                border-radius: 10px;
-            }
+      .ant-menu-dark {
+        padding: 0 8px;
 
-            .ant-menu-item-selected {
-                background-color: #f0f2f5 !important;
-
-                .ant-menu-item-icon {
-                    svg {
-                        fill: #333;
-                    }
-                }
-
-                .ant-menu-title-content {
-                    color: #333 !important;
-                }
-            }
+        .ant-menu-item {
+          border-radius: 10px;
         }
 
-        .ant-menu-inline-collapsed {
-            .ant-menu-item {
-                display: flex;
-                align-items: center;
+        .ant-menu-item-selected {
+          background-color: #f0f2f5 !important;
+
+          .ant-menu-item-icon {
+            svg {
+              fill: #333;
             }
+          }
+
+          .ant-menu-title-content {
+            color: #333 !important;
+          }
         }
+      }
+
+      .ant-menu-inline-collapsed {
+        .ant-menu-item {
+          display: flex;
+          align-items: center;
+        }
+      }
     }
+  }
 }
-

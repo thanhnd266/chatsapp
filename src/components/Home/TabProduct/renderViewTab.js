@@ -12,9 +12,9 @@ import { Pagination } from "swiper";
 
 const renderViewTab = (data) => {
   return (
-    <div className="gaming-gear">
-      <div className="gaming-gear__mark"></div>
-      <div className="gaming-gear__wrapper">
+    <div className="tab-content">
+      <div className="tab-content__mark"></div>
+      <div className="tab-content__wrapper">
         <div className="btn-view-all d-flex justify-content-end mb-2">
           <a className="btn-view-all__link" href="/">
             <span className="me-2">View all</span>

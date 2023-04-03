@@ -1,8 +1,19 @@
+import BannerImage from "components/User/BannerImage";
+import Profile from "components/User/Profile";
+import UploadAvatar from "components/User/UploadAvatar";
 
-import React from 'react'
-
-export default function User() {
+const User = () => {
   return (
-    <div>User</div>
-  )
-}
+    <div className="user">
+      <BannerImage />
+
+      <Profile />
+
+      {/* <div>
+        <UploadAvatar />
+      </div> */}
+    </div>
+  );
+};
+
+export default User;

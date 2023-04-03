@@ -1,4 +1,4 @@
-.gaming-gear {
+.tab-content {
   background-image: url("../../../assets/images/gaming-gear-background.png");
   background-repeat: no-repeat;
   background-size: cover;
@@ -6,14 +6,14 @@
   border-radius: 4px;
   position: relative;
 
-  .gaming-gear__mark {
+  .tab-content__mark {
     position: absolute;
     inset: 0 0 0 0;
     background-color: #1e1d1d54;
     z-index: 0;
   }
 
-  .gaming-gear__wrapper {
+  .tab-content__wrapper {
     padding: 20px 40px 30px 40px;
 
     @media screen and (max-width: 575px) {
@@ -61,6 +61,7 @@
                 object-position: center;
                 width: 220px;
                 height: 220px;
+                transition: transform 0.5s;
 
                 &:hover {
                     transform: translateZ(0) scale(1.1);

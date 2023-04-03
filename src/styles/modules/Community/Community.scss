@@ -1,0 +1,18 @@
+@import './DropdownList.scss';
+
+.community {
+    .myData {
+        position: relative;
+        
+        .ant-collapse-content {
+            .ant-collapse-content-box {
+                .dropdown-list {
+                    position: absolute !important;
+                    top: 12px;
+                    right: 16px;
+                    z-index: 1;
+                }
+            }
+        }
+    }
+}

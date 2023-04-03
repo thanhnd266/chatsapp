@@ -1,3 +1,5 @@
+import BannerAd from "components/Home/BannerAd";
+import FamousBrand from "components/Home/FamousBrand";
 import ListProduct from "components/Home/ListProduct";
 import MainSlider from "components/Home/MainSlider";
 import TabProduct from "components/Home/TabProduct";
@@ -10,6 +12,8 @@ const Home = () => {
       <MainSlider />
       <TabProduct />
       {/* <ListProduct /> */}
+      <FamousBrand />
+      <BannerAd />
     </div>
   );
 };
