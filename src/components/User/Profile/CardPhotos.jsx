@@ -16,7 +16,7 @@ const CardPhotos = ({ listPhotos, title }) => {
       bordered={false}
       style={{
         width: "100%",
-        backgroundColor: "#242526",
+        backgroundColor: "#fff",
       }}
     >
       <div className="card-img">
@@ -25,9 +25,9 @@ const CardPhotos = ({ listPhotos, title }) => {
             return <Image src={photo.image} key={photo.id} />;
           } else {
             return (
-              <div className="photo-friend">
-                <Image src={photo.image} key={photo.id} />
-                <span>{photo.name}</span>
+              <div className="photo-friend" key={photo.id}>
+                <Image src={photo.image} />
+                <span style={{ fontWeight: "600" }}>{photo.name}</span>
               </div>
             );
           }

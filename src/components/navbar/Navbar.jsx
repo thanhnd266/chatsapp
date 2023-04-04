@@ -4,7 +4,7 @@ import MenuMobile from "../MenuMobile";
 import Cookies from "js-cookie";
 import { socket } from "../../config/socket";
 
-const Navbar = ({ userInfo }) => {
+const Navbar = ({ userInfo, pathname }) => {
   const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -17,14 +17,14 @@ const Navbar = ({ userInfo }) => {
     window.localStorage.removeItem("userData");
     Cookies.remove("access_token");
     Cookies.remove("refresh_token");
-    socket.emit("userLogout", userInfo)
+    socket.emit("userLogout", userInfo);
     navigate("/login");
   };
 
   return (
     <div className="navbar-wrapper">
       <div className="app-name">
-        <h1>Cavanica</h1>
+        <h2>Cavanica</h2>
       </div>
       <div className="nav-additional">
         <div className="nav-noti">

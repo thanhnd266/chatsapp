@@ -1,4 +1,6 @@
+import { InfoCircleOutlined } from "@ant-design/icons";
 import { Card } from "antd";
+import ButtonComponent from "components/ButtonComponent";
 
 const CardIntro = () => {
   return (
@@ -7,7 +9,7 @@ const CardIntro = () => {
       bordered={false}
       style={{
         width: "100%",
-        backgroundColor: "#242526",
+        backgroundColor: "#fff",
       }}
     >
       <div className="card-content">
@@ -27,6 +29,20 @@ const CardIntro = () => {
           <i className="fa-solid fa-house"></i>
         </span>
         <span className="card-content__desc">Lives in Hanoi, Vietnam</span>
+      </div>
+      <div className="card-content">
+        <ButtonComponent
+          size="large"
+          text="Edit Info"
+          icon={<i className="fa-regular fa-circle-info"></i>}
+          block={true}
+          style={{
+            backgroundColor: "#e9e9e9",
+            borderRadius: "6px",
+            color: "#000",
+            marginTop: "10px",
+          }}
+        />
       </div>
     </Card>
   );
