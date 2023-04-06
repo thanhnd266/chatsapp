@@ -1,4 +1,7 @@
-import React from "react";
+import { Image } from "antd";
+import { comments } from "contants/comment";
+import { useEffect, useRef, useState } from "react";
+import CommentComponent from "./CommentComponent";
 import { CardContainer } from "./style/CardContainer.styled";
 import {
   AvatarCard,
@@ -7,10 +10,58 @@ import {
   CardPostFooter,
   CardPostHeader,
 } from "./style/CardPost.styled";
-import ButtonComponent from "components/ButtonComponent";
-import { Image, Input } from "antd";
 
-const CardPost = () => {
+const CardPost = ({ title, body, image, postId }) => {
+  const [like, setLike] = useState(0);
+  const [openEmoji, setOpenEmoji] = useState(false);
+  const emojiEl = useRef();
+  const iconEl = useRef();
+  const bundleEmoji = useRef();
+  const inputEl = useRef();
+  const scrollRef = useRef();
+
+  useEffect(() => {
+    window.onclick = (e) => {
+      if (
+        e.target !== emojiEl.current &&
+        e.target !== iconEl.current &&
+        e.target !== bundleEmoji.current
+      ) {
+        setOpenEmoji(false);
+      }
+    };
+  }, [openEmoji]);
+
+  useEffect(() => {
+    if (openEmoji) {
+      bundleEmoji.current.addEventListener("emoji-click", (event) => {
+        inputEl.current.innerHTML += event.detail.unicode;
+      });
+    }
+  }, [openEmoji, inputEl.innerHTML]);
+
+  const adjustHeight = (e) => {
+    const el = e.target;
+    if (el.scrollHeight > 110) {
+      el.style.height = "110px";
+    } else {
+      el.style.height = "unset";
+    }
+  };
+
+  const handleOpenEmoji = () => {
+    if (!openEmoji) {
+      setOpenEmoji(true);
+    } else {
+      setOpenEmoji(false);
+    }
+  };
+
+  const handleSubmitMessage = async (e) => {
+    console.log("hello teacher");
+    inputEl.current.innerHTML = "";
+  };
+
   return (
     <CardContainer
       bordered={false}
@@ -28,20 +79,10 @@ const CardPost = () => {
         </div>
       </CardPostHeader>
       <CardPostBody>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat eos
-          quisquam culpa quia consequuntur, libero aperiam iure modi impedit ut
-          optio soluta nobis. Blanditiis facere sapiente accusantium repellat
-          voluptatem maiores! Repellat, recusandae maxime quo reprehenderit
-          magni exercitationem quis tenetur voluptates ut facere nostrum, unde
-          soluta cumque nihil nesciunt id. Tenetur quam accusamus, debitis aut
-          numquam, quo repellendus est vel dignissimos sint totam, dolore atque
-          doloremque facere? Officiis repellat itaque repellendus magni dolorum
-          libero, quisquam molestiae, assumenda quis, inventore eos consectetur
-          velit placeat.
-        </p>
+        <h3>{title}</h3>
+        <p className="text-content">{body}</p>
 
-        <Image src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" />
+        <Image src={image} />
       </CardPostBody>
       <CardPostFooter>
         <div className="statistic-like">
@@ -56,8 +97,15 @@ const CardPost = () => {
         </div>
 
         <div className="status-btn">
-          <ButtonStatus>
-            <i className="fa-regular fa-thumbs-up"></i>
+          <ButtonStatus
+            className={like ? "status--btn__active" : ""}
+            onClick={() => setLike((prev) => (prev = !prev))}
+          >
+            {like ? (
+              <i className="fa-solid fa-thumbs-up"></i>
+            ) : (
+              <i className="fa-regular fa-thumbs-up"></i>
+            )}
             <span>Like</span>
           </ButtonStatus>
           <ButtonStatus>
@@ -71,13 +119,72 @@ const CardPost = () => {
         </div>
 
         <div className="comment-section">
+          <div className="comment-friends">
+            {comments.map((comment) => {
+              if (comment.postId === postId) {
+                return (
+                  <CommentComponent
+                    key={comment.id}
+                    username={comment.username}
+                    body={comment.body}
+                    avatar={comment.avatar}
+                  />
+                );
+              }
+              return null;
+            })}
+          </div>
+
           <div className="card-avatar">
             <AvatarCard src="https://cdn-icons-png.flaticon.com/512/5556/5556512.png" />
             <div className="sending-cmt">
-              <Input placeholder="What's on your mind?" />
-              <span className="btn-sending">
-                <i className="fa-solid fa-paper-plane"></i>
-              </span>
+              {/* <Input placeholder="Write a comment..." /> */}
+              <div className="comment-field">
+                <div className="comment-box">
+                  <div
+                    onKeyUp={adjustHeight}
+                    onKeyDown={(e) =>
+                      e.keyCode === 13 ? handleSubmitMessage(e) : ""
+                    }
+                    className="comment-input"
+                    contentEditable="true"
+                    suppressContentEditableWarning={true}
+                    data-placeholder="Write a comment..."
+                    ref={inputEl}
+                  ></div>
+                  <div className="comment-utils">
+                    <div className="emoji">
+                      {openEmoji ? (
+                        <span onClick={handleOpenEmoji} ref={emojiEl}>
+                          <i
+                            ref={iconEl}
+                            className="fa-solid fa-face-smile"
+                          ></i>
+                        </span>
+                      ) : (
+                        <span onClick={handleOpenEmoji} ref={emojiEl}>
+                          <i
+                            ref={iconEl}
+                            className="fa-regular fa-face-smile"
+                          ></i>
+                        </span>
+                      )}
+
+                      {openEmoji && (
+                        <div className="bundle-emoji">
+                          <emoji-picker ref={bundleEmoji}></emoji-picker>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="upload-img">
+                      <span>
+                        <i className="fa-solid fa-image"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

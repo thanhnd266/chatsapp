@@ -1,13 +1,16 @@
 import { Input } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import {
   ActivityButton,
   AvatarCard,
   CardTypingWrapper,
 } from "./style/CardTyping.styled";
 import { CardContainer } from "./style/CardContainer.styled";
+import ModalPost from "./Modal/ModalPost";
 
 const CardTyping = () => {
+  const [openModalPosting, setOpenModalPosting] = useState(false);
+
   return (
     <CardContainer
       bordered={false}
@@ -19,7 +22,10 @@ const CardTyping = () => {
       <CardTypingWrapper>
         <div className="card-avatar">
           <AvatarCard src="https://cdn-icons-png.flaticon.com/512/5556/5556512.png" />
-          <Input placeholder="What's on your mind?" />
+          <Input
+            placeholder="What's on your mind?"
+            onClick={() => setOpenModalPosting(true)}
+          />
         </div>
 
         <div className="card-activity">
@@ -31,7 +37,7 @@ const CardTyping = () => {
             <span>Live video</span>
           </ActivityButton>
 
-          <ActivityButton>
+          <ActivityButton onClick={() => setOpenModalPosting(true)}>
             <img
               src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/Ivw7nhRtXyo.png"
               alt="Media"
@@ -48,6 +54,10 @@ const CardTyping = () => {
           </ActivityButton>
         </div>
       </CardTypingWrapper>
+      <ModalPost
+        open={openModalPosting}
+        onCancel={() => setOpenModalPosting(false)}
+      />
     </CardContainer>
   );
 };

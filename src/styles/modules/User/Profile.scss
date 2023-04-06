@@ -8,8 +8,24 @@
     margin: 0 auto;
     padding: 20px 0;
 
+    @media screen and (max-width: 1584px) {
+      padding: 20px;
+    }
+
+    @media screen and (max-width: 900px) {
+      display: block;
+    }
+
     .profile-left {
       width: 44vw;
+      position: sticky;
+      top: -430px;
+      height: fit-content;
+
+      @media screen and (max-width: 900px) {
+        width: 100%;
+        position: unset;
+      }
     }
 
     .ant-card {
@@ -105,8 +121,13 @@
     }
 
     .profile-right {
-      width: 100%;
+      width: 56vw;
       margin-left: 20px;
+
+      @media screen and (max-width: 900px) {
+        width: 100%;
+        margin: 0;
+      }
 
       .wrapper {
         width: 100%;

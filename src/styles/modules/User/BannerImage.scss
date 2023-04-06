@@ -11,12 +11,20 @@
     margin: 0 auto;
     padding-bottom: 20px;
 
+    @media screen and (max-width: 1584px) {
+      padding: 0 20px 20px 20px;
+    }
+
     .image-avatar {
       position: absolute;
       bottom: 30px;
       left: 50px;
       display: flex;
       align-items: flex-end;
+
+      @media screen and (max-width: 575px) {
+        left: 20px;
+      }
 
       .image-avatar__img {
         .ant-avatar {
@@ -26,6 +34,10 @@
           width: 160px !important;
           height: auto !important;
           background-color: grey;
+
+          @media screen and (max-width: 575px) {
+            width: 100px !important;
+          }
         }
       }
 

@@ -22,6 +22,8 @@ const Profile = () => {
                 title={post.title}
                 body={post.body}
                 image={post.image}
+                key={post.id}
+                postId={post.id}
               />
             ))}
           </div>

@@ -44,6 +44,28 @@ export const ActivityButton = styled.div`
     font-weight: 600;
     color: #65676b;
   }
+
+  @media screen and (max-width: 992px) {
+    img {
+      width: 18px;
+      height: auto;
+    }
+
+    span {
+      font-size: 14px;
+    }
+  }
+
+  @media screen and (max-width: 575px) {
+    img {
+      width: 24px;
+      height: auto;
+    }
+
+    span {
+      display: none;
+    }
+  }
 `;
 
 export const AvatarCard = styled(Avatar)`

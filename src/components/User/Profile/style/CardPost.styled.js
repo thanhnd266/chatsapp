@@ -29,13 +29,22 @@ export const AvatarCard = styled(Avatar)`
 export const CardPostBody = styled.div`
   margin: 10px 0;
 
+  .text-content {
+    margin: 0;
+  }
+
   .ant-image {
     width: 100%;
     display: flex;
     justify-content: center;
+    margin: 14px 0;
 
     img {
-      width: 400px;
+      width: 100%;
+      max-height: 570px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 4px;
     }
   }
 `;
@@ -44,10 +53,15 @@ export const CardPostFooter = styled.div`
   .statistic-like {
     display: flex;
     align-items: center;
+
     span {
       margin-left: 4px;
       color: #65676b;
     }
+  }
+
+  .status--btn__active {
+    color: #046fe4;
   }
 
   .status-btn {
@@ -80,17 +94,76 @@ export const CardPostFooter = styled.div`
         width: 94%;
         position: relative;
 
-        .btn-sending {
-          position: absolute;
-          right: 6px;
-          top: 0;
-          bottom: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 18px;
-          cursor: pointer;
-          padding: 10px 20px;
+        .comment-field {
+          .comment-box {
+            width: 100%;
+            display: flex;
+            position: relative;
+
+            .comment-input {
+              background: #f0f2f5;
+              border: none;
+              border-radius: 20px;
+              font-size: 16px;
+              padding: 8px 86px 8px 20px;
+              width: 100%;
+              overflow: auto;
+              margin-left: 6px;
+
+              &:empty:not(:focus)::before {
+                content: attr(data-placeholder);
+                margin-left: 4px;
+              }
+
+              &:before {
+                color: #bfbfbf;
+              }
+            }
+
+            .comment-utils {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: absolute;
+              right: 18px;
+              top: 0;
+              bottom: 0;
+
+              .emoji {
+                font-size: 20px;
+
+                span {
+                  cursor: pointer;
+                  padding: 10px;
+                }
+
+                .bundle-emoji {
+                  position: absolute;
+                  bottom: 32px;
+                  right: 8px;
+                }
+              }
+
+              .upload-img {
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 34px;
+                height: 34px;
+                cursor: pointer;
+              }
+
+              .btn-sending {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+                cursor: pointer;
+                padding: 0 10px;
+              }
+            }
+          }
         }
       }
     }
@@ -113,5 +186,16 @@ export const ButtonStatus = styled.div`
   span {
     margin-left: 6px;
     font-weight: 600;
+  }
+
+  @media screen and (max-width: 992px) {
+    padding: 6px 10px;
+  }
+
+  @media screen and (max-width: 575px) {
+    padding: 6px 0;
+    span {
+      font-size: 13px;
+    }
   }
 `;
