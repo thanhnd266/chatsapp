@@ -1,10 +1,11 @@
 import BannerImage from "components/User/BannerImage";
 import Profile from "components/User/Profile";
 import UploadAvatar from "components/User/UploadAvatar";
+import { UserStyled } from "./styled";
 
 const User = () => {
   return (
-    <div className="user">
+    <UserStyled>
       <BannerImage />
 
       <Profile />
@@ -12,7 +13,7 @@ const User = () => {
       {/* <div>
         <UploadAvatar />
       </div> */}
-    </div>
+    </UserStyled>
   );
 };
 

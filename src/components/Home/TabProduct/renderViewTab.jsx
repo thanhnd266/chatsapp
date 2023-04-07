@@ -9,10 +9,11 @@ import "swiper/css/pagination";
 
 // import required modules
 import { Pagination } from "swiper";
+import { TabContentStyled } from "./renderViewStyled";
 
 const renderViewTab = (data) => {
   return (
-    <div className="tab-content">
+    <TabContentStyled>
       <div className="tab-content__mark"></div>
       <div className="tab-content__wrapper">
         <div className="btn-view-all d-flex justify-content-end mb-2">
@@ -37,16 +38,16 @@ const renderViewTab = (data) => {
               spaceBetween: 10,
             },
             1024: {
-                slidesPerView: 4,
-                spaceBetween: 10,
+              slidesPerView: 4,
+              spaceBetween: 10,
             },
             1500: {
-                slidesPerView: 5,
-                spaceBetween: 20,
+              slidesPerView: 5,
+              spaceBetween: 20,
             },
             1600: {
-                slidesPerView: 5,
-                spaceBetween: 20,
+              slidesPerView: 5,
+              spaceBetween: 20,
             },
           }}
           modules={[Pagination]}
@@ -87,7 +88,7 @@ const renderViewTab = (data) => {
           ))}
         </Swiper>
       </div>
-    </div>
+    </TabContentStyled>
   );
 };
 

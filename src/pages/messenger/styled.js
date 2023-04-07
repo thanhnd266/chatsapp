@@ -1,4 +1,6 @@
-.messenger-wrapper {
+import styled from "styled-components";
+
+export const MessengerStyled = styled.div`
   display: flex;
   justify-content: space-between;
   height: 86vh;
@@ -99,18 +101,18 @@
       display: block;
     }
   }
-}
-::-webkit-scrollbar {
-  width: 5px;
-}
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #d6d2d2;
-  border-radius: 10px;
-}
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #d6d2d2;
+    border-radius: 10px;
+  }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+`;

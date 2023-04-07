@@ -1,19 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate, useOutletContext } from 'react-router-dom';
-import axiosClient from '../../config/axios';
-import { setConversation } from '../../redux/reducer/conversationSlice';
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import axiosClient from "../../config/axios";
+import { setConversation } from "../../redux/reducer/conversationSlice";
 //components
-import { Drawer } from 'antd';
-import ChatBox from '../../components/chatBox/ChatBox';
-import ChatBoxAdditional from '../../components/chatBoxAdditional/ChatBoxAdditional';
-import Conversation from '../../components/Conversation';
+import { Drawer } from "antd";
+import ChatBox from "../../components/chatBox/ChatBox";
+import ChatBoxAdditional from "../../components/chatBoxAdditional/ChatBoxAdditional";
+import Conversation from "../../components/Conversation";
 //socket
-import { socket } from '../../config/socket';
-
+import { socket } from "../../config/socket";
+import { MessengerStyled } from "./styled";
 
 const Messenger = () => {
-
   const [currentOnliner] = useOutletContext();
 
   const [loading, setLoading] = useState(false);
@@ -28,57 +27,60 @@ const Messenger = () => {
   const [isOpenChatInfo, setIsOpenChatInfo] = useState(true);
 
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('userData'));
+  const user = JSON.parse(localStorage.getItem("userData"));
   const dispatch = useDispatch();
 
   useEffect(() => {
     setCurrentUser(user);
-    if(!user) {
-      navigate('/login');
+    if (!user) {
+      navigate("/login");
     }
-  }, [navigate])
+  }, [navigate]);
 
   useEffect(() => {
     const getConversations = async () => {
       try {
-        if(Object.keys(currentUser).length > 0) {
-          const response = await axiosClient.get(`conversation/get-list/${currentUser._id}`);
-          if(response.status_code === 200) {
-            dispatch(setConversation(response.data))
+        if (Object.keys(currentUser).length > 0) {
+          const response = await axiosClient.get(
+            `conversation/get-list/${currentUser._id}`
+          );
+          if (response.status_code === 200) {
+            dispatch(setConversation(response.data));
             setConversations(response.data);
             setCurrentChat(response.data[0]);
           }
         }
-      } catch(err) {
+      } catch (err) {
         console.log(err);
       }
-    }
+    };
     getConversations();
   }, [currentUser]);
 
   useEffect(() => {
-    if(currentChat) {
-      const receiverUser = currentChat.members.find((member) => member._id !== currentUser._id);
-      
+    if (currentChat) {
+      const receiverUser = currentChat.members.find(
+        (member) => member._id !== currentUser._id
+      );
+
       const getReceiver = async () => {
         try {
           const res = await axiosClient.get(`/user/${receiverUser._id}`);
-          if(res.status_code === 200) {
+          if (res.status_code === 200) {
             setCurrentReceiver(res.data);
           }
-
-        } catch(err) {
+        } catch (err) {
           console.log(err);
         }
-      }
+      };
 
       getReceiver();
     }
   }, [currentChat, currentUser]);
 
   useEffect(() => {
-    socket.on("getMessage", data => {
-      if(currentChat && currentChat?._id !== data.conversationId) {
+    socket.on("getMessage", (data) => {
+      if (currentChat && currentChat?._id !== data.conversationId) {
         return setWaitingMessage({
           _id: data._id,
           conversationId: data.conversationId,
@@ -88,7 +90,7 @@ const Messenger = () => {
           updatedAt: Date.now(),
           __v: data.__v,
           isUnread: true,
-        })
+        });
       }
 
       return setArrivalMessage({
@@ -99,42 +101,39 @@ const Messenger = () => {
         createdAt: Date.now(),
         updatedAt: Date.now(),
         __v: data.__v,
-      })
-    })
-
-  }, [currentChat])
+      });
+    });
+  }, [currentChat]);
 
   useEffect(() => {
-    if(arrivalMessage) {
-      currentChat?.members.forEach(mem => {
-        if(mem._id === arrivalMessage.sender) {
-          setMessages((prev) => [...prev, arrivalMessage])
+    if (arrivalMessage) {
+      currentChat?.members.forEach((mem) => {
+        if (mem._id === arrivalMessage.sender) {
+          setMessages((prev) => [...prev, arrivalMessage]);
           return;
         }
-      })
+      });
     }
-
-  }, [arrivalMessage, currentChat])
+  }, [arrivalMessage, currentChat]);
 
   useEffect(() => {
     const getMessage = async () => {
       setLoading(true);
 
-      if(currentChat) {
+      if (currentChat) {
         try {
           const res = await axiosClient.get(`/message/get/${currentChat._id}`);
-          if(res.status_code === 200) {
+          if (res.status_code === 200) {
             // dispatch(setMessage(res.data));
             setLoading(false);
             setMessages(res.data);
           }
-        } catch(err) {
+        } catch (err) {
           console.log(err);
         }
       }
-    }
+    };
     getMessage();
-
   }, [currentChat, dispatch]);
 
   const handleChangeConv = (e, conversation) => {
@@ -142,14 +141,14 @@ const Messenger = () => {
     setCurrentChat(conversation);
     setArrivalMessage(null);
     setOpenChatBox(true);
-  }
+  };
 
   const onCloseDrawerChatbox = () => {
     setOpenChatBox(false);
   };
 
   return (
-    <div className="messenger-wrapper">
+    <MessengerStyled>
       <div className="conversations-container">
         <Conversation
           conversationDB={conversations}
@@ -158,7 +157,7 @@ const Messenger = () => {
           setCurrentChat={setCurrentChat}
           waitingMessage={waitingMessage}
           setWaitingMessage={setWaitingMessage}
-          currentUser={currentUser} 
+          currentUser={currentUser}
           currentReceiver={currentReceiver}
           handleChangeConv={handleChangeConv}
           currentOnliner={currentOnliner}
@@ -176,7 +175,7 @@ const Messenger = () => {
         >
           <ChatBox
             loading={loading}
-            currentUser={currentUser} 
+            currentUser={currentUser}
             currentChat={currentChat}
             messages={messages}
             setMessages={setMessages}
@@ -191,7 +190,7 @@ const Messenger = () => {
       <div className="messages-container">
         <ChatBox
           loading={loading}
-          currentUser={currentUser} 
+          currentUser={currentUser}
           currentChat={currentChat}
           messages={messages}
           setMessages={setMessages}
@@ -205,13 +204,13 @@ const Messenger = () => {
         <div className="additionalInfo-container">
           <ChatBoxAdditional
             currentChat={currentChat}
-            currentUser={currentUser} 
+            currentUser={currentUser}
             currentOnliner={currentOnliner}
             currentReceiver={currentReceiver}
           />
         </div>
       )}
-    </div>
+    </MessengerStyled>
   );
 };
 

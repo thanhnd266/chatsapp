@@ -21,7 +21,6 @@ const BaseModal = ({
       }}
       bodyStyle={{
         padding: 0,
-        overflowY: "auto",
       }}
       open={visible}
       title={

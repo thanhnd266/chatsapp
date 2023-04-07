@@ -1,4 +1,6 @@
-.navbar-wrapper {
+import styled from "styled-components";
+
+export const NavbarContainer = styled.div`
   height: 80px;
   display: flex;
   justify-content: space-between;
@@ -109,4 +111,4 @@
       }
     }
   }
-}
+`;

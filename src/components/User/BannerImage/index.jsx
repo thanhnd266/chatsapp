@@ -1,11 +1,12 @@
 import { Avatar, Image } from "antd";
 import ListFriend from "../listFriend";
+import { BannerImageStyled } from "./styled";
 
 const BannerImage = () => {
   const url = "https://cdn-icons-png.flaticon.com/512/5556/5556512.png";
 
   return (
-    <div className="banner-image">
+    <BannerImageStyled>
       <div className="banner-image_wrapper">
         <Image
           width="100%"
@@ -47,7 +48,7 @@ const BannerImage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </BannerImageStyled>
   );
 };
 

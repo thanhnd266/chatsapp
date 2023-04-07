@@ -1,4 +1,6 @@
-.loading {
+import styled from "styled-components";
+
+export const LoadingStyled = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
@@ -14,7 +16,7 @@
   }
 
   .loading-spinner {
-      font-size: 32px !important;
-      animation: spinner 1.5s linear infinite;
+    font-size: 32px !important;
+    animation: spinner 1.5s linear infinite;
   }
-}
+`;

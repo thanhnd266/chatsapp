@@ -1,4 +1,6 @@
-.chatBox {
+import styled from "styled-components";
+
+export const ChatBoxStyled = styled.div`
   height: 100%;
 
   .chatBoxWrapper {
@@ -17,12 +19,13 @@
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
 
-      .receiver-info, .receiver-info__mobile {
+      .receiver-info,
+      .receiver-info__mobile {
         padding-left: 4px;
         display: flex;
         align-items: center;
         color: #fff;
-        
+
         .receiver-info__img {
           position: relative;
           cursor: pointer;
@@ -37,13 +40,13 @@
             position: absolute;
             bottom: -5px;
             right: -6px;
-            
+
             i {
-                border-radius: 100%;
-                border: 2px solid #333;
-                font-size: 10px;
-                margin-right: 2px;
-                color: rgb(118, 235, 8);
+              border-radius: 100%;
+              border: 2px solid #333;
+              font-size: 10px;
+              margin-right: 2px;
+              color: rgb(118, 235, 8);
             }
           }
 
@@ -51,13 +54,13 @@
             position: absolute;
             bottom: -5px;
             right: -6px;
-            
+
             i {
-                border-radius: 100%;
-                border: 2px solid #333;
-                font-size: 10px;
-                margin-right: 2px;
-                color: #c3c3c3;
+              border-radius: 100%;
+              border: 2px solid #333;
+              font-size: 10px;
+              margin-right: 2px;
+              color: #c3c3c3;
             }
           }
         }
@@ -274,15 +277,15 @@
           }
           .ant-drawer-content-wrapper {
             height: 100% !important;
-  
+
             @media screen and (max-width: 575px) {
               width: 100% !important;
             }
-  
+
             .ant-drawer-content {
               border-radius: 10px;
               padding: 10px 20px;
-  
+
               // .ant-drawer-wrapper-body {
               //   .ant-drawer-body {
               //   }
@@ -291,7 +294,6 @@
           }
         }
       }
-
     }
   }
 
@@ -301,16 +303,15 @@
   ::-webkit-scrollbar {
     width: 5px;
   }
-   
+
   /* Handle */
   ::-webkit-scrollbar-thumb {
     background: rgb(190, 190, 190);
     border-radius: 10px;
   }
-  
+
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
-}
-
-}
+    background: #555;
+  }
+`;

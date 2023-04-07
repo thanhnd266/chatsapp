@@ -1,4 +1,4 @@
-import { Select } from "antd";
+import { Button, Divider, Select } from "antd";
 import BaseModal from "components/BaseModal";
 import { useEffect, useRef, useState } from "react";
 import { AvatarCard, ModalPostContent } from "./styled";
@@ -59,7 +59,7 @@ const ModalPost = ({ ...props }) => {
 
   return (
     <>
-      <BaseModal title="Create Post" width="600px" {...props}>
+      <BaseModal title="Create Post" width="600px" footer={null} {...props}>
         <ModalPostContent>
           <div className="modal-avatar">
             <AvatarCard src="https://cdn-icons-png.flaticon.com/512/5556/5556512.png" />
@@ -141,6 +141,12 @@ const ModalPost = ({ ...props }) => {
                 )}
               </div>
             </div>
+          </div>
+
+          <Divider />
+
+          <div className="modal-footer">
+            <Button block>Post</Button>
           </div>
         </ModalPostContent>
       </BaseModal>

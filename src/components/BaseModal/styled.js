@@ -33,7 +33,5 @@ export const ModalWrapper = styled(Modal)`
 `;
 
 export const ModalBody = styled.div`
-  padding: 10px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  padding: 10px 10px 2px 10px;
 `;

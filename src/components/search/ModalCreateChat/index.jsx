@@ -1,19 +1,18 @@
-import { Modal } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { removeAccents } from "../../../utils/helpers";
+import { ModalCreateChatStyled } from "./styled";
 
 const ModalCreateChat = ({
-  open, 
-  setOpen, 
-  currentOnliner, 
+  open,
+  setOpen,
+  currentOnliner,
   currentUser,
   listUser,
-  onSelectConv
+  onSelectConv,
 }) => {
-
   const [listUserChat, setListUserChat] = useState([]);
   const [listUserSearch, setListUserSearch] = useState([]);
-    
+
   const searchTermRef = useRef();
 
   const handleCancel = () => {
@@ -24,79 +23,79 @@ const ModalCreateChat = ({
     let arrOnliner = [];
     let arrOffliner = [];
 
-    for(let i = 0; i < listUser.length; i++) {
-      if(listUser[i]._id === currentUser._id) {
+    for (let i = 0; i < listUser.length; i++) {
+      if (listUser[i]._id === currentUser._id) {
         continue;
       }
 
-      if(currentOnliner.length > 1) {
-
+      if (currentOnliner.length > 1) {
         let isUserOnline = false;
 
-        for(let j = 0; j < currentOnliner.length; j++) {
-          if(currentOnliner[j]._id === currentUser._id) {
+        for (let j = 0; j < currentOnliner.length; j++) {
+          if (currentOnliner[j]._id === currentUser._id) {
             continue;
-          };
+          }
 
-          if(currentOnliner[j]._id === listUser[i]._id) {
+          if (currentOnliner[j]._id === listUser[i]._id) {
             isUserOnline = true;
             arrOnliner.push({
               ...listUser[i],
               isOnline: true,
-            })
+            });
             break;
           }
         }
 
-        if(isUserOnline === false) {
+        if (isUserOnline === false) {
           arrOffliner.push({
             ...listUser[i],
             isOnline: false,
-          })
+          });
 
           continue;
         }
-
       } else {
         arrOffliner.push({
           ...listUser[i],
           isOnline: false,
-        })
+        });
         continue;
       }
     }
     setListUserChat([...arrOnliner, ...arrOffliner]);
 
-    if(!searchTermRef.current.value) {
+    if (!searchTermRef.current.value) {
       setListUserSearch([...arrOnliner, ...arrOffliner]);
     } else {
-      const sortArr = [...arrOnliner, ...arrOffliner].filter(user => user.username.includes(searchTermRef.current.value));
+      const sortArr = [...arrOnliner, ...arrOffliner].filter((user) =>
+        user.username.includes(searchTermRef.current.value)
+      );
       setListUserSearch(sortArr);
     }
-  
-  }, [currentOnliner, listUser, currentUser])
+  }, [currentOnliner, listUser, currentUser]);
 
   const handleSearchUser = (e) => {
     let newArr = [];
 
-    if(!e || e.target.value === "") {
+    if (!e || e.target.value === "") {
       return setListUserSearch(listUserChat);
     }
 
-    listUserChat?.forEach(user => {
-      if(
-        removeAccents(user.username.toLowerCase())
-          .includes(removeAccents(e.target.value.toLowerCase()))
+    listUserChat?.forEach((user) => {
+      if (
+        removeAccents(user.username.toLowerCase()).includes(
+          removeAccents(e.target.value.toLowerCase())
+        )
       ) {
-        newArr.push(user)
+        newArr.push(user);
       }
-    })
+    });
 
     setListUserSearch(newArr);
-  }
+  };
 
   return (
-    <Modal
+    <ModalCreateChatStyled
       title="Create Chatbox"
       open={open}
       onCancel={handleCancel}
@@ -125,7 +124,11 @@ const ModalCreateChat = ({
           {listUserSearch &&
             listUserSearch.map((user, index) => {
               return (
-                <div className="modal-list__item" key={index} onClick={(e) => onSelectConv(e, user._id, true)}>
+                <div
+                  className="modal-list__item"
+                  key={index}
+                  onClick={(e) => onSelectConv(e, user._id, true)}
+                >
                   <div className="modal-list__item__img">
                     <img src={user.profilePicture} alt="avatar" />
 
@@ -144,7 +147,7 @@ const ModalCreateChat = ({
             })}
         </div>
       </div>
-    </Modal>
+    </ModalCreateChatStyled>
   );
 };
 

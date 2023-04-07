@@ -1,7 +1,9 @@
+import { LoadingStyled } from "./styled";
+
 export default function Loading() {
   return (
-    <div className="loading">
-        <i className="loading-spinner fa-duotone fa-spinner-third"></i>
-    </div>
+    <LoadingStyled>
+      <i className="loading-spinner fa-duotone fa-spinner-third"></i>
+    </LoadingStyled>
   );
 }

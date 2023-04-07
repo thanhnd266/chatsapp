@@ -1,11 +1,21 @@
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import axiosClient from "../../config/axios";
-import { addNewConversation, setConversation } from "../../redux/reducer/conversationSlice";
+import {
+  addNewConversation,
+  setConversation,
+} from "../../redux/reducer/conversationSlice";
 import { removeAccents } from "../../utils/helpers";
 import ModalCreateChat from "./ModalCreateChat";
+import { SearchConvStyled } from "./styled";
 
-const SearchConv = ({ conversationDB, currentOnliner, currentUser, setCurrentChat, setOpenChatBox }) => {
+const SearchConv = ({
+  conversationDB,
+  currentOnliner,
+  currentUser,
+  setCurrentChat,
+  setOpenChatBox,
+}) => {
   const [open, setOpen] = useState(false);
   const [listUser, setListUser] = useState([]);
 
@@ -20,12 +30,13 @@ const SearchConv = ({ conversationDB, currentOnliner, currentUser, setCurrentCha
     let newConv = [];
 
     conversationDB?.forEach((conv) => {
-      for(let i = 0; i < conv.members.length; i++) {
+      for (let i = 0; i < conv.members.length; i++) {
         if (
-            removeAccents(conv.members[i].username.toLowerCase())
-              .includes(removeAccents(e.target.value.toLowerCase()))
+          removeAccents(conv.members[i].username.toLowerCase()).includes(
+            removeAccents(e.target.value.toLowerCase())
+          )
         ) {
-          if(conv.members[i]._id !== currentUser._id) {
+          if (conv.members[i]._id !== currentUser._id) {
             newConv.push(conv);
             break;
           }
@@ -39,44 +50,45 @@ const SearchConv = ({ conversationDB, currentOnliner, currentUser, setCurrentCha
   const showModal = async () => {
     try {
       const res = await axiosClient.get("/user/get-list");
-      if(res.status_code === 200) {
+      if (res.status_code === 200) {
         setListUser(res.data);
         setOpen(true);
-
       }
-    } catch(err) { 
+    } catch (err) {
       console.log(err);
     }
   };
 
   const handleSelectConv = async (e, receiverId, isModeModal) => {
     e.preventDefault();
-    
+
     try {
-      const res = await axiosClient.get(`/conversation/get-one/${receiverId}/${currentUser._id}`);
-      if(res.status_code === 200) {
-        if(res.data) {
+      const res = await axiosClient.get(
+        `/conversation/get-one/${receiverId}/${currentUser._id}`
+      );
+      if (res.status_code === 200) {
+        if (res.data) {
           isModeModal && setOpen(false);
-          setCurrentChat(res.data)
-          setOpenChatBox(true)
+          setCurrentChat(res.data);
+          setOpenChatBox(true);
         } else {
           const res = await axiosClient.post("/conversation/create", {
             senderId: currentUser._id,
             receiverId,
-          })
+          });
           isModeModal && setOpen(false);
           setCurrentChat(res.data);
-          dispatch(addNewConversation(res.data))
-          setOpenChatBox(true)
+          dispatch(addNewConversation(res.data));
+          setOpenChatBox(true);
         }
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   return (
-    <div className="search-wrapper">
+    <SearchConvStyled>
       <div className="search-header">
         <h3>Chats</h3>
 
@@ -89,33 +101,38 @@ const SearchConv = ({ conversationDB, currentOnliner, currentUser, setCurrentCha
             </button>
           </div>
 
-          {open && <ModalCreateChat
-            open={open} 
-            setOpen={setOpen}
-            currentOnliner={currentOnliner}
-            currentUser={currentUser}
-            listUser={listUser}
-            onSelectConv={handleSelectConv}
-          />}
+          {open && (
+            <ModalCreateChat
+              open={open}
+              setOpen={setOpen}
+              currentOnliner={currentOnliner}
+              currentUser={currentUser}
+              listUser={listUser}
+              onSelectConv={handleSelectConv}
+            />
+          )}
 
           <div className="list-user__online">
-            {currentOnliner && currentOnliner.map((item, index) => {
-              if(item._id === currentUser._id) {
-                return (
-                  <div key={index}></div>
-                );
-              }
+            {currentOnliner &&
+              currentOnliner.map((item, index) => {
+                if (item._id === currentUser._id) {
+                  return <div key={index}></div>;
+                }
 
-              return (
-                <div className="onliner-item" key={index} onClick={(e) => handleSelectConv(e, item._id)}>
-                  <img src={item.profilePicture} alt="avatar" />
-  
-                  <span className="item-image__status">
-                    <i className="fa-solid fa-circle"></i>
-                  </span>
-                </div>
-              )
-            })}
+                return (
+                  <div
+                    className="onliner-item"
+                    key={index}
+                    onClick={(e) => handleSelectConv(e, item._id)}
+                  >
+                    <img src={item.profilePicture} alt="avatar" />
+
+                    <span className="item-image__status">
+                      <i className="fa-solid fa-circle"></i>
+                    </span>
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>
@@ -135,7 +152,7 @@ const SearchConv = ({ conversationDB, currentOnliner, currentUser, setCurrentCha
           />
         </div>
       </div>
-    </div>
+    </SearchConvStyled>
   );
 };
 

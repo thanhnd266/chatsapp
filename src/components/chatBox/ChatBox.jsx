@@ -9,6 +9,7 @@ import { Drawer } from "antd";
 import ChatBoxAdditionalMobile from "../ChatBoxAdditionalMobile";
 import { socket } from "../../config/socket";
 import { useSelector } from "react-redux";
+import { ChatBoxStyled } from "./styled";
 
 const ChatBox = ({
   loading,
@@ -125,7 +126,7 @@ const ChatBox = ({
   };
 
   return (
-    <div className="chatBox">
+    <ChatBoxStyled>
       {loading && conversations.length === 0 && (
         <div className="chatBox-createConv_wrapper d-flex align-items-center justify-content-center h-100">
           <div className="text-center">
@@ -356,7 +357,7 @@ const ChatBox = ({
           )}
         </div>
       )}
-    </div>
+    </ChatBoxStyled>
   );
 };
 

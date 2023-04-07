@@ -1,11 +1,13 @@
-.tab-content {
-  background-image: url("../../../assets/images/gaming-gear-background.png");
+import styled from "styled-components";
+import backgroundImg from "../../../assets/images/gaming-gear-background.png";
+
+export const TabContentStyled = styled.div`
+  background-image: url(${backgroundImg});
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
   border-radius: 4px;
   position: relative;
-
   .tab-content__mark {
     position: absolute;
     inset: 0 0 0 0;
@@ -17,7 +19,7 @@
     padding: 20px 40px 30px 40px;
 
     @media screen and (max-width: 575px) {
-        padding: 20px;
+      padding: 20px;
     }
 
     .btn-view-all {
@@ -31,16 +33,16 @@
       }
     }
 
-    .swiper  {
-        .swiper-wrapper {
-            padding: 20px 0;
+    .swiper {
+      .swiper-wrapper {
+        padding: 20px 0;
+      }
+      .swiper-pagination {
+        bottom: 0;
+        .swiper-pagination-bullet {
+          background-color: #fff;
         }
-        .swiper-pagination {
-            bottom: 0;
-            .swiper-pagination-bullet {
-                background-color: #fff;
-            }
-        }
+      }
     }
 
     .ant-card {
@@ -55,18 +57,18 @@
           display: flex;
           justify-content: center;
           align-items: center;
-            
-            img {
-                object-fit: cover;
-                object-position: center;
-                width: 220px;
-                height: 220px;
-                transition: transform 0.5s;
 
-                &:hover {
-                    transform: translateZ(0) scale(1.1);
-                }
+          img {
+            object-fit: cover;
+            object-position: center;
+            width: 220px;
+            height: 220px;
+            transition: transform 0.5s;
+
+            &:hover {
+              transform: translateZ(0) scale(1.1);
             }
+          }
         }
       }
 
@@ -79,7 +81,7 @@
           .card-title {
             line-height: 1.6rem;
             overflow: hidden;
-            display: -webkit-box; 
+            display: -webkit-box;
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
             max-height: 3.2rem;
@@ -92,7 +94,7 @@
           .card-description {
             line-height: 1.6rem;
             overflow: hidden;
-            display: -webkit-box; 
+            display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
           }
@@ -134,4 +136,4 @@
       }
     }
   }
-}
+`;

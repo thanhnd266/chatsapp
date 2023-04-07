@@ -32,7 +32,7 @@ export const ModalPostContent = styled.div`
       font-size: 16px;
       width: 100%;
       min-height: 80px !important;
-      max-height: 200px;
+      max-height: 500px;
       overflow: auto;
       padding: 0 10px;
 
@@ -59,6 +59,7 @@ export const ModalPostContent = styled.div`
 
       .emoji {
         font-size: 20px;
+        position: relative;
 
         span {
           cursor: pointer;
@@ -67,12 +68,9 @@ export const ModalPostContent = styled.div`
 
         .bundle-emoji {
           emoji-picker {
-            top: 0;
+            position: absolute;
+            bottom: calc(100% + 10px);
             right: 0;
-            left: 0;
-            bottom: 0;
-            margin: auto auto;
-            position: fixed;
             z-index: 1000;
           }
         }
@@ -87,6 +85,24 @@ export const ModalPostContent = styled.div`
         height: 34px;
         cursor: pointer;
       }
+    }
+  }
+
+  .ant-divider {
+    margin: 12px 0;
+  }
+
+  .modal-footer {
+    .ant-btn {
+      background: #e4e6eb;
+      color: #bfbfbf;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      border: none;
+      padding: 18px;
     }
   }
 `;

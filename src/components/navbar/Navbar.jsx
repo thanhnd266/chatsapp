@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import MenuMobile from "../MenuMobile";
 import Cookies from "js-cookie";
 import { socket } from "../../config/socket";
+import { NavbarContainer } from "./styled";
 
 const Navbar = ({ userInfo, pathname }) => {
   const [open, setOpen] = useState(false);
@@ -22,7 +23,7 @@ const Navbar = ({ userInfo, pathname }) => {
   };
 
   return (
-    <div className="navbar-wrapper">
+    <NavbarContainer>
       <div className="app-name">
         <h2>Cavanica</h2>
       </div>
@@ -90,7 +91,7 @@ const Navbar = ({ userInfo, pathname }) => {
           </div>
         </div>
       </div>
-    </div>
+    </NavbarContainer>
   );
 };
 
