@@ -1,34 +1,34 @@
-import { Dropdown, Space } from 'antd';
+import { Dropdown, Space } from "antd";
 const items = [
   {
     label: "Trình duyệt lớp dữ liệu",
-    key: '0',
+    key: "0",
   },
   {
     label: "Xuất lớp dữ liệu bản đồ",
-    key: '1',
+    key: "1",
   },
   {
     label: "Xem thuộc tính không gian",
-    key: '2',
+    key: "2",
   },
   {
     label: "Xóa dữ liệu",
-    key: '3',
+    key: "3",
   },
 ];
 const DropdownList = () => (
-  <div className="dropdown-list" onClick={e => e.stopPropagation()}>
+  <div className="dropdown-list" onClick={(e) => e.stopPropagation()}>
     <Dropdown
-        menu={{
+      menu={{
         items,
-        }}
-        trigger={['click']}
-        className="px-2"
+      }}
+      trigger={["click"]}
+      className="px-2"
     >
-        <Space>
-            <i className="fa-regular fa-ellipsis-vertical"></i>
-        </Space>
+      <Space>
+        <i className="fa-regular fa-ellipsis-vertical"></i>
+      </Space>
     </Dropdown>
   </div>
 );

@@ -1,6 +1,6 @@
-import BannerImage from "components/User/BannerImage";
-import Profile from "components/User/Profile";
-import UploadAvatar from "components/User/UploadAvatar";
+import BannerImage from "@/components/User/BannerImage";
+import Profile from "@/components/User/Profile";
+import UploadAvatar from "@/components/User/UploadAvatar";
 import { UserStyled } from "./styled";
 
 const User = () => {

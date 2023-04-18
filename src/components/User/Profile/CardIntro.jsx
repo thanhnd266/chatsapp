@@ -1,6 +1,6 @@
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Card } from "antd";
-import ButtonComponent from "components/ButtonComponent";
+import ButtonComponent from "@/components/ButtonComponent";
 
 const CardIntro = () => {
   return (

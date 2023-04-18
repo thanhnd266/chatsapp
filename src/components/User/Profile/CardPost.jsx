@@ -1,5 +1,5 @@
 import { Image } from "antd";
-import { comments } from "contants/comment";
+import { comments } from "@/contants/comment";
 import { useEffect, useRef, useState } from "react";
 import CommentComponent from "./CommentComponent";
 import { CardContainer } from "./style/CardContainer.styled";
@@ -58,7 +58,6 @@ const CardPost = ({ title, body, image, postId }) => {
   };
 
   const handleSubmitMessage = async (e) => {
-    console.log("hello teacher");
     inputEl.current.innerHTML = "";
   };
 

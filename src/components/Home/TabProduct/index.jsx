@@ -1,5 +1,5 @@
 import { Tabs } from "antd";
-import { itemsProductTab } from "contants/home/tabProduct";
+import { itemsProductTab } from "@/contants/home/tabProduct";
 import { TabProductStyled } from "./styled";
 
 const TabProduct = () => {

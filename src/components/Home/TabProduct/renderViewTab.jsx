@@ -1,5 +1,5 @@
 import { Card, Image } from "antd";
-import { formatCurrencyValue } from "utils/helpers";
+import { formatCurrencyValue } from "@/utils/helpers";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 

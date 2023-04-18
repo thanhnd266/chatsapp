@@ -1,7 +1,7 @@
-import { Avatar } from "antd";
+import { Avatar, Form } from "antd";
 import styled from "styled-components";
 
-export const ModalPostContent = styled.div`
+export const ModalPostContent = styled(Form)`
   padding: 0 10px;
   position: relative;
 
@@ -93,6 +93,15 @@ export const ModalPostContent = styled.div`
   }
 
   .modal-footer {
+    .ant-form-item {
+      margin: 0;
+      width: 100%;
+
+      .ant-form-item-control {
+        max-width: 100%;
+        margin-left: 0;
+      }
+    }
     .ant-btn {
       background: #e4e6eb;
       color: #bfbfbf;
@@ -112,4 +121,33 @@ export const AvatarCard = styled(Avatar)`
   height: 40px;
   border-radius: 100%;
   background: grey;
+`;
+
+export const ImagePreview = styled.div`
+  border: 1px solid #e4e6eb;
+  padding: 10px 6px;
+  border-radius: 6px;
+  margin-top: 10px;
+`;
+
+export const ImagePreviewWrapper = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: ${(props) => `repeat(${props.numberItemPerRow}, 1fr)`};
+  gap: 4px;
+
+  .image-preview__item {
+    width: 100%;
+    max-height: ${(props) =>
+      props.numberItemPerRow === 1 ? "400px" : "200px"};
+    height: ${(props) => (props.numberItemPerRow === 1 ? "unset" : "200px")};
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: ${(props) =>
+        props.numberItemPerRow === 1 ? "contain" : "cover"};
+      object-position: center;
+      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+    }
+  }
 `;

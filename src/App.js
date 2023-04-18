@@ -11,10 +11,10 @@ import Register from "./pages/register/Register.jsx";
 import Messenger from "./pages/messenger/Messenger.jsx";
 import User from "./pages/user/User.jsx";
 import Community from "./pages/community/Community.jsx";
-import Files from "./pages/files/Files.jsx";
+import Files from "./pages/contact/Contact.jsx";
 import DashLayout from "./components/DashLayout";
 import React, { Suspense } from "react";
-import SuspenseFallback from "components/Progress";
+import SuspenseFallback from "@/components/Progress";
 // import Layout from "./components/Layout";
 
 const Layout = React.lazy(() => import("./components/Layout"));

@@ -1,9 +1,9 @@
-import { listFriends, listPhotos } from "contants/profile";
+import { listFriends, listPhotos } from "@/contants/profile";
 import CardIntro from "./CardIntro";
 import CardPhotos from "./CardPhotos";
 import CardTyping from "./CardTyping";
 import CardPost from "./CardPost";
-import { posts } from "contants/posts";
+import { posts } from "@/contants/posts";
 import { ProfileStyled } from "./styled";
 
 const Profile = () => {

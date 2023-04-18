@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 // import required modules
 import { Pagination } from "swiper";
 import { Card, Image } from "antd";
-import { famousBrand } from "contants/home/famousBrand";
+import { famousBrand } from "@/contants/home/famousBrand";
 
 const FamousBrand = () => {
   return (

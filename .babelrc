@@ -1,0 +1,13 @@
+{
+  "plugins": [
+    [
+      "module-resolve",
+      {
+        "alias": {
+          "@": "./src",
+          "~": "./src/components"
+        }
+      }
+    ]
+  ]
+}

@@ -1,5 +1,5 @@
 import { Drawer } from "antd";
-import { navbarItems } from "contants/navbar";
+import { navbarItems } from "@/contants/navbar";
 import { NavLink } from "react-router-dom";
 import { MenuMobileStyled, MenuMobileWrapper } from "./styled";
 
