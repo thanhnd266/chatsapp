@@ -24,8 +24,11 @@ export const ModalPostContent = styled(Form)`
   }
 
   .modal-main {
-    margin-top: 10px;
     width: 100%;
+
+    .ant-form-item {
+      margin: 0;
+    }
 
     .post-input {
       border-radius: 6px;
@@ -60,10 +63,20 @@ export const ModalPostContent = styled(Form)`
       .emoji {
         font-size: 20px;
         position: relative;
+        border-radius: 100%;
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #e4e6eb;
+        }
 
         span {
           cursor: pointer;
-          padding: 10px;
         }
 
         .bundle-emoji {
@@ -84,35 +97,22 @@ export const ModalPostContent = styled(Form)`
         width: 34px;
         height: 34px;
         cursor: pointer;
+        border-radius: 100%;
+        transition: all 0.5s ease-in-out;
+
+        &:hover {
+          background-color: #e4e6eb;
+        }
+
+        .upload-icon {
+          padding: 10px;
+        }
       }
     }
   }
 
   .ant-divider {
     margin: 12px 0;
-  }
-
-  .modal-footer {
-    .ant-form-item {
-      margin: 0;
-      width: 100%;
-
-      .ant-form-item-control {
-        max-width: 100%;
-        margin-left: 0;
-      }
-    }
-    .ant-btn {
-      background: #e4e6eb;
-      color: #bfbfbf;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 6px;
-      border: none;
-      padding: 18px;
-    }
   }
 `;
 
@@ -128,6 +128,26 @@ export const ImagePreview = styled.div`
   padding: 10px 6px;
   border-radius: 6px;
   margin-top: 10px;
+  position: relative;
+
+  .delete-img {
+    position: absolute;
+    top: 1px;
+    right: 2px;
+    cursor: pointer;
+    padding: 10px;
+
+    span {
+      font-size: 24px;
+      color: #b8bbc1;
+      display: inline-block;
+      transition: all 0.5s ease-in-out;
+
+      &:hover {
+        color: #e4e6eb;
+      }
+    }
+  }
 `;
 
 export const ImagePreviewWrapper = styled.div`
@@ -149,5 +169,29 @@ export const ImagePreviewWrapper = styled.div`
       object-position: center;
       box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
     }
+  }
+`;
+
+export const FooterStyled = styled.div`
+  .ant-form-item {
+    margin: 0;
+    width: 100%;
+
+    .ant-form-item-control {
+      max-width: 100%;
+      margin-left: 0;
+    }
+  }
+  .ant-btn {
+    background: ${(props) => (props.existValue ? "#1890ff" : "#e4e6eb")};
+    color: ${(props) => (props.existValue ? "#fff" : "#bfbfbf")};
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    border: none;
+    padding: 18px;
+    transition: all 0.5s ease-in-out;
   }
 `;

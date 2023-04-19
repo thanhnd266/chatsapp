@@ -3,9 +3,7 @@ import Cookies from "js-cookie";
 
 const axiosClient = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  headers: {},
 });
 
 axiosClient.interceptors.request.use((config) => {

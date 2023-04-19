@@ -10,6 +10,8 @@ export const ModalWrapper = styled(Modal)`
       padding: 10px 12px;
       height: 48px;
       margin-bottom: 0;
+      border-top-left-radius: 4px !important;
+      border-top-right-radius: 4px !important;
     }
     &-title {
       font-weight: 500;
@@ -28,6 +30,8 @@ export const ModalWrapper = styled(Modal)`
     &-footer {
       padding: 10px 12px;
       margin: 0 !important;
+      border-bottom-left-radius: 4px !important;
+      border-bottom-right-radius: 4px !important;
     }
   }
 `;

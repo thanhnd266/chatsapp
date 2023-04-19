@@ -1,18 +1,22 @@
-import { Button, Divider, Form, Select } from "antd";
+import { Button, Divider, Form, Input, Select } from "antd";
 import BaseModal from "@/components/BaseModal";
 import { useEffect, useRef, useState } from "react";
 import {
   AvatarCard,
+  FooterStyled,
   ImagePreview,
   ImagePreviewWrapper,
   ModalPostContent,
 } from "./styled";
 import React from "react";
+import { convertHtmlToText } from "@/utils/helpers";
+import axiosClient from "@/config/axios";
 
 const ModalPost = ({ ...props }) => {
   // const [confirmLoading, setConfirmLoading] = useState(false);
   const [listImagePreview, setListImagePreview] = useState([]);
   const [listFileImage, setListFileImage] = useState([]);
+  const [valueInputField, setValueInputField] = useState(false);
   const fileImageRef = useRef();
 
   const [openEmoji, setOpenEmoji] = useState(false);
@@ -20,6 +24,8 @@ const ModalPost = ({ ...props }) => {
   const iconEl = useRef();
   const bundleEmoji = useRef();
   const inputEl = useRef();
+
+  const currentUser = JSON.parse(localStorage.getItem("userData"));
 
   useEffect(() => {
     window.onclick = (e) => {
@@ -50,11 +56,28 @@ const ModalPost = ({ ...props }) => {
   };
 
   const handleSubmitPost = async (value) => {
-    console.log(value);
-    let result = value;
-    result.textContent = inputEl.current.innerHTML;
-    result.image = [...listFileImage];
-    console.log(result);
+    let formData = new FormData();
+
+    listFileImage.forEach((el, index) => {
+      formData.append(`image-${index}`, el);
+    });
+
+    let data = {
+      ...value,
+      userId: currentUser._id,
+      content: convertHtmlToText(inputEl.current.innerHTML),
+    };
+
+    formData.append("payload", JSON.stringify(data));
+
+    try {
+      const res = axiosClient.post("/posts/create", formData);
+      if (res.status_code === 200) {
+        console.log(res);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // const onPreview = async (file) => {
@@ -79,9 +102,29 @@ const ModalPost = ({ ...props }) => {
 
   const handleOnChangeImg = (e) => {
     e.preventDefault();
-    const urlImage = URL.createObjectURL(e.target.files[0]);
-    setListFileImage((prev) => [...prev, e.target.files[0]]);
-    setListImagePreview((prev) => [...prev, urlImage]);
+
+    let listFile = [...e.target.files];
+
+    listFile.forEach((el) => {
+      const urlImage = URL.createObjectURL(el);
+      setListFileImage((prev) => [...prev, el]);
+      setListImagePreview((prev) => [...prev, urlImage]);
+    });
+  };
+
+  const handleRemovePreviewImg = (e) => {
+    e.preventDefault();
+    setListImagePreview([]);
+    setListFileImage([]);
+  };
+
+  const handleFocusInputField = (e) => {
+    const value = convertHtmlToText(e.target.innerHTML);
+    if (value) {
+      setValueInputField(true);
+    } else {
+      setValueInputField(false);
+    }
   };
 
   return (
@@ -90,14 +133,14 @@ const ModalPost = ({ ...props }) => {
         <ModalPostContent
           onFinish={handleSubmitPost}
           initialValues={{
-            ["publicStatus"]: "public",
+            ["public_status"]: "public",
           }}
         >
           <div className="modal-avatar">
             <AvatarCard src="https://cdn-icons-png.flaticon.com/512/5556/5556512.png" />
             <div className="modal-avatar__info">
               <h6>Duy Thanh</h6>
-              <Form.Item name="publicStatus">
+              <Form.Item name="public_status">
                 <Select
                   style={{
                     width: 100,
@@ -143,6 +186,7 @@ const ModalPost = ({ ...props }) => {
                 contentEditable="true"
                 suppressContentEditableWarning={true}
                 data-placeholder="What's your mind?..."
+                onInput={(e) => handleFocusInputField(e)}
                 ref={inputEl}
               ></div>
             </Form.Item>
@@ -166,6 +210,14 @@ const ModalPost = ({ ...props }) => {
                     );
                   })}
                 </ImagePreviewWrapper>
+                <div
+                  className="delete-img"
+                  onClick={(e) => handleRemovePreviewImg(e)}
+                >
+                  <span>
+                    <i className="fa-sharp fa-regular fa-circle-xmark"></i>
+                  </span>
+                </div>
               </ImagePreview>
             )}
 
@@ -175,6 +227,7 @@ const ModalPost = ({ ...props }) => {
                   ref={fileImageRef}
                   type="file"
                   onChange={(e) => handleOnChangeImg(e)}
+                  multiple="multiple"
                   hidden
                 />
                 <span
@@ -207,7 +260,11 @@ const ModalPost = ({ ...props }) => {
 
           <Divider />
 
-          <div className="modal-footer">
+          <FooterStyled
+            existValue={
+              valueInputField || listFileImage.length > 0 ? true : false
+            }
+          >
             <Form.Item
               wrapperCol={{
                 span: 12,
@@ -218,7 +275,7 @@ const ModalPost = ({ ...props }) => {
                 Post
               </Button>
             </Form.Item>
-          </div>
+          </FooterStyled>
         </ModalPostContent>
       </BaseModal>
     </>

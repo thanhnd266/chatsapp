@@ -10,3 +10,8 @@ export const removeAccents = (str) => {
 export const formatCurrencyValue = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+export const convertHtmlToText = (str) => {
+  str = str.toString();
+  return str.replace(/&nbsp;|&zwnj;|&raquo;|&laquo;|&gt;/g, " ");
+};
