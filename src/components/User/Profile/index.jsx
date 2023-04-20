@@ -3,10 +3,29 @@ import CardIntro from "./CardIntro";
 import CardPhotos from "./CardPhotos";
 import CardTyping from "./CardTyping";
 import CardPost from "./CardPost";
-import { posts } from "@/contants/posts";
 import { ProfileStyled } from "./styled";
+import { useEffect, useState } from "react";
+import axiosClient from "@/config/axios";
 
 const Profile = () => {
+  const [posts, setPosts] = useState([]);
+  const currentUser = JSON.parse(localStorage.getItem("userData"));
+
+  useEffect(() => {
+    const getPosts = async () => {
+      try {
+        const res = await axiosClient.get(`/posts/${currentUser._id}`);
+        if (res.status_code === 200) {
+          setPosts(res.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getPosts();
+  }, []);
+
   return (
     <ProfileStyled>
       <div className="profile">
@@ -19,15 +38,18 @@ const Profile = () => {
           <div className="profile-right">
             <div className="wrapper">
               <CardTyping />
-              {posts.map((post) => (
-                <CardPost
-                  title={post.title}
-                  body={post.body}
-                  image={post.image}
-                  key={post.id}
-                  postId={post.id}
-                />
-              ))}
+              {posts?.map((post) => {
+                console.log(post);
+                return (
+                  <CardPost
+                    title={post.title}
+                    body={post.content}
+                    images={post.image}
+                    key={post._id}
+                    postId={post._id}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>

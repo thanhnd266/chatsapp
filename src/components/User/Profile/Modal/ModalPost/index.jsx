@@ -58,8 +58,8 @@ const ModalPost = ({ ...props }) => {
   const handleSubmitPost = async (value) => {
     let formData = new FormData();
 
-    listFileImage.forEach((el, index) => {
-      formData.append(`image-${index}`, el);
+    listFileImage.forEach((el) => {
+      formData.append(`image-${currentUser._id}`, el);
     });
 
     let data = {

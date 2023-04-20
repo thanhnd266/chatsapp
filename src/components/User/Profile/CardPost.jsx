@@ -11,7 +11,7 @@ import {
   CardPostHeader,
 } from "./style/CardPost.styled";
 
-const CardPost = ({ title, body, image, postId }) => {
+const CardPost = ({ title, body, images, postId }) => {
   const [like, setLike] = useState(0);
   const [openEmoji, setOpenEmoji] = useState(false);
   const emojiEl = useRef();
@@ -81,7 +81,15 @@ const CardPost = ({ title, body, image, postId }) => {
         <h3>{title}</h3>
         <p className="text-content">{body}</p>
 
-        <Image src={image} />
+        {images?.length > 0 &&
+          images.map((img, index) => {
+            return (
+              <Image
+                src={`${process.env.REACT_APP_BASE_URL}/uploads/${img}`}
+                key={index}
+              />
+            );
+          })}
       </CardPostBody>
       <CardPostFooter>
         <div className="statistic-like">
