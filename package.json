@@ -4,6 +4,8 @@
   "homepage": ".",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@cloudinary/react": "^1.11.2",
+    "@cloudinary/url-gen": "^1.10.0",
     "@reduxjs/toolkit": "^1.9.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",

@@ -228,6 +228,7 @@ const ModalPost = ({ ...props }) => {
                   type="file"
                   onChange={(e) => handleOnChangeImg(e)}
                   multiple="multiple"
+                  accept="image/png, image/gif, image/jpeg, image/jpg"
                   hidden
                 />
                 <span

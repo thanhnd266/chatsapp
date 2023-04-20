@@ -15,9 +15,10 @@ const Profile = () => {
     const getPosts = async () => {
       try {
         const res = await axiosClient.get(`/posts/${currentUser._id}`);
-        if (res.status_code === 200) {
-          setPosts(res.data);
-        }
+        console.log(res);
+        // if (res.status_code === 200) {
+        //   setPosts(res.data);
+        // }
       } catch (err) {
         console.log(err);
       }
@@ -39,7 +40,6 @@ const Profile = () => {
             <div className="wrapper">
               <CardTyping />
               {posts?.map((post) => {
-                console.log(post);
                 return (
                   <CardPost
                     title={post.title}
