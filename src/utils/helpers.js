@@ -11,7 +11,13 @@ export const formatCurrencyValue = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
+function removeHtmlTags(str) {
+  return str.replace(/<[^>]*>/g, '');
+};
+
 export const convertHtmlToText = (str) => {
   str = str.toString();
-  return str.replace(/&nbsp;|&zwnj;|&raquo;|&laquo;|&gt;/g, " ");
+  str = str.replace(/&nbsp;|&zwnj;|&raquo;|&laquo;|&gt;/g, " ");
+  str = removeHtmlTags(str);
+  return str;
 };

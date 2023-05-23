@@ -6,26 +6,34 @@ import CardPost from "./CardPost";
 import { ProfileStyled } from "./styled";
 import { useEffect, useState } from "react";
 import axiosClient from "@/config/axios";
+import EmptyData from "@/components/EmptyData";
 
-const Profile = () => {
+const Profile = ({ userPage }) => {
   const [posts, setPosts] = useState([]);
-  const currentUser = JSON.parse(localStorage.getItem("userData"));
+  const [mutatePosts, setMutatePosts] = useState(false);
 
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const res = await axiosClient.get(`/posts/${currentUser._id}`);
-        console.log(res);
-        // if (res.status_code === 200) {
-        //   setPosts(res.data);
-        // }
+        const res = await axiosClient.post(`/posts/getList`, {
+          limit: 10,
+          page: 1,
+          order: {
+            createdAt: -1,
+          },
+          filter: {
+            userId: userPage._id,
+          }
+        });
+        if (res.status_code === 200) {
+          setPosts(res.data.products);
+        }
       } catch (err) {
         console.log(err);
       }
     };
-
     getPosts();
-  }, []);
+  }, [mutatePosts]);
 
   return (
     <ProfileStyled>
@@ -38,18 +46,23 @@ const Profile = () => {
           </div>
           <div className="profile-right">
             <div className="wrapper">
-              <CardTyping />
+              <CardTyping currentUser={userPage} setMutatePosts={setMutatePosts} />
               {posts?.map((post) => {
                 return (
                   <CardPost
-                    title={post.title}
-                    body={post.content}
-                    images={post.image}
+                    currentUser={userPage}
+                    post={post}
                     key={post._id}
-                    postId={post._id}
+                    setMutatePosts={setMutatePosts}
                   />
                 );
               })}
+
+              {posts.length === 0 && (
+                <div style={{ marginTop: "80px" }}>
+                  <EmptyData />
+                </div>
+              )}
             </div>
           </div>
         </div>

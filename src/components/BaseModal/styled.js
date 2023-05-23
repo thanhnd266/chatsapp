@@ -30,6 +30,7 @@ export const ModalWrapper = styled(Modal)`
     &-footer {
       padding: 10px 12px;
       margin: 0 !important;
+      border: none;
       border-bottom-left-radius: 4px !important;
       border-bottom-right-radius: 4px !important;
     }

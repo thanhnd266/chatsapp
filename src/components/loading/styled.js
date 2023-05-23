@@ -16,7 +16,7 @@ export const LoadingStyled = styled.div`
   }
 
   .loading-spinner {
-    font-size: 32px !important;
+    font-size: ${(props) => (props.size ? props.size : "32px")} !important;
     animation: spinner 1.5s linear infinite;
   }
 `;

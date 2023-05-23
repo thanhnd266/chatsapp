@@ -1,9 +1,15 @@
-import { Avatar } from "antd";
+import { Avatar, Dropdown } from "antd";
 import styled from "styled-components";
 
 export const CardPostHeader = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+
+  .header-left {
+    display: flex;
+    align-items: center;
+  }
 
   .header-info {
     margin-left: 10px;
@@ -18,6 +24,14 @@ export const CardPostHeader = styled.div`
     }
   }
 `;
+
+export const DropdownProperties = styled(Dropdown)`
+  .ant-space-item {
+      color: #939292;
+      font-size: 18px;
+      cursor: pointer;
+    }
+`
 
 export const AvatarCard = styled(Avatar)`
   width: 40px;

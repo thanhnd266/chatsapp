@@ -34,7 +34,7 @@ const App = () => {
           <Route element={<DashLayout />}>
             <Route path="/" element={<Home />} />
             <Route index path="messenger" element={<Messenger />} />
-            <Route path="/user" element={<User />} />
+            <Route path="/user/:id" element={<User />} />
             <Route path="/community" element={<Community />} />
             <Route path="/files" element={<Files />} />
           </Route>

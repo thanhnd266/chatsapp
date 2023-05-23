@@ -32,10 +32,14 @@ export const BannerImageStyled = styled.div`
         .ant-avatar {
           border: 2px solid #000;
           display: block;
-          padding: 10px;
           width: 160px !important;
           height: auto !important;
           background-color: grey;
+
+          img {
+            width: 100% !important;
+            height: auto !important;
+          }
 
           @media screen and (max-width: 575px) {
             width: 100px !important;

@@ -8,7 +8,7 @@ import {
 import { CardContainer } from "./style/CardContainer.styled";
 import ModalPost from "./Modal/ModalPost";
 
-const CardTyping = () => {
+const CardTyping = ({ currentUser, setMutatePosts }) => {
   const [openModalPosting, setOpenModalPosting] = useState(false);
 
   return (
@@ -21,7 +21,7 @@ const CardTyping = () => {
     >
       <CardTypingWrapper>
         <div className="card-avatar">
-          <AvatarCard src="https://cdn-icons-png.flaticon.com/512/5556/5556512.png" />
+          <AvatarCard src={currentUser.profilePicture} />
           <Input
             placeholder="What's on your mind?"
             onClick={() => setOpenModalPosting(true)}
@@ -55,8 +55,10 @@ const CardTyping = () => {
         </div>
       </CardTypingWrapper>
       <ModalPost
+        currentUser={currentUser}
         open={openModalPosting}
         onCancel={() => setOpenModalPosting(false)}
+        setMutatePosts={setMutatePosts}
       />
     </CardContainer>
   );

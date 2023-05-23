@@ -1,0 +1,26 @@
+
+.card-post__dropdown {
+    min-width: 200px !important;
+    box-shadow: 1px 2px 4px 0 #333 !important;
+
+    .ant-dropdown-menu {
+        border-radius: 4px;
+
+        .ant-dropdown-menu-item {
+            font-size: 14px;
+            padding: 0;
+            
+            .ant-dropdown-menu-title-content {
+                span {
+                    padding: 10px 20px;
+                    display: block;
+                    i {
+                        font-size: 16px;
+                        padding-right: 6px;
+                    }
+                }
+            }
+
+        }
+    }
+}

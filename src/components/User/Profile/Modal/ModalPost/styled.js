@@ -20,6 +20,10 @@ export const ModalPostContent = styled(Form)`
         background: #e4e6eb;
         border-radius: 6px;
       }
+
+      .ant-form-item {
+        margin: 0;
+      }
     }
   }
 
@@ -37,7 +41,8 @@ export const ModalPostContent = styled(Form)`
       min-height: 80px !important;
       max-height: 500px;
       overflow: auto;
-      padding: 0 10px;
+      padding: 10px;
+      margin-top: 8px;
 
       &:empty:not(:focus)::before {
         content: attr(data-placeholder);

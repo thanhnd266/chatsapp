@@ -2,8 +2,8 @@ import { Avatar, Image } from "antd";
 import ListFriend from "../listFriend";
 import { BannerImageStyled } from "./styled";
 
-const BannerImage = () => {
-  const url = "https://cdn-icons-png.flaticon.com/512/5556/5556512.png";
+const BannerImage = ({ userPage }) => {
+  const cover_img = "https://lh3.googleusercontent.com/1TQOnwV9Ng_vKEsa7uV06RMOcj4_f3HnxqJ7ygVO13BaO0Bb3B5qFp3Y3dYQFpENuOxjvPDk-277K12BwvgO-jb1DCD70_vgkh_SlBGJeLeOSZ7C7N58vit2yrkeEwd9QJxQFcOUF2fseWa4A3Yai9FEJumYMoTdzPgPZkxHYQ90ck52Q4ZCqgPesTlRelCpn-jqi7a6EfTliohGSdrOjsnjENNRQOEeVXsQu8HBgX6M7Oupxp4m29dHgLdCsmHQQn-nR1TWCflNUsZZo9sXNmd5ReOaGBnvcrI8S_oKGRTOA93TOSbr8ba48MxpuuVAYgCJtN7KYozrk1FjLjyEPPJa1Aj6sWoPK5arO6LzKVpfyh7pvlTSp2iP8PKX26glXDcRzv_uoCbTBKpoAqJUP4jHlZalOJHBg2B5XRs8FZQBafdL4nrDuuSztfceoze5YMJGsoYu5Aep5YRykzzTCvn9_3rbcZpuQeFf_GmBp9KRKoF1s-6qB0oQpRR7gbl7tOQwYdNuPy45kBuT-6NCR0MrIBNCZjAc6ctv5CZHguLfTiFuLMaaxIJ77KQeedEy7Oh2nhlikUMu9hjC8dVOjrc6qOfrBpV5JH-KKNlPSgDPj5HDA1d6Jklul_LjHhT05646BNN6PWdaNdx0LKOTNjhEDJPcJ0Nl=w1518-h858-no";
 
   return (
     <BannerImageStyled>
@@ -16,7 +16,7 @@ const BannerImage = () => {
             objectPosition: "center",
             borderRadius: 5,
           }}
-          src="https://lh3.googleusercontent.com/1TQOnwV9Ng_vKEsa7uV06RMOcj4_f3HnxqJ7ygVO13BaO0Bb3B5qFp3Y3dYQFpENuOxjvPDk-277K12BwvgO-jb1DCD70_vgkh_SlBGJeLeOSZ7C7N58vit2yrkeEwd9QJxQFcOUF2fseWa4A3Yai9FEJumYMoTdzPgPZkxHYQ90ck52Q4ZCqgPesTlRelCpn-jqi7a6EfTliohGSdrOjsnjENNRQOEeVXsQu8HBgX6M7Oupxp4m29dHgLdCsmHQQn-nR1TWCflNUsZZo9sXNmd5ReOaGBnvcrI8S_oKGRTOA93TOSbr8ba48MxpuuVAYgCJtN7KYozrk1FjLjyEPPJa1Aj6sWoPK5arO6LzKVpfyh7pvlTSp2iP8PKX26glXDcRzv_uoCbTBKpoAqJUP4jHlZalOJHBg2B5XRs8FZQBafdL4nrDuuSztfceoze5YMJGsoYu5Aep5YRykzzTCvn9_3rbcZpuQeFf_GmBp9KRKoF1s-6qB0oQpRR7gbl7tOQwYdNuPy45kBuT-6NCR0MrIBNCZjAc6ctv5CZHguLfTiFuLMaaxIJ77KQeedEy7Oh2nhlikUMu9hjC8dVOjrc6qOfrBpV5JH-KKNlPSgDPj5HDA1d6Jklul_LjHhT05646BNN6PWdaNdx0LKOTNjhEDJPcJ0Nl=w1518-h858-no"
+          src={userPage.coverPicture || cover_img}
         />
 
         <div className="image-avatar">
@@ -30,11 +30,11 @@ const BannerImage = () => {
                 xl: 80,
                 xxl: 100,
               }}
-              src={url}
+              src={userPage.profilePicture}
             />
           </div>
           <div className="image-avatar__info">
-            <h4>Duy Thanh</h4>
+            <h4>{userPage.username}</h4>
             <div
               style={{
                 fontWeight: 700,

@@ -1,5 +1,6 @@
 import { FileAddOutlined, HomeOutlined, MessageOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
 
+const currentUser = JSON.parse(localStorage.getItem("userData"));
 
 export const navbarItems = [
     {
@@ -22,7 +23,7 @@ export const navbarItems = [
     },
     {
         label: "User",
-        key: "/user",
+        key: `/user/${currentUser._id}`,
         icon: <UserOutlined />,
         children: null,
     },
