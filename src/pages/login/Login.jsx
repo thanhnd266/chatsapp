@@ -22,7 +22,7 @@ const Login = () => {
         })
       );
 
-      if (response.status_code === 200) {
+      if (response?.status_code === 200) {
         setIsLoading(true);
 
         const { password, ...other } = response.data.data;
@@ -41,7 +41,7 @@ const Login = () => {
       setIsLoading(true);
       setTimeout(() => {
         setIsLoading(false);
-        setErrorMessage(err.response.data.message);
+        setErrorMessage(err?.response?.data?.message);
       }, 2000);
     }
   };

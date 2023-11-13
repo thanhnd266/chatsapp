@@ -23,7 +23,7 @@ export const navbarItems = [
     },
     {
         label: "User",
-        key: `/user/${currentUser._id}`,
+        key: `/user/${currentUser?._id}`,
         icon: <UserOutlined />,
         children: null,
     },

@@ -27,9 +27,9 @@ axiosClient.interceptors.response.use(
 
     const currentRequest = err.response;
 
-    const { status_code, error_message } = err.response.data;
+    const response = err?.response?.data;
 
-    if (status_code === 401 && error_message === "access_token_expired") {
+    if (response?.status_code === 401 && response?.error_message === "access_token_expired") {
       const res = await axiosClient.post("/auth/api/relogin", {
         refresh_token: REFRESH_TOKEN,
       });
@@ -37,7 +37,7 @@ axiosClient.interceptors.response.use(
       Cookies.set("access_token", res.data.access_token);
       Cookies.set("refresh_token", res.data.refresh_token);
 
-      if (res.status_code === 200) {
+      if (res?.status_code === 200) {
         return axiosClient({
           method: currentRequest.config.method,
           url: `${process.env.REACT_APP_BASE_URL}${currentRequest.config.url}`,
@@ -50,8 +50,7 @@ axiosClient.interceptors.response.use(
       }
     }
 
-    if (status_code === 401 && error_message === "refresh_token_expired") {
-      console.log("chay de");
+    if (response?.status_code === 401 && response?.error_message === "refresh_token_expired") {
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");
       window.location.href = "/login";
