@@ -13,13 +13,19 @@ import User from "./pages/user/User.jsx";
 import Community from "./pages/community/Community.jsx";
 import Files from "./pages/contact/Contact.jsx";
 import DashLayout from "./components/DashLayout";
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import SuspenseFallback from "@/components/Progress";
+import Cookies from "js-cookie";
 // import Layout from "./components/Layout";
 
 const Layout = React.lazy(() => import("./components/Layout"));
 
 const App = () => {
+
+  useEffect(() => {
+    Cookies.set('myCookie', 'cookieValue', { domain: 'netlify.app', path: '/' }, { secure: true });
+  }, [])
+
   return (
     <div className="App">
       <Routes>
