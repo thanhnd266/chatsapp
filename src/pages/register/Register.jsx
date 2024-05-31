@@ -45,6 +45,15 @@ const Register = () => {
       );
 
       if (response.status_code === 200) {
+        // const res = await axiosClient.post("https://api.chatengine.io/users/", JSON.stringify({
+        //     "username": username,
+        //     "first_name": username,
+        //     "last_name": username,
+        //     "secret": password,
+        //     "custom_json": {"high_score": 2000}
+        //   })
+        // );
+
         setTimeout(() => {
           setIsLoading(false);
           navigate("/login");

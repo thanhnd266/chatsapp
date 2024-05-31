@@ -16,6 +16,7 @@ import DashLayout from "./components/DashLayout";
 import React, { Suspense, useEffect } from "react";
 import SuspenseFallback from "@/components/Progress";
 import Cookies from "js-cookie";
+import TestMess from "./pages/messenger/TestMess";
 // import Layout from "./components/Layout";
 
 const Layout = React.lazy(() => import("./components/Layout"));
@@ -39,7 +40,8 @@ const App = () => {
         >
           <Route element={<DashLayout />}>
             <Route path="/" element={<Home />} />
-            <Route index path="messenger" element={<Messenger />} />
+            {/* <Route index path="messenger" element={<Messenger />} /> */}
+            <Route index path="messenger" element={<TestMess />} />
             <Route path="/user/:id" element={<User />} />
             <Route path="/community" element={<Community />} />
             <Route path="/files" element={<Files />} />
