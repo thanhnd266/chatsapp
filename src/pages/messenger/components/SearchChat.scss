@@ -1,0 +1,101 @@
+.search-chat {
+    .search-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 8px 10px 0;
+    
+        @media screen and (max-width: 992px) {
+          justify-content: center;
+          margin: 0;
+          height: 54px;
+    
+          h3 {
+            display: none;
+          }
+        }
+    
+        h3 {
+          margin: 0;
+        }
+      }  
+      
+      .btn-new-message {
+        @media screen and (max-width: 575px) {
+          width: 100%;
+          display: flex;
+          align-items: center;
+        }
+    
+        button {
+          padding: 4px 8px;
+          background-color: #dedee0;
+          color: #333;
+          border: none;
+          outline: none;
+          border-radius: 100%;
+          cursor: pointer;
+          font-size: 18px;
+    
+          &:focus {
+            box-shadow: none !important;
+          }
+    
+          &:hover {
+            background-color: #cacacc;
+          }
+    
+          @media screen and (max-width: 992px) {
+            .btn-new-message__big {
+              display: none;
+            }
+    
+            .btn-new-message__small {
+              display: block;
+            }
+          }
+        }
+    
+        .list-user__online {
+          display: none;
+          overflow-x: scroll;
+          overflow-y: hidden;
+          margin-left: 4px;
+    
+          .onliner-item {
+            margin-left: 16px;
+            position: relative;
+            cursor: pointer;
+    
+            img {
+              width: 46px;
+              height: 46px;
+              object-fit: cover;
+              border-radius: 100%;
+            }
+    
+            .item-image__status {
+              position: absolute;
+              bottom: -4px;
+              right: -4px;
+    
+              i {
+                border-radius: 100%;
+                border: 3px solid #fff;
+                font-size: 12px;
+                margin-right: 2px;
+                color: rgb(118, 235, 8);
+              }
+            }
+          }
+    
+          @media screen and (max-width: 575px) {
+            display: flex;
+          }
+        }
+    
+        .list-user__online::-webkit-scrollbar {
+          display: none;
+        }
+      }
+}
