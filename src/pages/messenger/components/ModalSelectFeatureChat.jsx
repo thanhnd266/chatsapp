@@ -92,7 +92,7 @@ const ModalSelectFeatureChat = ({
             user_secret: '123456', 
             title: "Nhóm chat tư vấn", 
             is_direct_chat: false, 
-            members: ['Chatbot', 'Tư vấn viên']
+            members: ['Chatbot', 'tuvanvien']
         })
 
         if(res.status_code === 200) {
