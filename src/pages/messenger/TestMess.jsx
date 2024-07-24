@@ -197,19 +197,19 @@ const TestMess = () => {
       <div className="shadow">
         {user && (
           <ChatEngine
-            projectID="5f5b4220-901f-4bde-826b-b245dcb0f9bf"
+            projectID="aa4fd5a4-a606-449c-acce-3ecf07291e1b"
             userName={user?.username}
-            userSecret="123456"
+            userSecret="admin"
             renderNewChatForm={(creds) => renderChatForm(creds)}
             height="90vh"
-            renderMessageBubble={(creds, chat, lastMessage, message, nextMessage) => <CustomMessage props={{
-                creds: creds,
-                chat: chat,
-                lastMessage: lastMessage,
-                message: message,
-                nextMessage: nextMessage,
-            }} />}
-            renderNewMessageForm={(creds, chatId) => <FormSubmitMessage creds={creds} chatId={chatId} />}
+            // renderMessageBubble={(creds, chat, lastMessage, message, nextMessage) => <CustomMessage props={{
+            //     creds: creds,
+            //     chat: chat,
+            //     lastMessage: lastMessage,
+            //     message: message,
+            //     nextMessage: nextMessage,
+            // }} />}
+            // renderNewMessageForm={(creds, chatId) => <FormSubmitMessage creds={creds} chatId={chatId} />}
           />
         )}
       </div>

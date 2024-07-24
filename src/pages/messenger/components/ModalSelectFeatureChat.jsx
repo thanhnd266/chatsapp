@@ -66,7 +66,7 @@ const ModalSelectFeatureChat = ({
             user_secret: '123456', 
             title: "Nhóm chat cộng đồng", 
             is_direct_chat: false, 
-            members: ['RuyTank', 'vanh']
+            members: ['RuyTank', 'duythanh']
         })
 
         if(res.status_code === 200) {
